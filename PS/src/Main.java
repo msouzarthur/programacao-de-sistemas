@@ -1,20 +1,26 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- *
- * @author arthu
+ * @author arthur souza
+ * @author hector fernandes
+ * @author rafael grimmler
+ * @author willian do espirito santo
+ * @author matheus cardoso
+ * @author leonardo marotta
  */
-public class Main {
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.HashMap; 
+import java.util.Scanner;
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+public class Main {
+    public static void main(String[] args) throws FileNotFoundException {
+
+        Scanner in = new Scanner (new FileReader("nome do arquivo.txt")); //Leitura de arquivos
+        while (in.hasNextLine()){
+            String line = in.nextLine();
+            System.out.println(line);
+        }        
+        HashMap<String,String> variables = new HashMap<String, String>(); //Manipulação das tabelas
+        variables.put("teste","testando"); //adiciona na tabela
+        
     }
-    
 }
