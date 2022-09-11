@@ -1,6 +1,8 @@
 package Main;
 
 import Instructions.*;
+import Registers.*;
+import static Main.Memory.*;
 import java.util.List;
 
 /**
@@ -15,7 +17,7 @@ public class VirtualMachine extends javax.swing.JFrame {
 
     public VirtualMachine() {
         initComponents();
-       
+        setInitValues();
     }
 
     @SuppressWarnings("unchecked")
@@ -377,9 +379,7 @@ public class VirtualMachine extends javax.swing.JFrame {
                     .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(136, 136, 136))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5)
@@ -414,63 +414,94 @@ public class VirtualMachine extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnRunCicle)
                         .addGap(18, 18, 18)
-                        .addComponent(btnDebug)
-                        .addGap(100, 100, 100))))
+                        .addComponent(btnDebug)))
+                .addGap(109, 109, 109))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunActionPerformed
+        //MUDAR E REMOVER ESPAÇO ENTRE AS OPERAÇÕES; IR CONTANDO 16 em 16
+        //REGISTRADOR NÃO TÁ ATUALIZANDO
         Instruction instruction;
-        Register acc = new Register();
+        Integer position=13;
+        Register ACC = new ACC();
+        Register PC = new PC();
+        Register MOP = new MOP();
+        Register RI = new RI();
+        Register RE = new RE();
+        Register SP = new SP();
+        PC.setValue(Integer.toBinaryString(position));
         String opcode = null, opd1 = null, opd2 = null;
-        String[] cod = inCod.getText().split("\n");
-        for (String command : cod){
-            Error error = new Error();
-            opd1 = null;
-            opd2 = null;
-            opcode = command.split(" ")[0].trim();
-            int size = command.split(" ").length;
-            if(size==2){
-                opd1 = command.split(" ")[1].trim();
+        String cod = inCod.getText();
+        if(cod.length()>0 && cod.length()%16==0){
+            for(int i=0;i<cod.length();i+=16){
+                Memory.memorySet(position, cod.substring(i,i+16));
+                position++;
             }
-            else if(size == 3){
-                opd1 = command.split(" ")[1].trim();
-                opd2 = command.split(" ")[size-1].trim();
-            }
-            if(opcode.length()!=16){
-                Error.showError("opcode não identificado");
-            }
-            instruction = decodeInstruction(opcode,opd1,opd2);
-            //testar qual registrador vai precisar usar
-            if(instruction instanceof READ){
-                instruction.runInstruction(inCod, acc, opd1, opd2);    
-            }
-            else if(instruction instanceof STOP){
-                break;
-            }
-            
-            instruction.runInstruction(inCod, acc, opd1, opd2);    
-            
-            //instruction.runInstructionPrint(outCod, opd1);
-            
-            attScreen(acc);
         }
+        
+        attScreen(ACC,PC,MOP,RI,RE,SP);
+        instruction = decodeInstruction(Memory.memoryGet(Integer.parseInt(PC.getValue(),2)));
+        
+        if(instruction instanceof STOP){
+        //    break;
+        }
+        
+        for(int i=0; i<instruction.numberOpd();i++){
+            PC.setValue(PC.getValue()+1);
+        }
+        
+        System.out.println(instruction);
+        //register = defineRegister(instruction);
+
+        //if(instruction == null || register == null){
+        //    Error.showError("instrução não identificada");
+        //}
+
+
+
+            
+            /*
+            else if(instruction instanceof RET || instruction instanceof BRZERO || instruction instanceof BRPOS || instruction instanceof BRNEG || BR){
+                register = new PC();
+                instruction.runInstruction(inCod, register, opd1, opd2);
+            }
+            register = new ACC();
+            instruction.runInstruction(inCod, register, opd1, opd2);    
+            */
+            //instruction.runInstructionPrint(outCod, opd1);
+
+            
+
+        
     }//GEN-LAST:event_btnRunActionPerformed
     
-    private Instruction decodeInstruction(String opcode, String opd1, String opd2) {
-        String op = (String) opcode.subSequence(12,16);
-        System.out.println(op);
+    private Register defineRegister(Instruction instruction){
+        if(instruction instanceof RET || instruction instanceof BR || 
+           instruction instanceof BRNEG || instruction instanceof BRPOS || 
+           instruction instanceof BRZERO){
+            return new PC();
+        }
+        else if(instruction instanceof ADD || instruction instanceof DIV || 
+                instruction instanceof LOAD || instruction instanceof MULT ||
+                instruction instanceof SUB){
+            return new ACC();
+        }
+        return null;
+    }
+    
+    private Instruction decodeInstruction(String opcode) {
         Instruction instruction = null;
-        switch(op){
+        opcode = opcode.substring(12, 16);
+        switch(opcode){
             case "0000": //BR: PC <- opd1
-                
                 break;
             case "0001": //BRPOS: PC <- opd1, se ACC > 0
           
                 break;
-            case "0010": //ADD: ACC <- ACC + OPD1
+            case "0010": //ADD: ACC <- ACC + opd1
                 instruction = new ADD();
                 break;
             case "0011": //LOAD: ACC <- opd1
@@ -519,13 +550,16 @@ public class VirtualMachine extends javax.swing.JFrame {
     }
     
     //public void attScreen(Register acc, Register pc, Register sp , Register mop, Register ri, Register re){
-    public void attScreen(Register acc ){
-        accValue.setText(acc.getValue());
-        /*pcValue.setText(pc.getValue());
-        spValue.setText(sp.getValue());
-        mopValue.setText(mop.getValue());
-        riValue.setText(ri.getValue());
-        reValue.setText(re.getValue());*/
+    public void attScreen(Register ACC, Register PC,Register SP,Register MOP,Register RI,Register RE){
+        for(int i=0;i<100;i++){
+            tMemory.setValueAt(Memory.memoryGet(i), i, 1);
+        }
+        accValue.setText(ACC.getValue());
+        pcValue.setText(PC.getValue());
+        spValue.setText(SP.getValue());
+        mopValue.setText(MOP.getValue());
+        riValue.setText(RI.getValue());
+        reValue.setText(RE.getValue());
     }
     
     public void outMessage(String message){
@@ -533,12 +567,14 @@ public class VirtualMachine extends javax.swing.JFrame {
     }
     
     public void setInitValues(){
-        List<String> memory = Memory.getAll();
+        memoryInit();
+        List<String> memory = Memory.memoryGetAll();
         for(int i=0;i<memory.size();i++){
             tMemory.setValueAt(i, i, 0);
             tMemory.setValueAt(memory.get(i), i, 1);
         }
     }
+    
     private void btnHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpActionPerformed
         // abrir pop up com infos das instruções
     }//GEN-LAST:event_btnHelpActionPerformed

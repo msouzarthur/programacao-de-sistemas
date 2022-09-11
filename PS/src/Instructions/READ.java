@@ -15,5 +15,9 @@ public class READ extends CompleteBinary implements Instruction{
         }
         opd1 = inOutCode.getText();
     }
-
+    Integer numberOpd = 1;
+    @Override
+    public Integer numberOpd() {
+        return numberOpd;
+    }
 }

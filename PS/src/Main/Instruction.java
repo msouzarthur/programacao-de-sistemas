@@ -14,6 +14,7 @@ public interface Instruction {
             return type;
         }
     };
+    Integer numberOpd();
     String completeBinary(String number);
     void runInstruction(JTextPane outCode, Register target, String opd1, String opd2);
 }

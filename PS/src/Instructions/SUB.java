@@ -12,11 +12,12 @@ public class SUB extends CompleteBinary implements Instruction{
             Main.Error.showError("o sub possui um argumento a mais");
             return;
         }
-        System.out.print("numero do acc: "+target.getValue());
-        System.out.println(Integer.parseInt(target.getValue(),2));
-        System.out.println(Integer.parseInt(opd1,2));
         String aux = Integer.toBinaryString(Integer.parseInt(target.getValue(),2) - Integer.parseInt(opd1,2));
         target.setValue(completeBinary(aux));
     }
-
+    Integer numberOpd = 1;
+    @Override
+    public Integer numberOpd() {
+        return numberOpd;
+    }
 }

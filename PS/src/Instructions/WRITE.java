@@ -15,4 +15,9 @@ public class WRITE extends CompleteBinary implements Instruction{
         }
         outCode.setText(opd1);
     }
+    Integer numberOpd = 1;
+    @Override
+    public Integer numberOpd() {
+        return numberOpd;
+    }
 }

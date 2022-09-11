@@ -11,7 +11,9 @@ public class STOP extends CompleteBinary implements Instruction{
     public void runInstruction(JTextPane outCode, Register target, String opd1, String opd2) {
         System.exit(0);
     }
-
- 
-
+    Integer numberOpd = 0;
+    @Override
+    public Integer numberOpd() {
+        return numberOpd;
+    }
 }

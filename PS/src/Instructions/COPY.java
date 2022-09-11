@@ -15,5 +15,9 @@ public class COPY extends CompleteBinary implements Instruction{
         }
         opd1 = opd2;
     }
-    
+    Integer numberOpd = 2;
+    @Override
+    public Integer numberOpd() {
+        return numberOpd;
+    }
 }

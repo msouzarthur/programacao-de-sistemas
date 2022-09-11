@@ -14,4 +14,9 @@ public class STORE extends CompleteBinary implements Instruction{
         }
         opd1 = target.getValue();
     }
+    Integer numberOpd = 1;
+    @Override
+    public Integer numberOpd() {
+        return numberOpd;
+    }
 }
