@@ -1,13 +1,17 @@
 package Instructions;
 import Main.CompleteBinary;
-import Main.Register;
 import Main.Instruction;
 import Registers.ACC;
 import javax.swing.JTextPane;
 
 public class ADD extends CompleteBinary implements Instruction{
     Integer numberOpd = 1;
+    String opcode;
     EndType end;
+    
+    public void ADD(){
+        this.opcode="0000000000000010";
+    }
     
     @Override
     public void runInstruction(JTextPane outCode, String opd1, String opd2) {

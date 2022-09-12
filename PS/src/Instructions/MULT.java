@@ -1,11 +1,17 @@
 package Instructions;
 import Main.CompleteBinary;
-import Main.Register;
 import Main.Instruction;
 import Registers.ACC;
 import javax.swing.JTextPane;
 
 public class MULT extends CompleteBinary implements Instruction{
+    Integer numberOpd = 1;
+    EndType end;
+    String opcode;
+    
+    public void MULT(){
+        this.opcode="0000000000001110";
+    }
     
     @Override
     public void runInstruction(JTextPane outCode, String opd1, String opd2) {
@@ -16,12 +22,12 @@ public class MULT extends CompleteBinary implements Instruction{
         String aux = Integer.toBinaryString(Integer.parseInt(ACC.getValue(),2) * Integer.parseInt(opd1,2));
         ACC.setValue(completeBinary(aux));
     }
-    Integer numberOpd = 1;
+    
     @Override
     public Integer numberOpd() {
         return numberOpd;
     }
-    EndType end;
+    
     @Override
     public void setEndType(EndType end) {
         this.end = end;

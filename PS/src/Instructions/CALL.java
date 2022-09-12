@@ -1,12 +1,16 @@
 package Instructions;
 import Main.CompleteBinary;
-import Main.Register;
 import Main.Instruction;
 import javax.swing.JTextPane;
 
 public class CALL extends CompleteBinary implements Instruction{
     Integer numberOpd = 1;
     Instruction end;
+    String opcode;
+    
+    public void CALL(){
+        this.opcode="0000000000001111";
+    }
     
     @Override
     public void runInstruction(JTextPane outCode, String opd1, String opd2) {

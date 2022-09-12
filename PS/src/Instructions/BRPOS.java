@@ -1,11 +1,17 @@
 package Instructions;
 import Main.CompleteBinary;
 import Main.Instruction;
-import Main.Register;
 import javax.swing.JTextPane;
 
 public class BRPOS extends CompleteBinary implements Instruction{
+    String opcode;
+    Integer numberOpd = 1;
+    EndType end;
 
+    public void BRPOS(){
+        this.opcode="0000000000000001";
+    }
+    
     @Override
     public void runInstruction(JTextPane outCode, String opd1, String opd2) {
         if(opd2!=null){
@@ -16,12 +22,12 @@ public class BRPOS extends CompleteBinary implements Instruction{
             PC.setValue(opd1);
         }*/
     }
-    Integer numberOpd = 1;
+    
     @Override
     public Integer numberOpd() {
         return numberOpd;
     }
-    EndType end;
+    
     @Override
     public void setEndType(EndType end) {
         this.end = end;

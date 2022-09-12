@@ -432,12 +432,13 @@ public class VirtualMachine extends javax.swing.JFrame {
         String cod = inCod.getText();
         
         readContent(cod, position);
-        //dentro de looping
+
         while(PC.getValue()!= null){
             attScreen();
             instruction = decodeInstruction(Memory.memoryGet(toInt(PC.getValue())));
+            
             if(Memory.memoryGet(toInt(PC.getValue()))!=null){
-                RI.setValue(toBin(toInt(PC.getValue())));
+                RI.setValue(PC.getValue());
                 PC.setValue(toBin(toInt(PC.getValue())+instruction.numberOpd()+1));
             }
             else{
@@ -669,6 +670,4 @@ public class VirtualMachine extends javax.swing.JFrame {
     private javax.swing.JTextArea spValue;
     private javax.swing.JTable tMemory;
     // End of variables declaration//GEN-END:variables
-
-
 }

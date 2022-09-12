@@ -1,11 +1,17 @@
 package Instructions;
 import Main.CompleteBinary;
-import Main.Register;
 import Main.Instruction;
 import javax.swing.JTextPane;
 
 public class COPY extends CompleteBinary implements Instruction{
-
+    Integer numberOpd = 2;
+    EndType end;
+    String opcode;
+    
+    public void COPY(){
+        this.opcode="0000000000001101";
+    }
+    
     @Override
     public void runInstruction(JTextPane outCode, String opd1, String opd2) {
         if(opd1==null || opd2==null){
@@ -14,12 +20,12 @@ public class COPY extends CompleteBinary implements Instruction{
         }
         opd1 = opd2;
     }
-    Integer numberOpd = 2;
+    
     @Override
     public Integer numberOpd() {
         return numberOpd;
     }
-    EndType end;
+    
     @Override
     public void setEndType(EndType end) {
         this.end = end;

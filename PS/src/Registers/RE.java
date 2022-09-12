@@ -1,8 +1,5 @@
 package Registers;
 
-import Main.Register;
-
-//public final class RE implements Register {
 public final class RE {
  
     static String value="0000000000000000";

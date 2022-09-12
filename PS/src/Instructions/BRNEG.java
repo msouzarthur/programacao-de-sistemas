@@ -1,8 +1,6 @@
 package Instructions;
-
 import Main.CompleteBinary;
 import Main.Instruction;
-import Main.Register;
 import Registers.PC;
 import javax.swing.JTextPane;
 
@@ -27,11 +25,13 @@ public class BRNEG extends CompleteBinary implements Instruction{
             target.setValue(opd1);
         }*/
     }
+    
     Integer numberOpd = 1;
     @Override
     public Integer numberOpd() {
         return numberOpd;
     }
+    
     EndType end;
     @Override
     public void setEndType(EndType end) {
