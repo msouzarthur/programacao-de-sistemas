@@ -2,17 +2,17 @@ package Registers;
 
 import Main.Register;
 
-public class MOP implements Register{
-    String value="0000000000000000";
+//public class MOP implements Register{
+public final class MOP{
 
-    @Override
-    public String getValue() {
+    static String value="0000000000000000";
+
+    public static String getValue() {
         return value;
     }
 
-    @Override
-    public void setValue(String value) {
-        this.value = value;
+    public static void setValue(String value) {
+        MOP.value = value;
     }
 
 }

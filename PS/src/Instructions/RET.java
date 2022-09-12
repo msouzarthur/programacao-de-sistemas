@@ -7,12 +7,12 @@ import javax.swing.JTextPane;
 public class RET extends CompleteBinary implements Instruction{
     
     @Override
-    public void runInstruction(JTextPane outCode, Register target, String opd1, String opd2) {
+    public void runInstruction(JTextPane outCode, String opd1, String opd2) {
         if(opd1!= null || opd2!=null){
             Main.Error.showError("o ret possui argumentos a mais");
             return;
         }
-        
+        //PC APONTA PRO SP
     }
     Integer numberOpd = 0;
     @Override

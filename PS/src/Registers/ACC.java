@@ -2,17 +2,17 @@ package Registers;
 
 import Main.Register;
 
-public final class ACC implements Register {
-    String value="0000000000000000";
+//public final class ACC implements Register {
+public final class ACC{
+
+    static String value="0000000000000000";
     
-    @Override
-    public String getValue() {
+    public static String getValue() {
         return value;
     }
 
-    @Override
-    public void setValue(String value) {
-        this.value = value;
+    public static void setValue(String value) {
+        ACC.value = value;
     }
 
 }

@@ -2,19 +2,21 @@ package Instructions;
 import Main.CompleteBinary;
 import Main.Instruction;
 import Main.Register;
+import Registers.ACC;
+import Registers.PC;
 import javax.swing.JTextPane;
 
 public class BRZERO extends CompleteBinary implements Instruction{
 
     @Override
-    public void runInstruction(JTextPane outCode, Register target, String opd1, String opd2) {
+    public void runInstruction(JTextPane outCode, String opd1, String opd2) {
         if(opd2!=null){
             Main.Error.showError("o brneg possui um argumento a mais");
             return;
         }
-        /*if(ACC==0){
-            target.setValue(opd1);
-        }*/
+        if(toInt(ACC.getValue())==0 && toInt(opd1)>12 && toInt(opd1)<100){
+            PC.setValue(opd1);
+        }
     }
     Integer numberOpd = 1;
     @Override

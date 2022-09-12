@@ -1,18 +1,17 @@
 package Registers;
 
-import Main.Register;
 
-public class PC implements Register{
-    String value="0000000000000000";
+public final class PC {
+    static String value="0000000000000000";
 
-    @Override
-    public String getValue() {
+    
+    public static String getValue() {
         return value;
     }
     
-    @Override
-    public void setValue(String value) {
-        this.value = value;
+    
+    public static void setValue(String value) {
+        PC.value = value;
     }
        
 }

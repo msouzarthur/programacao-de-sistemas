@@ -9,7 +9,7 @@ public class CALL extends CompleteBinary implements Instruction{
     Instruction end;
     
     @Override
-    public void runInstruction(JTextPane outCode, Register target, String opd1, String opd2) {
+    public void runInstruction(JTextPane outCode, String opd1, String opd2) {
         if(opd2!=null){
             Main.Error.showError("o call possui um argumento a mais");
             return;

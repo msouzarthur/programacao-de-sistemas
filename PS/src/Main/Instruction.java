@@ -21,5 +21,6 @@ public interface Instruction {
     String completeBinary(String number);
     void setEndType(EndType end);
     String getEndType();
-    void runInstruction(JTextPane outCode, Register target, String opd1, String opd2);
+    void runInstruction(JTextPane outCode, String opd1, String opd2);
+
 }

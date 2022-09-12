@@ -422,15 +422,10 @@ public class VirtualMachine extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunActionPerformed
+        //EXECUTAR A INSTRUÇÃO OLHANDO O ENDEREÇAMENTO
         Instruction instruction;
         Integer position = 12;
-        Register ACC = new ACC();
-        Register PC = new PC();
         PC.setValue(toBin(position));
-        Register MOP = new MOP();
-        Register RI = new RI();
-        Register RE = new RE();
-        Register SP = new SP();
         SP.setValue(toBin(2));
         
         String opcode = null, opd1 = null, opd2 = null;
@@ -439,7 +434,7 @@ public class VirtualMachine extends javax.swing.JFrame {
         readContent(cod, position);
         //dentro de looping
         while(PC.getValue()!= null){
-            attScreen(ACC,PC,SP,MOP,RI,RE);
+            attScreen();
             instruction = decodeInstruction(Memory.memoryGet(toInt(PC.getValue())));
             if(Memory.memoryGet(toInt(PC.getValue()))!=null){
                 RI.setValue(toBin(toInt(PC.getValue())));
@@ -453,18 +448,19 @@ public class VirtualMachine extends javax.swing.JFrame {
                instruction instanceof BRNEG|| instruction instanceof BRPOS || 
             instruction instanceof BRZERO){
                 opd1 = Memory.memoryGet(toInt(RI.getValue())+1);
-                instruction.runInstruction(outCod, PC, opd1, null);
+                instruction.runInstruction(outCod, opd1, null);
             }
             else if(instruction instanceof ADD || instruction instanceof DIV  ||
                     instruction instanceof LOAD|| instruction instanceof MULT ||
                     instruction instanceof SUB){
                 opd1 = Memory.memoryGet(toInt(RI.getValue())+1);
-                instruction.runInstruction(outCod, ACC, opd1, null);
+                instruction.runInstruction(outCod, opd1, null);
+
             }
             else if (instruction instanceof COPY){
                 opd1 = Memory.memoryGet(toInt(RI.getValue())+1);
                 opd2 = Memory.memoryGet(toInt(RI.getValue())+2);
-                instruction.runInstruction(outCod, ACC, opd1, opd2);
+                instruction.runInstruction(outCod, opd1, opd2);
             }
         
         } 
@@ -596,7 +592,7 @@ public class VirtualMachine extends javax.swing.JFrame {
         return instruction;
     }
     
-    public void attScreen(Register ACC, Register PC, Register SP, Register MOP, Register RI, Register RE){
+    public void attScreen(){
         for(int i=0;i<100;i++){
             tMemory.setValueAt(Memory.memoryGet(i), i, 1);
         }

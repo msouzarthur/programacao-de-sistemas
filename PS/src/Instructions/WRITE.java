@@ -7,7 +7,7 @@ import javax.swing.JTextPane;
 public class WRITE extends CompleteBinary implements Instruction{
  
     @Override
-    public void runInstruction(JTextPane outCode, Register target, String opd1, String opd2) {
+    public void runInstruction(JTextPane outCode, String opd1, String opd2) {
         if(opd2!=null){
             Main.Error.showError("o write possui argumento a mais");
             return;
