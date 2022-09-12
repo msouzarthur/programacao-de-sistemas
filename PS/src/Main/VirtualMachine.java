@@ -523,9 +523,10 @@ public class VirtualMachine extends javax.swing.JFrame {
             return instruction;
         switch(opcode){
             case "0000": //BR: PC <- opd1
+                instruction = new BR();
                 break;
             case "0001": //BRPOS: PC <- opd1, se ACC > 0
-          
+                instruction = new BRPOS();
                 break;
             case "0010": //ADD: ACC <- ACC + opd1
                 instruction = new ADD();
@@ -534,10 +535,10 @@ public class VirtualMachine extends javax.swing.JFrame {
                 instruction = new LOAD();
                 break;
             case "0100": //BRZERO: PC <- opd1, se ACC = 0
-                
+                instruction = new BRZERO();
                 break;
             case "0101": //BRNEG: PC <- opd1, se ACC < 0
-                
+                instruction = new BRNEG();
                 break;
             case "0110": //SUB: ACC <- ACC - opd1
                 instruction = new SUB();
@@ -549,7 +550,7 @@ public class VirtualMachine extends javax.swing.JFrame {
                 instruction = new WRITE();
                 break;
             case "1001": //RET: PC <- [SP]
-                
+                instruction = new RET();
                 break;
             case "1010": //DIV: ACC <- ACC / opd1
                 instruction = new DIV();
@@ -567,7 +568,7 @@ public class VirtualMachine extends javax.swing.JFrame {
                 instruction = new MULT();
                 break;
             case "1111": //CALL: [SP] <- PC; PC <- opd1
-                
+                instruction = new CALL();
                 break;
             default:
                 System.out.println("ERRO DE OPCODE");

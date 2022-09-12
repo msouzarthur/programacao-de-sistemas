@@ -8,7 +8,13 @@ public class BRZERO extends CompleteBinary implements Instruction{
 
     @Override
     public void runInstruction(JTextPane outCode, Register target, String opd1, String opd2) {
-    
+        if(opd2!=null){
+            Main.Error.showError("o brneg possui um argumento a mais");
+            return;
+        }
+        /*if(ACC==0){
+            target.setValue(opd1);
+        }*/
     }
     Integer numberOpd = 1;
     @Override
