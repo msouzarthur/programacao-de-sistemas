@@ -5,7 +5,7 @@ public class CompleteBinary {
     
     public String completeBinary(String number) {
         String complete = "";
-        Integer left = 16 - number.length()-1;
+        Integer left = 16 - number.length();
         for(int i = 0; i < left; i++){
             complete+="0";
         }

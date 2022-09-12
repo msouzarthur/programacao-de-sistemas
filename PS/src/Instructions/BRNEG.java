@@ -16,5 +16,14 @@ public class BRNEG extends CompleteBinary implements Instruction{
     public Integer numberOpd() {
         return numberOpd;
     }
+    EndType end;
+    @Override
+    public void setEndType(EndType end) {
+        this.end = end;
+    }
 
+    @Override
+    public String getEndType() {
+        return this.end.toString();
+    }
 }

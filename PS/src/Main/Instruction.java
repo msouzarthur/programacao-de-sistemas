@@ -4,7 +4,10 @@ import javax.swing.JTextPane;
 
 public interface Instruction {
     public enum EndType{
-        D("DIRETO"),IN("INDIRETO"),IM("IMEDIATO");
+        D   ("000"),
+        IN1 ("001"),
+        IN2 ("010"),
+        IM  ("100");
         private String type;
         private EndType(String type){
             this.type = type;
@@ -16,5 +19,7 @@ public interface Instruction {
     };
     Integer numberOpd();
     String completeBinary(String number);
+    void setEndType(EndType end);
+    String getEndType();
     void runInstruction(JTextPane outCode, Register target, String opd1, String opd2);
 }

@@ -3,7 +3,7 @@ package Registers;
 import Main.Register;
 
 public class PC implements Register{
-    String value="000000000000000";
+    String value="0000000000000000";
 
     @Override
     public String getValue() {
@@ -14,4 +14,5 @@ public class PC implements Register{
     public void setValue(String value) {
         this.value = value;
     }
+       
 }

@@ -8,8 +8,6 @@ public final class Memory {
     //2 - 10 de pilha
     //11 - 69 de instruções
     //70 - 99 de dados
-    //private static final List<String> memory = new ArrayList<>();
-    //testar limite antes de add
     private static List<String> memory = new ArrayList<>();
    
     public static String memoryGet(Integer address){
