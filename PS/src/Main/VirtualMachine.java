@@ -5,19 +5,56 @@ import Registers.*;
 import static Main.Memory.*;
 import java.util.List;
 
-/**
+/*
  * @author arthur souza
  * @author hector fernandes
  * @author rafael grimmler
  * @author willian do espirito santo
  * @author matheus cardoso
  * @author leonardo marotta
+ * @author lucas dias
  */
+
 public class VirtualMachine extends javax.swing.JFrame {
 
     public VirtualMachine() {
-        initComponents();
-        setInitValues();
+         String pos = Integer.toBinaryString(56);
+         String neg = Integer.toBinaryString(-56).substring(16,32); 
+         
+         
+        System.out.println("pos: "+pos);
+        System.out.println("neg: "+neg);
+        
+        long l = Long.parseLong(pos, 2);
+        int number = (int) l;
+        System.out.println("number+: "+number);
+        number = Integer.parseUnsignedInt(pos, 2);
+        System.out.println("number+: "+number);
+        
+        
+        l = Long.parseLong(neg, 2);
+        number = (int) l;
+        System.out.println("number-: "+number);
+        number = Integer.parseUnsignedInt(neg, 2);
+        System.out.println("number-: "+number);
+        //https://mkyong.com/java/java-convert-negative-binary-to-integer/
+        //binary = Integer.toBinaryString(-56);
+        //System.out.println("um: "+binary);
+        //int number = Integer.parseInt(binary, 2);
+        long n = 214;
+        System.out.println(Long.toUnsignedString(n,2));
+        System.out.println(Long.toString(n,2));
+        System.out.println(Long.toBinaryString(n));
+        //initComponents();
+        //setInitValues();
+        long p = 23;
+        long g = ~p + 1;
+        System.out.println(p);
+        System.out.println(g);
+        byte x = -123;
+        byte y = 123;
+        System.out.println(Byte.toString(x));
+        System.out.println(Byte.toString(y));
     }
 
     @SuppressWarnings("unchecked")
@@ -423,6 +460,10 @@ public class VirtualMachine extends javax.swing.JFrame {
 
     private void btnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunActionPerformed
         //EXECUTAR A INSTRUÇÃO OLHANDO O ENDEREÇAMENTO
+     
+        
+        
+        
         Instruction instruction;
         Integer position = 12;
         PC.setValue(toBin(position));
@@ -444,10 +485,14 @@ public class VirtualMachine extends javax.swing.JFrame {
             else{
                 PC.setValue(null);
             }
-  
-            if(instruction instanceof RET  || instruction instanceof BR    || 
+            if(instruction instanceof STOP){
+                PC.setValue(null);
+                break;
+                //instruction.runInstruction(outCod, null, null);
+            }
+            else if(instruction instanceof RET  || instruction instanceof BR    || 
                instruction instanceof BRNEG|| instruction instanceof BRPOS || 
-            instruction instanceof BRZERO){
+               instruction instanceof BRZERO){
                 opd1 = Memory.memoryGet(toInt(RI.getValue())+1);
                 instruction.runInstruction(outCod, opd1, null);
             }
@@ -463,24 +508,9 @@ public class VirtualMachine extends javax.swing.JFrame {
                 opd2 = Memory.memoryGet(toInt(RI.getValue())+2);
                 instruction.runInstruction(outCod, opd1, opd2);
             }
-        
-        } 
-        
-        /*
-        register = defineRegister(instruction);
-        if(instruction == null || register == null){
-            Error.showError("instrução não identificada");
         }
-        else if(instruction instanceof RET || instruction instanceof BRZERO || instruction instanceof BRPOS || instruction instanceof BRNEG || BR){
-            register = new PC();
-            instruction.runInstruction(inCod, register, opd1, opd2);
-        }
-        register = new ACC();
-        instruction.runInstruction(inCod, register, opd1, opd2);    
-        instruction.runInstructionPrint(outCod, opd1);
-        */
     }//GEN-LAST:event_btnRunActionPerformed
-    
+   
     private void readContent(String cod, Integer position) {
          if(cod.length()>0 && cod.length()%16==0){
             for(int i=0;i<cod.length();i+=16){
@@ -491,20 +521,23 @@ public class VirtualMachine extends javax.swing.JFrame {
     }
     
     public Integer toInt(String cod){
-        if(cod!=null)
-            return Integer.parseInt(cod,2);
+        //Funciona pra positivo e negativo
+        long n;
+        int number;
+        if(cod!=null){          
+            n = Long.parseLong(cod, 2);
+            number = (int) n;
+            return number;
+        }
         return null;
     }
     
     public String toBin(Integer number){
         if(number != null){
-            String bin = Integer.toBinaryString(number);
-            String complete = "";
-            Integer left = 16 - bin.length();
-            for(int i = 0; i < left; i++){
-               complete+="0";
-            }
-            return complete + bin;
+            if(number<0)
+                return Integer.toBinaryString(0x10000 | number).substring(16);
+            else
+                return Integer.toBinaryString(0x10000 | number).substring(1);
         }
         return null;
     }
