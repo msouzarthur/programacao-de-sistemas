@@ -4,7 +4,7 @@ import Main.Instruction;
 import Registers.ACC;
 import javax.swing.JTextPane;
 
-public class ADD extends CompleteBinary implements Instruction{
+public class ADD implements Instruction{
     Integer numberOpd = 1;
     String opcode;
     EndType end;
@@ -15,12 +15,16 @@ public class ADD extends CompleteBinary implements Instruction{
     
     @Override
     public void runInstruction(JTextPane outCode, String opd1, String opd2) {
+        if(opd1 == null){
+            Main.Error.showError("o add possui um argumento a menos");
+            return;
+        }
         if(opd2!=null){
             Main.Error.showError("o add possui um argumento a mais");
             return;
         }
         String aux = Integer.toBinaryString(Integer.parseInt(ACC.getValue(),2) + Integer.parseInt(opd1,2));
-        ACC.setValue(completeBinary(aux));
+        ACC.setValue(CompleteBinary.completeBinary(aux));
     }
 
     @Override

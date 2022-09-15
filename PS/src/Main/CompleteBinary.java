@@ -1,9 +1,9 @@
 package Main;
 
 
-public class CompleteBinary {
+public final class CompleteBinary {
     
-    public String completeBinary(String number) {
+    public static String completeBinary(String number) {
         String complete = "";
         Integer left = 16 - number.length();
         for(int i = 0; i < left; i++){
@@ -11,13 +11,13 @@ public class CompleteBinary {
         }
         return complete + number;
     }
-    public Integer toInt(String cod){
+    public static Integer toInt(String cod){
         if(cod!=null)
             return Integer.parseInt(cod,2);
         return null;
     }
     
-    public String toBin(Integer number){
+    public static String toBin(Integer number){
         if(number != null){
             String bin = Integer.toBinaryString(number);
             String complete = "";
@@ -31,3 +31,23 @@ public class CompleteBinary {
     }
 
 }
+/*public Integer toInt(String cod){
+        long n;
+        int number;
+        if(cod!=null){          
+            n = Long.parseLong(cod, 2);
+            number = (int) n;
+            return number;
+        }
+        return null;
+    }
+    
+    public String toBin(Integer number){
+        if(number != null){
+            if(number<0)
+                return Integer.toBinaryString(0x10000 | number).substring(16);
+            else
+                return Integer.toBinaryString(0x10000 | number).substring(1);
+        }
+        return null;
+    }*/

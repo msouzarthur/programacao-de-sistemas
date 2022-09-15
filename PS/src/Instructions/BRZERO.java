@@ -5,7 +5,7 @@ import Registers.ACC;
 import Registers.PC;
 import javax.swing.JTextPane;
 
-public class BRZERO extends CompleteBinary implements Instruction{
+public class BRZERO implements Instruction{
     Integer numberOpd = 1;
     EndType end;
     String opcode;
@@ -20,7 +20,7 @@ public class BRZERO extends CompleteBinary implements Instruction{
             Main.Error.showError("o brneg possui um argumento a mais");
             return;
         }
-        if(toInt(ACC.getValue())==0 && toInt(opd1)>12 && toInt(opd1)<100){
+        if(CompleteBinary.toInt(ACC.getValue())==0 && CompleteBinary.toInt(opd1)>12 && CompleteBinary.toInt(opd1)<100){
             PC.setValue(opd1);
         }
     }

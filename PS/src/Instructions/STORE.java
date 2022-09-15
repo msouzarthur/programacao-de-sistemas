@@ -4,7 +4,7 @@ import Main.Instruction;
 import Registers.ACC;
 import javax.swing.JTextPane;
 
-public class STORE extends CompleteBinary implements Instruction{
+public class STORE implements Instruction{
     Integer numberOpd = 1;
     EndType end;
     String opcode;

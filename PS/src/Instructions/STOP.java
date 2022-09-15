@@ -4,7 +4,7 @@ import Main.CompleteBinary;
 import Main.Instruction;
 import javax.swing.JTextPane;
 
-public class STOP extends CompleteBinary implements Instruction{
+public class STOP implements Instruction{
     Integer numberOpd = 0;
     EndType end;
     String opcode;

@@ -18,7 +18,6 @@ public interface Instruction {
         }
     };
     Integer numberOpd();
-    String completeBinary(String number);
     void setEndType(EndType end);
     String getEndType();
     void runInstruction(JTextPane outCode, String opd1, String opd2);

@@ -3,7 +3,7 @@ import Main.CompleteBinary;
 import Main.Instruction;
 import javax.swing.JTextPane;
 
-public class COPY extends CompleteBinary implements Instruction{
+public class COPY implements Instruction{
     Integer numberOpd = 2;
     EndType end;
     String opcode;

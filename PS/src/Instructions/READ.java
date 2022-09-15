@@ -4,7 +4,7 @@ import Main.CompleteBinary;
 import Main.Instruction;
 import javax.swing.JTextPane;
 
-public class READ extends CompleteBinary implements Instruction{
+public class READ implements Instruction{
     String opcode;
     Integer numberOpd = 1;
     EndType end;
