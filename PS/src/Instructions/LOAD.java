@@ -4,7 +4,7 @@ import Main.Instruction;
 import Registers.ACC;
 import javax.swing.JTextPane;
 
-public class LOAD extends CompleteBinary implements Instruction{
+public class LOAD implements Instruction{
     Integer numberOpd = 1;
     EndType end;
     String opcode;
@@ -20,7 +20,7 @@ public class LOAD extends CompleteBinary implements Instruction{
             return;
         }
         String aux = Integer.toBinaryString(Integer.parseInt(ACC.getValue(),2) / Integer.parseInt(opd1,2));
-        ACC.setValue(completeBinary(aux));
+        ACC.setValue(CompleteBinary.completeBinary(aux));
     }
     
     @Override

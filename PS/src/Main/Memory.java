@@ -29,5 +29,10 @@ public final class Memory {
             memory.add(null);
         }
     }
+    public static void memoryReset(){
+        for(int i=0;i<memory.size();i++){
+            memory.set(i, null);
+        }
+    }
     
 }

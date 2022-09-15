@@ -4,7 +4,7 @@ import Main.Instruction;
 import Registers.PC;
 import javax.swing.JTextPane;
 
-public class BR extends CompleteBinary implements Instruction{
+public class BR implements Instruction{
     Integer numberOpd = 1;
     EndType end;
     String opcode;
@@ -20,8 +20,8 @@ public class BR extends CompleteBinary implements Instruction{
             return;
         }
         //converter pra decimal
-        if(toInt(opd1)>=12 && toInt(opd1)<100){
-            System.out.println(toInt(opd1));
+        if(CompleteBinary.toInt(opd1)>=12 && CompleteBinary.toInt(opd1)<100){
+            System.out.println(CompleteBinary.toInt(opd1));
             PC.setValue(opd1);
         }
         else{

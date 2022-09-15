@@ -11,5 +11,9 @@ public final class PC {
     public static void setValue(String value) {
         PC.value = value;
     }
-       
+    
+    public static void reset(){
+        PC.value = "0000000000000000"; 
+    }
+    
 }

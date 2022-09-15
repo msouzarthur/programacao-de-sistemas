@@ -1,9 +1,11 @@
 package Instructions;
 import Main.CompleteBinary;
 import Main.Instruction;
+import Registers.PC;
+import Registers.SP;
 import javax.swing.JTextPane;
 
-public class RET extends CompleteBinary implements Instruction{
+public class RET implements Instruction{
     Integer numberOpd = 0;
     EndType end;
     String opcode;
@@ -18,7 +20,7 @@ public class RET extends CompleteBinary implements Instruction{
             Main.Error.showError("o ret possui argumentos a mais");
             return;
         }
-        //PC APONTA PRO SP
+        PC.setValue(SP.pop());
     }
     
     @Override

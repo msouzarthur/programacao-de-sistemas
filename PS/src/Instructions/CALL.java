@@ -1,9 +1,11 @@
 package Instructions;
 import Main.CompleteBinary;
 import Main.Instruction;
+import Registers.PC;
+import Registers.SP;
 import javax.swing.JTextPane;
 
-public class CALL extends CompleteBinary implements Instruction{
+public class CALL implements Instruction{
     Integer numberOpd = 1;
     Instruction end;
     String opcode;
@@ -18,6 +20,8 @@ public class CALL extends CompleteBinary implements Instruction{
             Main.Error.showError("o call possui um argumento a mais");
             return;
         }
+        SP.push(PC.getValue());
+        PC.setValue(opd1);
     }
 
     @Override

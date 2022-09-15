@@ -3,7 +3,7 @@ import Main.CompleteBinary;
 import Main.Instruction;
 import javax.swing.JTextPane;
 
-public class WRITE extends CompleteBinary implements Instruction{
+public class WRITE implements Instruction{
     String opcode;
     Integer numberOpd = 1;
     EndType end;

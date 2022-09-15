@@ -11,5 +11,8 @@ public final class RE {
     public static void setValue(String value) {
         RE.value = value;
     }
-
+    
+    public static void reset(){
+        RE.value = "0000000000000000"; 
+    }
 }

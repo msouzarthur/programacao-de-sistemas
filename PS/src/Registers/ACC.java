@@ -11,5 +11,9 @@ public final class ACC{
     public static void setValue(String value) {
         ACC.value = value;
     }
+    
+    public static void reset(){
+        ACC.value = "0000000000000000"; 
+    }
 
 }

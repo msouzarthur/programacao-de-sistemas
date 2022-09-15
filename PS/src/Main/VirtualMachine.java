@@ -1,6 +1,7 @@
 package Main;
 
 import Instructions.*;
+import Main.CompleteBinary.*;
 import Registers.*;
 import static Main.Memory.*;
 import java.util.List;
@@ -18,10 +19,14 @@ import java.util.List;
 public class VirtualMachine extends javax.swing.JFrame {
 
     public VirtualMachine() {
-         String pos = Integer.toBinaryString(56);
-         String neg = Integer.toBinaryString(-56).substring(16,32); 
-         
-         
+    
+        //MONTADOR: opcode -> binário
+        // operando -> decimal
+        /*
+        String pos = Integer.toBinaryString(56);
+        String neg = Integer.toBinaryString(-56).substring(16,32); 
+        String teste = "1111111111001000";
+        System.out.println("teste: "+Integer.parseUnsignedInt(teste,2));
         System.out.println("pos: "+pos);
         System.out.println("neg: "+neg);
         
@@ -45,8 +50,6 @@ public class VirtualMachine extends javax.swing.JFrame {
         System.out.println(Long.toUnsignedString(n,2));
         System.out.println(Long.toString(n,2));
         System.out.println(Long.toBinaryString(n));
-        //initComponents();
-        //setInitValues();
         long p = 23;
         long g = ~p + 1;
         System.out.println(p);
@@ -54,7 +57,10 @@ public class VirtualMachine extends javax.swing.JFrame {
         byte x = -123;
         byte y = 123;
         System.out.println(Byte.toString(x));
-        System.out.println(Byte.toString(y));
+        System.out.println(Byte.toString(y));*/
+        initComponents();
+        setInitValues();
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -460,14 +466,16 @@ public class VirtualMachine extends javax.swing.JFrame {
 
     private void btnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunActionPerformed
         //EXECUTAR A INSTRUÇÃO OLHANDO O ENDEREÇAMENTO
-     
-        
-        
-        
+        //VER A FUNÇÃO DO REGISTRADOR RE
+        //RESOLVER OS NEGATIVOS
+        reset();
         Instruction instruction;
         Integer position = 12;
-        PC.setValue(toBin(position));
-        SP.setValue(toBin(2));
+        
+        //RE.setValue(toBin(12));
+        PC.setValue(CompleteBinary.toBin(position));
+        SP.setValue(CompleteBinary.toBin(2));
+        MOP.setValue(CompleteBinary.toBin(0));
         
         String opcode = null, opd1 = null, opd2 = null;
         String cod = inCod.getText();
@@ -476,11 +484,12 @@ public class VirtualMachine extends javax.swing.JFrame {
 
         while(PC.getValue()!= null){
             attScreen();
-            instruction = decodeInstruction(Memory.memoryGet(toInt(PC.getValue())));
+            instruction = decodeInstruction(Memory.memoryGet(CompleteBinary.toInt(PC.getValue())));
             
-            if(Memory.memoryGet(toInt(PC.getValue()))!=null){
-                RI.setValue(PC.getValue());
-                PC.setValue(toBin(toInt(PC.getValue())+instruction.numberOpd()+1));
+            if(Memory.memoryGet(CompleteBinary.toInt(PC.getValue()))!=null){
+                RI.setValue(Memory.memoryGet(CompleteBinary.toInt(PC.getValue())));
+                RE.setValue(CompleteBinary.toBin(CompleteBinary.toInt(PC.getValue())+1));
+                PC.setValue(CompleteBinary.toBin(CompleteBinary.toInt(PC.getValue())+instruction.numberOpd()+1));
             }
             else{
                 PC.setValue(null);
@@ -488,31 +497,41 @@ public class VirtualMachine extends javax.swing.JFrame {
             if(instruction instanceof STOP){
                 PC.setValue(null);
                 break;
-                //instruction.runInstruction(outCod, null, null);
             }
             else if(instruction instanceof RET  || instruction instanceof BR    || 
                instruction instanceof BRNEG|| instruction instanceof BRPOS || 
                instruction instanceof BRZERO){
-                opd1 = Memory.memoryGet(toInt(RI.getValue())+1);
+                opd1 = Memory.memoryGet(CompleteBinary.toInt(RE.getValue()));
                 instruction.runInstruction(outCod, opd1, null);
             }
             else if(instruction instanceof ADD || instruction instanceof DIV  ||
                     instruction instanceof LOAD|| instruction instanceof MULT ||
                     instruction instanceof SUB){
-                opd1 = Memory.memoryGet(toInt(RI.getValue())+1);
+                opd1 = Memory.memoryGet(CompleteBinary.toInt(RE.getValue()));
                 instruction.runInstruction(outCod, opd1, null);
 
             }
             else if (instruction instanceof COPY){
-                opd1 = Memory.memoryGet(toInt(RI.getValue())+1);
-                opd2 = Memory.memoryGet(toInt(RI.getValue())+2);
+                opd1 = Memory.memoryGet(CompleteBinary.toInt(RE.getValue()));
+                opd2 = Memory.memoryGet(CompleteBinary.toInt(RE.getValue())+1);
                 instruction.runInstruction(outCod, opd1, opd2);
             }
         }
     }//GEN-LAST:event_btnRunActionPerformed
-   
+
+    private void reset(){
+        ACC.reset();
+        MOP.reset();
+        PC.reset();
+        RE.reset();
+        RI.reset();
+        SP.reset();
+        Memory.memoryReset();
+        attScreen();
+    }
+    
     private void readContent(String cod, Integer position) {
-         if(cod.length()>0 && cod.length()%16==0){
+        if(cod.length()>0 && cod.length()%16==0){
             for(int i=0;i<cod.length();i+=16){
                 Memory.memorySet(position, cod.substring(i,i+16));
                 position++;
@@ -520,28 +539,6 @@ public class VirtualMachine extends javax.swing.JFrame {
         }
     }
     
-    public Integer toInt(String cod){
-        //Funciona pra positivo e negativo
-        long n;
-        int number;
-        if(cod!=null){          
-            n = Long.parseLong(cod, 2);
-            number = (int) n;
-            return number;
-        }
-        return null;
-    }
-    
-    public String toBin(Integer number){
-        if(number != null){
-            if(number<0)
-                return Integer.toBinaryString(0x10000 | number).substring(16);
-            else
-                return Integer.toBinaryString(0x10000 | number).substring(1);
-        }
-        return null;
-    }
-  
     private Instruction decodeInstruction(String command) {
         Instruction instruction = null;
         String end, opcode;
