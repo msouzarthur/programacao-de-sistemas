@@ -22,6 +22,7 @@ public class VirtualMachine extends javax.swing.JFrame {
     
         //MONTADOR: opcode -> binário
         // operando -> decimal
+        // a
         /*
         String pos = Integer.toBinaryString(56);
         String neg = Integer.toBinaryString(-56).substring(16,32); 
