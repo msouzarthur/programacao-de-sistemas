@@ -6,16 +6,12 @@ import Registers.SP;
 import javax.swing.JTextPane;
 
 public class RET implements Instruction{
-    Integer numberOpd = 0;
+    Integer op = 9, numberOpd = 0;
     EndType end;
-    String opcode;
-    
-    public void RET(){
-        this.opcode="0000000000001001";
-    }
+    String opcode="0000000000001001";;
     
     @Override
-    public void runInstruction(JTextPane outCode, String opd1, String opd2) {
+    public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
         if(opd1!= null || opd2!=null){
             Main.Error.showError("o ret possui argumentos a mais");
             return;
@@ -24,7 +20,7 @@ public class RET implements Instruction{
     }
     
     @Override
-    public Integer numberOpd() {
+    public int numberOpd() {
         return numberOpd;
     }
     

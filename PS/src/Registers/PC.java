@@ -2,18 +2,18 @@ package Registers;
 
 public final class PC {
     
-    static String value="0000000000000000";
+    static int value = 0;
     
-    public static String getValue() {
+    public static int getValue() {
         return value;
     }
     
-    public static void setValue(String value) {
+    public static void setValue(int value) {
         PC.value = value;
     }
     
     public static void reset(){
-        PC.value = "0000000000000000"; 
+        PC.value = 0; 
     }
     
 }

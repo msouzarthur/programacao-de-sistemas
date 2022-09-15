@@ -4,16 +4,12 @@ import Main.Instruction;
 import javax.swing.JTextPane;
 
 public class BRPOS implements Instruction{
-    String opcode;
-    Integer numberOpd = 1;
+    Integer op = 1, numberOpd = 1;
+    String opcode = "0000000000000001";
     EndType end;
-
-    public void BRPOS(){
-        this.opcode="0000000000000001";
-    }
     
     @Override
-    public void runInstruction(JTextPane outCode, String opd1, String opd2) {
+    public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
         if(opd2!=null){
             Main.Error.showError("o brneg possui um argumento a mais");
             return;
@@ -24,7 +20,7 @@ public class BRPOS implements Instruction{
     }
     
     @Override
-    public Integer numberOpd() {
+    public int numberOpd() {
         return numberOpd;
     }
     

@@ -5,16 +5,18 @@ import Registers.PC;
 import javax.swing.JTextPane;
 
 public class BRNEG implements Instruction{
+    Integer op = 5, numberOpd = 1;
+    String opcode = "0000000000000101";
+    EndType end;
 
     @Override
-    public void runInstruction(JTextPane outCode, String opd1, String opd2) {
+    public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
         if(opd2!=null){
             Main.Error.showError("o brneg possui um argumento a mais");
             return;
         }
         //PEGAR ACC EM QUALQUER LUGAR
-        if(CompleteBinary.toInt(opd1)>=12 && CompleteBinary.toInt(opd1)<100){
-            System.out.println(CompleteBinary.toInt(opd1));
+        if(opd1>=12 && opd1<100){
             PC.setValue(opd1);
         }
         else{
@@ -26,13 +28,11 @@ public class BRNEG implements Instruction{
         }*/
     }
     
-    Integer numberOpd = 1;
     @Override
-    public Integer numberOpd() {
+    public int numberOpd() {
         return numberOpd;
     }
     
-    EndType end;
     @Override
     public void setEndType(EndType end) {
         this.end = end;

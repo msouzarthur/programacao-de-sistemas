@@ -6,7 +6,7 @@ import Registers.SP;
 import javax.swing.JTextPane;
 
 public class CALL implements Instruction{
-    Integer numberOpd = 1;
+    Integer op = 15, numberOpd = 1;
     Instruction end;
     String opcode;
     
@@ -15,7 +15,11 @@ public class CALL implements Instruction{
     }
     
     @Override
-    public void runInstruction(JTextPane outCode, String opd1, String opd2) {
+    public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
+        if(opd1 == null){
+            Main.Error.showError("o call possui um argumento a menos");
+            return;
+        }
         if(opd2!=null){
             Main.Error.showError("o call possui um argumento a mais");
             return;
@@ -25,7 +29,7 @@ public class CALL implements Instruction{
     }
 
     @Override
-    public Integer numberOpd() {
+    public int numberOpd() {
         return numberOpd;
     }
 

@@ -2,16 +2,17 @@ package Registers;
 
 public final class MOP{
 
-    static String value="00000000";
+    static int value=0;
 
-    public static String getValue() {
+    public static int getValue() {
         return value;
     }
 
-    public static void setValue(String value) {
-        MOP.value = value.substring(8, 16);
+    public static void setValue(int value) {
+        MOP.value = value;
     }
+    
     public static void reset(){
-        MOP.value = "00000000";
+        MOP.value = 0;
     }
 }

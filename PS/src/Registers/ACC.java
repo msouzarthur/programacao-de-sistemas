@@ -2,18 +2,18 @@ package Registers;
 
 public final class ACC{
 
-    static String value="0000000000000000";
+    static int value=0;
     
-    public static String getValue() {
+    public static int getValue() {
         return value;
     }
 
-    public static void setValue(String value) {
+    public static void setValue(int value) {
         ACC.value = value;
     }
     
     public static void reset(){
-        ACC.value = "0000000000000000"; 
+        ACC.value = 0; 
     }
 
 }

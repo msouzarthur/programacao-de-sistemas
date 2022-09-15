@@ -6,7 +6,7 @@ import Registers.PC;
 import javax.swing.JTextPane;
 
 public class BRZERO implements Instruction{
-    Integer numberOpd = 1;
+    Integer op = 4, numberOpd = 1;
     EndType end;
     String opcode;
     
@@ -15,18 +15,18 @@ public class BRZERO implements Instruction{
     }
     
     @Override
-    public void runInstruction(JTextPane outCode, String opd1, String opd2) {
+    public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
         if(opd2!=null){
             Main.Error.showError("o brneg possui um argumento a mais");
             return;
         }
-        if(CompleteBinary.toInt(ACC.getValue())==0 && CompleteBinary.toInt(opd1)>12 && CompleteBinary.toInt(opd1)<100){
+        if(ACC.getValue() == 0 && opd1>12 && opd1<100){
             PC.setValue(opd1);
         }
     }
     
     @Override
-    public Integer numberOpd() {
+    public int numberOpd() {
         return numberOpd;
     }
     

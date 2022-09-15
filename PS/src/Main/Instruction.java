@@ -17,9 +17,9 @@ public interface Instruction {
             return type;
         }
     };
-    Integer numberOpd();
+    int numberOpd();
     void setEndType(EndType end);
     String getEndType();
-    void runInstruction(JTextPane outCode, String opd1, String opd2);
+    void runInstruction(JTextPane outCode, Integer opd1, Integer opd2);
 
 }

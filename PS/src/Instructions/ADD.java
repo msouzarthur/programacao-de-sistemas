@@ -5,30 +5,24 @@ import Registers.ACC;
 import javax.swing.JTextPane;
 
 public class ADD implements Instruction{
-    Integer numberOpd = 1;
-    String opcode;
+    Integer op = 02, numberOpd = 1;
+    String opcode = "0000000000000010";
     EndType end;
-    
-    public void ADD(){
-        this.opcode="0000000000000010";
-    }
-    
+       
     @Override
-    public void runInstruction(JTextPane outCode, String opd1, String opd2) {
+    public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
         if(opd1 == null){
             Main.Error.showError("o add possui um argumento a menos");
             return;
-        }
-        if(opd2!=null){
+        } else if(opd2 != null){
             Main.Error.showError("o add possui um argumento a mais");
             return;
         }
-        String aux = Integer.toBinaryString(Integer.parseInt(ACC.getValue(),2) + Integer.parseInt(opd1,2));
-        ACC.setValue(CompleteBinary.completeBinary(aux));
+        ACC.setValue(ACC.getValue()+opd1);
     }
 
     @Override
-    public Integer numberOpd() {
+    public int numberOpd() {
         return numberOpd;
     }
 

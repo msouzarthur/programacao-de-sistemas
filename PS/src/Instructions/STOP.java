@@ -5,19 +5,17 @@ import Main.Instruction;
 import javax.swing.JTextPane;
 
 public class STOP implements Instruction{
-    Integer numberOpd = 0;
+    Integer op = 11, numberOpd = 0;
     EndType end;
-    String opcode;
-    
-    public void STOP(){
-        this.opcode="0000000000001011";
-    }
+    String opcode = "0000000000001011";;
+   
     @Override
-    public void runInstruction(JTextPane outCode, String opd1, String opd2) {
+    public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
         System.exit(0);
     }
+    
     @Override
-    public Integer numberOpd() {
+    public int numberOpd() {
         return numberOpd;
     }
     @Override

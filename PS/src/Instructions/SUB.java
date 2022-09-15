@@ -5,25 +5,20 @@ import Registers.ACC;
 import javax.swing.JTextPane;
 
 public class SUB implements Instruction{
-    Integer numberOpd = 1;
+    Integer op = 6, numberOpd = 1;
     EndType end;
-    String opcode;
-    
-    public void SUB(){
-        this.opcode="0000000000000110";
-    }
+    String opcode = "0000000000000110";
     
     @Override
-    public void runInstruction(JTextPane outCode, String opd1, String opd2) {
+    public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
         if(opd2!= null){
             Main.Error.showError("o sub possui um argumento a mais");
             return;
         }
-        String aux = Integer.toBinaryString(Integer.parseInt(ACC.getValue(),2) - Integer.parseInt(opd1,2));
-        ACC.setValue(CompleteBinary.completeBinary(aux));
+        ACC.setValue(ACC.getValue()-opd1);
     }
     @Override
-    public Integer numberOpd() {
+    public int numberOpd() {
         return numberOpd;
     }
     @Override

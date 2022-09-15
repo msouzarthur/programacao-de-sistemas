@@ -5,25 +5,24 @@ import Main.Instruction;
 import javax.swing.JTextPane;
 
 public class READ implements Instruction{
-    String opcode;
-    Integer numberOpd = 1;
+    Integer op = 12, numberOpd = 1;
     EndType end;
-
-    public void READ(){
-        this.opcode="0000000000001100";
-    }
-    
+    String opcode = "0000000000001100";
+        
     @Override
-    public void runInstruction(JTextPane inOutCode, String opd1, String opd2) {
+    public void runInstruction(JTextPane inOutCode, Integer opd1, Integer opd2) {
         if(opd2!=null){
             Main.Error.showError("o read possui um argumento a mais");
             return; 
         }
-        opd1 = inOutCode.getText();
+        Main.Error.showError("o read não foi implementado ainda");
+        return; 
+        
+        //opd1 = inOutCode.getText();
     }
     
     @Override
-    public Integer numberOpd() {
+    public int numberOpd() {
         return numberOpd;
     }
     

@@ -4,16 +4,12 @@ import Main.Instruction;
 import javax.swing.JTextPane;
 
 public class COPY implements Instruction{
-    Integer numberOpd = 2;
+    Integer op = 13, numberOpd = 2;
     EndType end;
-    String opcode;
-    
-    public void COPY(){
-        this.opcode="0000000000001101";
-    }
-    
+    String opcode = "0000000000001101";;
+         
     @Override
-    public void runInstruction(JTextPane outCode, String opd1, String opd2) {
+    public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
         if(opd1==null || opd2==null){
             Main.Error.showError("o copy está sem argumentos");
             return;
@@ -22,7 +18,7 @@ public class COPY implements Instruction{
     }
     
     @Override
-    public Integer numberOpd() {
+    public int numberOpd() {
         return numberOpd;
     }
     
