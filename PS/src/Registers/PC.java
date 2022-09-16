@@ -2,13 +2,19 @@ package Registers;
 
 public final class PC {
     
-    static int value = 0;
+    static Integer value = 0;
     
-    public static int getValue() {
+    public static Integer getValue() {
         return value;
     }
     
-    public static void setValue(int value) {
+    public static String getText(){
+        if(PC.value>0) 
+            return String.format("%016d", Integer.parseInt(Integer.toBinaryString(PC.value)));
+        return Integer.toBinaryString(PC.value).substring(16,32);
+    }
+    
+    public static void setValue(Integer value) {
         PC.value = value;
     }
     

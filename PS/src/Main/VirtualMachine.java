@@ -21,10 +21,8 @@ public class VirtualMachine extends javax.swing.JFrame {
     public VirtualMachine() {
     
         //MONTADOR: opcode -> binário
-        // operando -> decimal
-        // a
-        /*
-        String pos = Integer.toBinaryString(56);
+       
+        /*String pos = Integer.toBinaryString(56);
         String neg = Integer.toBinaryString(-56).substring(16,32); 
         String teste = "1111111111001000";
         System.out.println("teste: "+Integer.parseUnsignedInt(teste,2));
@@ -474,23 +472,24 @@ public class VirtualMachine extends javax.swing.JFrame {
         Integer position = 12;
         
         //RE.setValue(toBin(12));
-        PC.setValue(CompleteBinary.toBin(position));
-        SP.setValue(CompleteBinary.toBin(2));
-        MOP.setValue(CompleteBinary.toBin(0));
+        PC.setValue(position);
+        SP.setValue(2);
+        MOP.setValue(0);
         
-        String opcode = null, opd1 = null, opd2 = null;
-        String cod = inCod.getText();
+        String opcode = null;
+        Integer opd1 = null, opd2 = null;
+        String[] cod = inCod.getText().split("\n");;
         
         readContent(cod, position);
 
         while(PC.getValue()!= null){
             attScreen();
-            instruction = decodeInstruction(Memory.memoryGet(CompleteBinary.toInt(PC.getValue())));
+            instruction = decodeInstruction(Memory.memoryGet(PC.getValue()));
             
-            if(Memory.memoryGet(CompleteBinary.toInt(PC.getValue()))!=null){
-                RI.setValue(Memory.memoryGet(CompleteBinary.toInt(PC.getValue())));
-                RE.setValue(CompleteBinary.toBin(CompleteBinary.toInt(PC.getValue())+1));
-                PC.setValue(CompleteBinary.toBin(CompleteBinary.toInt(PC.getValue())+instruction.numberOpd()+1));
+            if(Memory.memoryGet(PC.getValue())!=null){
+                RI.setValue(Memory.memoryGet(PC.getValue()));
+                RE.setValue(PC.getValue()+1);
+                PC.setValue(PC.getValue()+instruction.numberOpd()+1);
             }
             else{
                 PC.setValue(null);
@@ -502,19 +501,20 @@ public class VirtualMachine extends javax.swing.JFrame {
             else if(instruction instanceof RET  || instruction instanceof BR    || 
                instruction instanceof BRNEG|| instruction instanceof BRPOS || 
                instruction instanceof BRZERO){
-                opd1 = Memory.memoryGet(CompleteBinary.toInt(RE.getValue()));
+                opd1 = Memory.memoryGet(RE.getValue());
                 instruction.runInstruction(outCod, opd1, null);
             }
             else if(instruction instanceof ADD || instruction instanceof DIV  ||
                     instruction instanceof LOAD|| instruction instanceof MULT ||
                     instruction instanceof SUB){
-                opd1 = Memory.memoryGet(CompleteBinary.toInt(RE.getValue()));
+                opd1 = Memory.memoryGet(RE.getValue());
+                System.out.println("opd1 - "+RE.getValue());
                 instruction.runInstruction(outCod, opd1, null);
 
             }
             else if (instruction instanceof COPY){
-                opd1 = Memory.memoryGet(CompleteBinary.toInt(RE.getValue()));
-                opd2 = Memory.memoryGet(CompleteBinary.toInt(RE.getValue())+1);
+                opd1 = Memory.memoryGet(RE.getValue());
+                opd2 = Memory.memoryGet(RE.getValue()+1);
                 instruction.runInstruction(outCod, opd1, opd2);
             }
         }
@@ -531,17 +531,29 @@ public class VirtualMachine extends javax.swing.JFrame {
         attScreen();
     }
     
-    private void readContent(String cod, Integer position) {
-        if(cod.length()>0 && cod.length()%16==0){
-            for(int i=0;i<cod.length();i+=16){
-                Memory.memorySet(position, cod.substring(i,i+16));
-                position++;
+    private void readContent(String[] cod, Integer position) {
+        String[] aux = null;
+        if(cod.length>0){
+            for (String command : cod){
+                aux = command.split(" ");
+                for(String p : aux){
+                    Memory.memorySet(position, Integer.parseInt(p.trim()));
+                    position++;
+                }
             }
         }
     }
+                 //command.split(" ")[0].trim();
+                //int size = command.split(" ").length;
+
+        //if(cod.length()>0){
+        //    for(int i=0;i<cod.length();i++){
+        //        Memory.memorySet(position, cod);
+        //        position++;
+        //    }
     
-    private Instruction decodeInstruction(String command) {
-        Instruction instruction = null;
+    private Instruction decodeInstruction(Integer command) {
+        /*Instruction instruction = null;
         String end, opcode;
         if(command!=null){
             end = command.substring(9, 12);
@@ -601,7 +613,8 @@ public class VirtualMachine extends javax.swing.JFrame {
             default:
                 System.out.println("ERRO DE OPCODE");
         }
-        
+        */
+        return new ADD();
         /*if(end != null)
             switch (end) {
                 case "000":
@@ -620,20 +633,20 @@ public class VirtualMachine extends javax.swing.JFrame {
                     System.out.println("ERRO DE ENDEREÇAMENTO");
                     break;
             }
-        */
-        return instruction;
+        
+        return instruction;*/
     }
-    
+
     public void attScreen(){
         for(int i=0;i<100;i++){
             tMemory.setValueAt(Memory.memoryGet(i), i, 1);
         }
-        accValue.setText(ACC.getValue());
-        pcValue.setText(PC.getValue());
-        spValue.setText(SP.getValue());
-        mopValue.setText(MOP.getValue());
-        riValue.setText(RI.getValue());
-        reValue.setText(RE.getValue());
+        //accValue.setText(ACC.getText());
+        //pcValue.setText(PC.getText());
+        //spValue.setText(SP.getText());
+        //mopValue.setText(MOP.getText());
+        //riValue.setText(RI.getText());
+        //reValue.setText(RE.getText());
     }
     
     public void outMessage(String message){
@@ -642,7 +655,7 @@ public class VirtualMachine extends javax.swing.JFrame {
     
     public void setInitValues(){
         memoryInit();
-        List<String> memory = Memory.memoryGetAll();
+        List<Integer> memory = Memory.memoryGetAll();
         for(int i=0;i<memory.size();i++){
             tMemory.setValueAt(i, i, 0);
             tMemory.setValueAt(memory.get(i), i, 1);
