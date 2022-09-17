@@ -9,7 +9,7 @@ public final class PC {
     }
     
     public static String getText(){
-        if(PC.value>0) 
+        if(PC.value>=0) 
             return String.format("%016d", Integer.parseInt(Integer.toBinaryString(PC.value)));
         return Integer.toBinaryString(PC.value).substring(16,32);
     }

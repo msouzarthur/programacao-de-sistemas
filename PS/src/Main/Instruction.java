@@ -3,6 +3,7 @@ package Main;
 import javax.swing.JTextPane;
 
 public interface Instruction {
+
     public enum EndType{
         D   ("000"),
         IN1 ("001"),

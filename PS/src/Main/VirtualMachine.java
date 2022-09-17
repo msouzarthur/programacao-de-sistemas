@@ -21,42 +21,6 @@ public class VirtualMachine extends javax.swing.JFrame {
     public VirtualMachine() {
     
         //MONTADOR: opcode -> binário
-       
-        /*String pos = Integer.toBinaryString(56);
-        String neg = Integer.toBinaryString(-56).substring(16,32); 
-        String teste = "1111111111001000";
-        System.out.println("teste: "+Integer.parseUnsignedInt(teste,2));
-        System.out.println("pos: "+pos);
-        System.out.println("neg: "+neg);
-        
-        long l = Long.parseLong(pos, 2);
-        int number = (int) l;
-        System.out.println("number+: "+number);
-        number = Integer.parseUnsignedInt(pos, 2);
-        System.out.println("number+: "+number);
-        
-        
-        l = Long.parseLong(neg, 2);
-        number = (int) l;
-        System.out.println("number-: "+number);
-        number = Integer.parseUnsignedInt(neg, 2);
-        System.out.println("number-: "+number);
-        //https://mkyong.com/java/java-convert-negative-binary-to-integer/
-        //binary = Integer.toBinaryString(-56);
-        //System.out.println("um: "+binary);
-        //int number = Integer.parseInt(binary, 2);
-        long n = 214;
-        System.out.println(Long.toUnsignedString(n,2));
-        System.out.println(Long.toString(n,2));
-        System.out.println(Long.toBinaryString(n));
-        long p = 23;
-        long g = ~p + 1;
-        System.out.println(p);
-        System.out.println(g);
-        byte x = -123;
-        byte y = 123;
-        System.out.println(Byte.toString(x));
-        System.out.println(Byte.toString(y));*/
         initComponents();
         setInitValues();
         
@@ -466,34 +430,34 @@ public class VirtualMachine extends javax.swing.JFrame {
     private void btnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunActionPerformed
         //EXECUTAR A INSTRUÇÃO OLHANDO O ENDEREÇAMENTO
         //VER A FUNÇÃO DO REGISTRADOR RE
-        //RESOLVER OS NEGATIVOS
         reset();
         Instruction instruction;
         Integer position = 12;
         
-        //RE.setValue(toBin(12));
+        RE.setValue(position);
         PC.setValue(position);
         SP.setValue(2);
         MOP.setValue(0);
-        
-        String opcode = null;
+
         Integer opd1 = null, opd2 = null;
         String[] cod = inCod.getText().split("\n");;
         
         readContent(cod, position);
 
-        while(PC.getValue()!= null){
+        do {
             attScreen();
             instruction = decodeInstruction(Memory.memoryGet(PC.getValue()));
             
-            if(Memory.memoryGet(PC.getValue())!=null){
+            /*if(Memory.memoryGet(PC.getValue())!=null){
                 RI.setValue(Memory.memoryGet(PC.getValue()));
                 RE.setValue(PC.getValue()+1);
                 PC.setValue(PC.getValue()+instruction.numberOpd()+1);
             }
             else{
                 PC.setValue(null);
-            }
+            }*/
+            PC.setValue(PC.getValue()+instruction.numberOpd()+1);
+            RI.setValue(Memory.memoryGet(PC.getValue()));
             if(instruction instanceof STOP){
                 PC.setValue(null);
                 break;
@@ -501,23 +465,21 @@ public class VirtualMachine extends javax.swing.JFrame {
             else if(instruction instanceof RET  || instruction instanceof BR    || 
                instruction instanceof BRNEG|| instruction instanceof BRPOS || 
                instruction instanceof BRZERO){
-                opd1 = Memory.memoryGet(RE.getValue());
+                opd1 = Memory.memoryGet(PC.getValue()-1);
                 instruction.runInstruction(outCod, opd1, null);
             }
             else if(instruction instanceof ADD || instruction instanceof DIV  ||
                     instruction instanceof LOAD|| instruction instanceof MULT ||
                     instruction instanceof SUB){
-                opd1 = Memory.memoryGet(RE.getValue());
-                System.out.println("opd1 - "+RE.getValue());
+                opd1 = Memory.memoryGet(PC.getValue()-1);
                 instruction.runInstruction(outCod, opd1, null);
-
             }
             else if (instruction instanceof COPY){
-                opd1 = Memory.memoryGet(RE.getValue());
-                opd2 = Memory.memoryGet(RE.getValue()+1);
+                opd1 = Memory.memoryGet(PC.getValue()-1);
+                opd2 = Memory.memoryGet(PC.getValue()-2);
                 instruction.runInstruction(outCod, opd1, opd2);
             }
-        }
+        }while(Memory.memoryGet(PC.getValue())!= null);
     }//GEN-LAST:event_btnRunActionPerformed
 
     private void reset(){
@@ -543,110 +505,110 @@ public class VirtualMachine extends javax.swing.JFrame {
             }
         }
     }
-                 //command.split(" ")[0].trim();
-                //int size = command.split(" ").length;
-
-        //if(cod.length()>0){
-        //    for(int i=0;i<cod.length();i++){
-        //        Memory.memorySet(position, cod);
-        //        position++;
-        //    }
-    
-    private Instruction decodeInstruction(Integer command) {
-        /*Instruction instruction = null;
-        String end, opcode;
-        if(command!=null){
-            end = command.substring(9, 12);
-            opcode = command.substring(12, 16);
+                
+    private Instruction decodeInstruction(Integer inCod) {
+        Instruction instruction = null;
+        Integer opcode = inCod;
+        if(inCod>16){
+            if(inCod-32<=15 && inCod-32>=0){
+                opcode = inCod-32;
+                inCod = 32;
+            }
+            if(inCod-64<=15 && inCod-64>=0){
+                opcode = inCod-64;
+                inCod = 64;
+            }
+            if(inCod-128<=15 && inCod-128>=0){
+                opcode = inCod-128;
+                inCod = 128;
+            }
         }
-        else 
-            return instruction;
-        switch(opcode){
-            case "0000": //BR: PC <- opd1
+        if(opcode!=null){
+            switch(opcode){
+            case 0: //BR: PC <- opd1
                 instruction = new BR();
                 break;
-            case "0001": //BRPOS: PC <- opd1, se ACC > 0
+            case 1: //BRPOS: PC <- opd1, se ACC > 0
                 instruction = new BRPOS();
                 break;
-            case "0010": //ADD: ACC <- ACC + opd1
+            case 2: //ADD: ACC <- ACC + opd1
                 instruction = new ADD();
                 break;
-            case "0011": //LOAD: ACC <- opd1
+            case 3: //LOAD: ACC <- opd1
                 instruction = new LOAD();
                 break;
-            case "0100": //BRZERO: PC <- opd1, se ACC = 0
+            case 4: //BRZERO: PC <- opd1, se ACC = 0
                 instruction = new BRZERO();
                 break;
-            case "0101": //BRNEG: PC <- opd1, se ACC < 0
+            case 5: //BRNEG: PC <- opd1, se ACC < 0
                 instruction = new BRNEG();
                 break;
-            case "0110": //SUB: ACC <- ACC - opd1
+            case 6: //SUB: ACC <- ACC - opd1
                 instruction = new SUB();
                 break;
-            case "0111": //STORE: opd1 <- ACC
+            case 7: //STORE: opd1 <- ACC
                 instruction = new STORE();
                 break;
-            case "1000": //WRITE: output <- opd1
+            case 8: //WRITE: output <- opd1
                 instruction = new WRITE();
                 break;
-            case "1001": //RET: PC <- [SP]
+            case 9: //RET: PC <- [SP]
                 instruction = new RET();
                 break;
-            case "1010": //DIV: ACC <- ACC / opd1
+            case 10: //DIV: ACC <- ACC / opd1
                 instruction = new DIV();
                 break;
-            case "1011": //STOP: fim do programa
+            case 11: //STOP: fim do programa
                 instruction = new STOP();
                 break;
-            case "1100": //READ: opd1 <- input stream
+            case 12: //READ: opd1 <- input stream
                 instruction = new READ();
                 break;
-            case "1101": //COPY: opd1 <- opd2
+            case 13: //COPY: opd1 <- opd2
                 instruction = new COPY();
                 break;
-            case "1110": //MULT: ACC <- ACC * opd1
+            case 14: //MULT: ACC <- ACC * opd1
                 instruction = new MULT();
                 break;
-            case "1111": //CALL: [SP] <- PC; PC <- opd1
+            case 15: //CALL: [SP] <- PC; PC <- opd1
                 instruction = new CALL();
                 break;
             default:
                 System.out.println("ERRO DE OPCODE");
-        }
-        */
-        return new ADD();
-        /*if(end != null)
-            switch (end) {
-                case "000":
-                    instruction.setEndType(EndType.D);
-                    break;
-                case "001":
-                    instruction.setEndType(EndType.IN1);
-                    break;
-                case "010":
-                    instruction.setEndType(EndType.IN2);
-                    break;
-                case "100":
-                    instruction.setEndType(EndType.IM);
-                    break;
-                default:
-                    System.out.println("ERRO DE ENDEREÇAMENTO");
-                    break;
             }
-        
-        return instruction;*/
+            if(inCod==32){
+                System.out.println("primeiro operando indireto");
+                //instruction.setEndType(Instruction.D);
+                //primeiro operando indireto
+            }
+            if(inCod==64){
+                System.out.println("segundo operando indireto");
+                //segundo operando indireto
+            }
+            if(inCod==128){
+                System.out.println("endereçamento imediato");
+                //imediato
+            }
+        }
+        return instruction;        
     }
 
     public void attScreen(){
+        String bin;
         for(int i=0;i<100;i++){
-            tMemory.setValueAt(Memory.memoryGet(i), i, 1);
+            if(Memory.memoryGet(i)!=null){
+                bin = CompleteBinary.toBin(Memory.memoryGet(i));
+                tMemory.setValueAt(bin, i, 1);
+            }
+            else
+                tMemory.setValueAt(Memory.memoryGet(i), i, 1);
         }
-        //accValue.setText(ACC.getText());
-        //pcValue.setText(PC.getText());
-        //spValue.setText(SP.getText());
-        //mopValue.setText(MOP.getText());
-        //riValue.setText(RI.getText());
-        //reValue.setText(RE.getText());
+        accValue.setText(ACC.getText());
+        pcValue.setText(PC.getText());
+        spValue.setText(SP.getText());
+        mopValue.setText(MOP.getText());
+        riValue.setText(RI.getText());
+        reValue.setText(RE.getText());
     }
     
     public void outMessage(String message){

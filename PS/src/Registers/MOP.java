@@ -9,7 +9,7 @@ public final class MOP{
     }
     
     public static String getText(){
-        if(MOP.value>0) 
+        if(MOP.value>=0) 
             return String.format("%016d", Integer.parseInt(Integer.toBinaryString(MOP.value)));
         return Integer.toBinaryString(MOP.value).substring(16,32);
     }

@@ -9,7 +9,7 @@ public final class RI {
     }
 
     public static String getText(){
-        if(RI.value>0) 
+        if(RI.value>=0) 
             return String.format("%016d", Integer.parseInt(Integer.toBinaryString(RI.value)));
         return Integer.toBinaryString(RI.value).substring(16,32);
     }

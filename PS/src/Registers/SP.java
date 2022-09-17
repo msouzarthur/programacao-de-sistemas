@@ -22,7 +22,7 @@ public final class SP {
     }
     
     public static String getText(){
-        if(SP.value>0) 
+        if(SP.value>=0) 
             return String.format("%016d", Integer.parseInt(Integer.toBinaryString(SP.value)));
         return Integer.toBinaryString(SP.value).substring(16,32);
     }
