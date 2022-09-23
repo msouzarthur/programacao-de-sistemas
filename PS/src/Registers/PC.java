@@ -9,9 +9,9 @@ public final class PC {
     }
     
     public static String getText(){
-        if(PC.value>=0) 
-            return String.format("%016d", Integer.parseInt(Integer.toBinaryString(PC.value)));
-        return Integer.toBinaryString(PC.value).substring(16,32);
+        if(PC.getValue()>=0) 
+            return String.format("%016d", Integer.parseInt(Integer.toBinaryString(PC.getValue())));
+        return Integer.toBinaryString(PC.getValue()).substring(16,32);
     }
     
     public static void setValue(Integer value) {

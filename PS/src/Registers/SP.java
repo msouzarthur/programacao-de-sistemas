@@ -4,7 +4,7 @@ public final class SP {
 
     static Integer value = 0;
     
-    public static int getValue() {
+    public static Integer getValue() {
         return value;
     }
     
@@ -13,7 +13,7 @@ public final class SP {
     }
     
     public static void nextValue(){
-        if(SP.value<=12)
+        if(SP.getValue()<=12)
             SP.value += 1;
         else{
             Main.Error.showError("stackoverflow");
@@ -22,9 +22,9 @@ public final class SP {
     }
     
     public static String getText(){
-        if(SP.value>=0) 
-            return String.format("%016d", Integer.parseInt(Integer.toBinaryString(SP.value)));
-        return Integer.toBinaryString(SP.value).substring(16,32);
+        if(SP.getValue()>=0) 
+            return String.format("%016d", Integer.parseInt(Integer.toBinaryString(SP.getValue())));
+        return Integer.toBinaryString(SP.getValue()).substring(16,32);
     }
     
     public static void push(int value){

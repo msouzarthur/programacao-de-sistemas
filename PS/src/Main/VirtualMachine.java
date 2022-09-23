@@ -1,7 +1,6 @@
 package Main;
 
 import Instructions.*;
-import Main.CompleteBinary.*;
 import Registers.*;
 import static Main.Memory.*;
 import java.util.List;
@@ -19,7 +18,6 @@ import java.util.List;
 public class VirtualMachine extends javax.swing.JFrame {
 
     public VirtualMachine() {
-    
         //MONTADOR: opcode -> binário
         initComponents();
         setInitValues();
@@ -447,38 +445,23 @@ public class VirtualMachine extends javax.swing.JFrame {
         do {
             attScreen();
             instruction = decodeInstruction(Memory.memoryGet(PC.getValue()));
-            
-            /*if(Memory.memoryGet(PC.getValue())!=null){
+
+            if(PC.getValue() != null)
                 RI.setValue(Memory.memoryGet(PC.getValue()));
-                RE.setValue(PC.getValue()+1);
-                PC.setValue(PC.getValue()+instruction.numberOpd()+1);
-            }
-            else{
-                PC.setValue(null);
-            }*/
             PC.setValue(PC.getValue()+instruction.numberOpd()+1);
-            RI.setValue(Memory.memoryGet(PC.getValue()));
-            if(instruction instanceof STOP){
+            
+            if(instruction instanceof STOP || PC.getValue() == null){
                 PC.setValue(null);
                 break;
             }
-            else if(instruction instanceof RET  || instruction instanceof BR    || 
-               instruction instanceof BRNEG|| instruction instanceof BRPOS || 
-               instruction instanceof BRZERO){
+            
+            if(instruction.numberOpd() == 1)
                 opd1 = Memory.memoryGet(PC.getValue()-1);
-                instruction.runInstruction(outCod, opd1, null);
-            }
-            else if(instruction instanceof ADD || instruction instanceof DIV  ||
-                    instruction instanceof LOAD|| instruction instanceof MULT ||
-                    instruction instanceof SUB){
-                opd1 = Memory.memoryGet(PC.getValue()-1);
-                instruction.runInstruction(outCod, opd1, null);
-            }
-            else if (instruction instanceof COPY){
-                opd1 = Memory.memoryGet(PC.getValue()-1);
+            else if(instruction.numberOpd() == 2)
                 opd2 = Memory.memoryGet(PC.getValue()-2);
-                instruction.runInstruction(outCod, opd1, opd2);
-            }
+            
+            instruction.runInstruction(outCod, opd1, opd2);
+            attScreen();
         }while(Memory.memoryGet(PC.getValue())!= null);
     }//GEN-LAST:event_btnRunActionPerformed
 
