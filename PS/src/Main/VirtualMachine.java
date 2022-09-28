@@ -426,10 +426,9 @@ public class VirtualMachine extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunActionPerformed
-        //EXECUTAR A INSTRUÇÃO OLHANDO O ENDEREÇAMENTO
-        //VER A FUNÇÃO DO REGISTRADOR RE
         reset();
         Instruction instruction;
+        Assembler assembler = null;
         Integer position = 12;
         
         RE.setValue(position);
@@ -438,9 +437,11 @@ public class VirtualMachine extends javax.swing.JFrame {
         MOP.setValue(0);
 
         Integer opd1 = null, opd2 = null;
-        String[] cod = inCod.getText().split("\n");;
         
-        readContent(cod, position);
+        assembler.readContent("file.asm",position);
+        
+        //String[] cod = inCod.getText().split("\n");;;
+        //readContent(cod, position);
 
         do {
             attScreen();
@@ -461,6 +462,7 @@ public class VirtualMachine extends javax.swing.JFrame {
                 opd2 = Memory.memoryGet(PC.getValue()-2);
             
             instruction.runInstruction(outCod, opd1, opd2);
+            
             attScreen();
         }while(Memory.memoryGet(PC.getValue())!= null);
     }//GEN-LAST:event_btnRunActionPerformed
@@ -476,7 +478,7 @@ public class VirtualMachine extends javax.swing.JFrame {
         attScreen();
     }
     
-    private void readContent(String[] cod, Integer position) {
+    /*private void readContent(String[] cod, Integer position) {
         String[] aux = null;
         if(cod.length>0){
             for (String command : cod){
@@ -487,7 +489,7 @@ public class VirtualMachine extends javax.swing.JFrame {
                 }
             }
         }
-    }
+    }*/
                 
     private Instruction decodeInstruction(Integer inCod) {
         Instruction instruction = null;
@@ -560,17 +562,17 @@ public class VirtualMachine extends javax.swing.JFrame {
                 System.out.println("ERRO DE OPCODE");
             }
             if(inCod==32){
-                System.out.println("primeiro operando indireto");
-                //instruction.setEndType(Instruction.D);
-                //primeiro operando indireto
+                instruction.setEndType(Instruction.EndType.IN1);
             }
-            if(inCod==64){
-                System.out.println("segundo operando indireto");
-                //segundo operando indireto
+            else if(inCod==64){
+                instruction.setEndType(Instruction.EndType.IN2);
+
             }
-            if(inCod==128){
-                System.out.println("endereçamento imediato");
-                //imediato
+            else if(inCod==128){             
+                instruction.setEndType(Instruction.EndType.IM);
+            }
+            else {
+                instruction.setEndType(Instruction.EndType.D);
             }
         }
         return instruction;        

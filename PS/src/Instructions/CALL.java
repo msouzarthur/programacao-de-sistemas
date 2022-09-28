@@ -7,7 +7,7 @@ import javax.swing.JTextPane;
 
 public class CALL implements Instruction{
     Integer op = 15, numberOpd = 1;
-    Instruction end;
+    EndType end;
     String opcode;
     
     public void CALL(){
@@ -40,7 +40,7 @@ public class CALL implements Instruction{
 
     @Override
     public void setEndType(EndType end) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.end = end;
     }
     
 
