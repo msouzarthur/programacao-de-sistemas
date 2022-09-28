@@ -2,7 +2,9 @@ package Main;
 
 import Instructions.*;
 import Registers.*;
+import Main.Assembler.*;
 import static Main.Memory.*;
+import java.io.File;
 import java.util.List;
 
 /*
@@ -20,7 +22,13 @@ public class VirtualMachine extends javax.swing.JFrame {
     public VirtualMachine() {
         //MONTADOR: opcode -> binário
         initComponents();
+        
+        Instruction instruction;
+        Assembler assembler = null;
+        
+        
         setInitValues();
+        attScreen();
         
     }
 
@@ -82,11 +90,6 @@ public class VirtualMachine extends javax.swing.JFrame {
         btnRun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRunActionPerformed(evt);
-            }
-        });
-        btnRun.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnRunKeyPressed(evt);
             }
         });
 
@@ -426,19 +429,20 @@ public class VirtualMachine extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunActionPerformed
-        reset();
-        Instruction instruction;
-        Assembler assembler = null;
-        Integer position = 12;
-        
-        RE.setValue(position);
-        PC.setValue(position);
-        SP.setValue(2);
-        MOP.setValue(0);
-
+        //reset();
+        int position = 2;
         Integer opd1 = null, opd2 = null;
-        
-        assembler.readContent("file.asm",position);
+        Assembler assembler = null;
+        Instruction instruction;
+        File f = new File(inCod.getText());
+        if(f.exists() && !f.isDirectory()) { 
+            assembler.readContent(inCod.getText(),position);
+            inCod.setText("");
+        } 
+        else{
+            Error.showError("arquivo não encontrado");
+            return;
+        }
         
         //String[] cod = inCod.getText().split("\n");;;
         //readContent(cod, position);
@@ -455,7 +459,7 @@ public class VirtualMachine extends javax.swing.JFrame {
                 PC.setValue(null);
                 break;
             }
-            
+                        
             if(instruction.numberOpd() == 1)
                 opd1 = Memory.memoryGet(PC.getValue()-1);
             else if(instruction.numberOpd() == 2)
@@ -468,12 +472,12 @@ public class VirtualMachine extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRunActionPerformed
 
     private void reset(){
+        RE.setValue(2);
+        PC.setValue(2);
+        SP.setValue(Memory.memorySize()-1);
+        MOP.setValue(0);
         ACC.reset();
-        MOP.reset();
-        PC.reset();
-        RE.reset();
         RI.reset();
-        SP.reset();
         Memory.memoryReset();
         attScreen();
     }
@@ -491,21 +495,21 @@ public class VirtualMachine extends javax.swing.JFrame {
         }
     }*/
                 
-    private Instruction decodeInstruction(Integer inCod) {
+    private Instruction decodeInstruction(Integer insCod) {
         Instruction instruction = null;
-        Integer opcode = inCod;
-        if(inCod>16){
-            if(inCod-32<=15 && inCod-32>=0){
-                opcode = inCod-32;
-                inCod = 32;
+        Integer opcode = insCod;
+        if(insCod>16){
+            if(insCod-32<=15 && insCod-32>=0){
+                opcode = insCod-32;
+                insCod = 32;
             }
-            if(inCod-64<=15 && inCod-64>=0){
-                opcode = inCod-64;
-                inCod = 64;
+            if(insCod-64<=15 && insCod-64>=0){
+                opcode = insCod-64;
+                insCod = 64;
             }
-            if(inCod-128<=15 && inCod-128>=0){
-                opcode = inCod-128;
-                inCod = 128;
+            if(insCod-128<=15 && insCod-128>=0){
+                opcode = insCod-128;
+                insCod = 128;
             }
         }
         if(opcode!=null){
@@ -561,14 +565,14 @@ public class VirtualMachine extends javax.swing.JFrame {
             default:
                 System.out.println("ERRO DE OPCODE");
             }
-            if(inCod==32){
+            if(insCod==32){
                 instruction.setEndType(Instruction.EndType.IN1);
             }
-            else if(inCod==64){
+            else if(insCod==64){
                 instruction.setEndType(Instruction.EndType.IN2);
 
             }
-            else if(inCod==128){             
+            else if(insCod==128){             
                 instruction.setEndType(Instruction.EndType.IM);
             }
             else {
@@ -600,22 +604,25 @@ public class VirtualMachine extends javax.swing.JFrame {
         outCod.setText(message);
     }
     
-    public void setInitValues(){
+    public void setInitValues(){     
         memoryInit();
         List<Integer> memory = Memory.memoryGetAll();
         for(int i=0;i<memory.size();i++){
             tMemory.setValueAt(i, i, 0);
             tMemory.setValueAt(memory.get(i), i, 1);
         }
+        Integer position = 2;
+        
+        RE.setValue(position);
+        PC.setValue(position);
+        SP.setValue(memory.size()-1);
+        MOP.setValue(0);
+
     }
     
     private void btnHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpActionPerformed
         // abrir pop up com infos das instruções
     }//GEN-LAST:event_btnHelpActionPerformed
-
-    private void btnRunKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnRunKeyPressed
-
-    }//GEN-LAST:event_btnRunKeyPressed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {

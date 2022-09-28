@@ -18,7 +18,7 @@ public class Assembler {
             }
             reader.close();    
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
+            System.out.println("Problema ao ler arquivo");
             e.printStackTrace();
         }    
         

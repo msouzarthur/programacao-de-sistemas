@@ -9,7 +9,6 @@ public final class ACC{
     }
 
     public static String getText(){
-        System.out.println("valor - "+ACC.getValue());
         if(ACC.getValue()>=0)
             return String.format("%016d", Integer.parseInt(Integer.toBinaryString(ACC.getValue())));
         return Integer.toBinaryString(ACC.getValue()).substring(16,32);

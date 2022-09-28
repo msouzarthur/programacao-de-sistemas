@@ -1,25 +1,29 @@
 package Registers;
 
+import Main.Memory;
+
 public final class SP {
 
-    static Integer value = 0;
+    static Integer value = Memory.memorySize()-1;
     
     public static Integer getValue() {
         return value;
     }
     
     public static void setValue(Integer value) {
+        //Memory.memorySet(PC.getValue(), value);
         SP.value = value;
     }
     
-    public static void nextValue(){
-        if(SP.getValue()<=12)
-            SP.value += 1;
+    /*public static void nextValue(){
+        if(SP.getValue()<100 && Memory.memoryGet(SP.getValue())==null){
+            SP.value -= 1;
+        }
         else{
             Main.Error.showError("stackoverflow");
             reset();
         }
-    }
+    }*/
     
     public static String getText(){
         if(SP.getValue()>=0) 
@@ -28,8 +32,15 @@ public final class SP {
     }
     
     public static void push(int value){
-        setValue(value);
-        nextValue();
+        if(SP.getValue()<100 && Memory.memoryGet(SP.getValue())==null){
+            SP.value -= 1;
+        }
+        else{
+            Main.Error.showError("stackoverflow");
+            reset();
+        }
+        //setValue(value);
+        //nextValue();
     }
     
     public static int pop(){
