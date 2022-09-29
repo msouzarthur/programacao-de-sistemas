@@ -1,8 +1,7 @@
 package Instructions;
-import Main.CompleteBinary;
+import Main.Memory;
 import Main.Instruction;
 import Registers.PC;
-import Registers.SP;
 import javax.swing.JTextPane;
 
 public class CALL implements Instruction{
@@ -24,7 +23,7 @@ public class CALL implements Instruction{
             Main.Error.showError("o call possui um argumento a mais");
             return;
         }
-        SP.push(PC.getValue());
+        Memory.stackPush(PC.getValue());
         PC.setValue(opd1);
     }
 

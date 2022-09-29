@@ -1,6 +1,5 @@
 package Instructions;
-import Main.CompleteBinary;
-import Main.Instruction;
+import Main.*;
 import Registers.PC;
 import Registers.SP;
 import javax.swing.JTextPane;
@@ -16,7 +15,8 @@ public class RET implements Instruction{
             Main.Error.showError("o ret possui argumentos a mais");
             return;
         }
-        PC.setValue(SP.pop());
+        PC.setValue(Memory.stackPop());
+        SP.previousValue();
     }
     
     @Override

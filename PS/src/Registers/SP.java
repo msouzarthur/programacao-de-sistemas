@@ -15,38 +15,30 @@ public final class SP {
         SP.value = value;
     }
     
-    /*public static void nextValue(){
-        if(SP.getValue()<100 && Memory.memoryGet(SP.getValue())==null){
+    public static void nextValue(){
+        if(SP.getValue()>2 && SP.getValue()<100 && Memory.memoryGet(SP.getValue())==null){
             SP.value -= 1;
         }
         else{
             Main.Error.showError("stackoverflow");
             reset();
         }
-    }*/
+    }
     
     public static String getText(){
         if(SP.getValue()>=0) 
             return String.format("%016d", Integer.parseInt(Integer.toBinaryString(SP.getValue())));
         return Integer.toBinaryString(SP.getValue()).substring(16,32);
     }
-    
-    public static void push(int value){
-        if(SP.getValue()<100 && Memory.memoryGet(SP.getValue())==null){
-            SP.value -= 1;
+
+    public static void previousValue(){
+        if(SP.getValue()>2 && SP.getValue()<100){
+            SP.value+=1;
         }
         else{
-            Main.Error.showError("stackoverflow");
+            Main.Error.showError("posicao de pilha inacessivel");
             reset();
         }
-        //setValue(value);
-        //nextValue();
-    }
-    
-    public static int pop(){
-        int aux = SP.value;
-        setValue(SP.value-1);
-        return aux;
     }
     
     public static void reset(){

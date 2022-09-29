@@ -2,7 +2,6 @@ package Main;
 
 import Instructions.*;
 import Registers.*;
-import Main.Assembler.*;
 import static Main.Memory.*;
 import java.io.File;
 import java.util.List;
@@ -11,10 +10,6 @@ import java.util.List;
  * @author arthur souza
  * @author hector fernandes
  * @author rafael grimmler
- * @author willian do espirito santo
- * @author matheus cardoso
- * @author leonardo marotta
- * @author lucas dias
  */
 
 public class VirtualMachine extends javax.swing.JFrame {
@@ -22,10 +17,6 @@ public class VirtualMachine extends javax.swing.JFrame {
     public VirtualMachine() {
         //MONTADOR: opcode -> binário
         initComponents();
-        
-        Instruction instruction;
-        Assembler assembler = null;
-        
         
         setInitValues();
         attScreen();

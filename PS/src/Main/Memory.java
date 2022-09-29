@@ -1,5 +1,7 @@
 package Main;
 
+import Registers.PC;
+import Registers.SP;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -32,10 +34,23 @@ public final class Memory {
             memory.add(null);
         }
     }
+    
     public static void memoryReset(){
         for(int i=0;i<memory.size();i++){
             memory.set(i, null);
         }
+    }
+    
+    public static void stackPush(Integer value){
+        memory.set(SP.getValue(), value);
+        SP.nextValue();
+    }
+    
+    public static Integer stackPop(){
+        Integer value = Memory.memoryGet(SP.getValue());
+        Memory.memorySet(PC.getValue(), null);
+        SP.previousValue();
+        return value;
     }
     
 }
