@@ -16,7 +16,7 @@ public final class SP {
     }
     
     public static void nextValue(){
-        if(SP.getValue()>2 && SP.getValue()<100 && Memory.memoryGet(SP.getValue())==null){
+        if(SP.getValue()>2 && SP.getValue()<100 && Memory.memoryGet(SP.getValue()-1)==null){
             SP.value -= 1;
         }
         else{

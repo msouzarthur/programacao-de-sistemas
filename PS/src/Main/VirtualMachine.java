@@ -4,7 +4,9 @@ import Instructions.*;
 import Registers.*;
 import static Main.Memory.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Scanner;
 
 /*
  * @author arthur souza
@@ -20,7 +22,6 @@ public class VirtualMachine extends javax.swing.JFrame {
         
         setInitValues();
         attScreen();
-        
     }
 
     @SuppressWarnings("unchecked")
@@ -423,12 +424,18 @@ public class VirtualMachine extends javax.swing.JFrame {
         //reset();
         int position = 2;
         Integer opd1 = null, opd2 = null;
-        Assembler assembler = null;
+        Assembler assembler = new Assembler();
         Instruction instruction;
-        File f = new File(inCod.getText());
-        if(f.exists() && !f.isDirectory()) { 
-            assembler.readContent(inCod.getText(),position);
-            inCod.setText("");
+        String path = inCod.getText();
+        File f = new File(path);
+        if(inCod.getText().length() == 0 ){
+            Error.showError("não há entrada de dados");
+            return;
+        }
+        else if(f.exists() && !f.isDirectory()) { 
+            assembler.readContent(path,position);
+            //inCod.setText("");
+            
         } 
         else{
             Error.showError("arquivo não encontrado");
@@ -598,17 +605,17 @@ public class VirtualMachine extends javax.swing.JFrame {
     public void setInitValues(){     
         memoryInit();
         List<Integer> memory = Memory.memoryGetAll();
+        
         for(int i=0;i<memory.size();i++){
             tMemory.setValueAt(i, i, 0);
             tMemory.setValueAt(memory.get(i), i, 1);
         }
         Integer position = 2;
-        
+
         RE.setValue(position);
         PC.setValue(position);
         SP.setValue(memory.size()-1);
         MOP.setValue(0);
-
     }
     
     private void btnHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpActionPerformed
