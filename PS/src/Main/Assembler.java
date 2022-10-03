@@ -3,56 +3,134 @@ package Main;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Assembler {
-    private static ArrayList<String[]> lista = new ArrayList<>();
-
-    //String[][] conteudo = new String[20][20];
-    public void readContent(String path, Integer position) {
-        
+    
+    private static List<String[]> contentTable = new ArrayList<>();
+    private static List<String[]> symbolTable = new ArrayList<>();
+    private static String programName;
+    private static Integer address;
+    public void readContent(String path) {
+        path = "C:\\Users\\arthu\\Desktop\\Programação de Sistemas\\arquivo.txt";
         File file = new File(path);
+        Scanner reader;
         try {
-            Scanner reader = new Scanner(file);
+            reader = new Scanner(file);
             while (reader.hasNextLine()) {
-                String[] listaa = new String[4];
-                String line = reader.nextLine();
-                for(String a : listaa)
-                    a = null;
-            
-                //substituir o label por null
-                //|label | opc | opd | opd |
-                //|null  | opc | ?opd!null | ?opd!null |
-            
-                if(line.length()<=80){
-                    
-                    String[] e = line.split(" ");
-                    for(int i=0;i<e.length;i++){
-                        
-                        e[i].replace(" ","");
-                        
-                        if(e[i]!=" " && e[i]!=null && e[i]!="\n")
-                            listaa[i] = e[i];
-                        //System.out.println(e[i]);
-                            if(e[i]==" ")
-                                System.out.println("achou");
-                        
-                    }
-                    lista.add(listaa);
-                    for(int i=0;i<listaa.length;i++){
-                        System.out.println(listaa[i]);
-                    }
+                String l = reader.nextLine();
+                String[] words = l.split(" ");
+                String[] row = new String[4];
+                               
+                for(int i = 0;i<words.length;i++){
+                    row[i] = words[i];
+                    if(words[i].contains("start"))
+                        programName = words[i+1];
                 }
-                else
-                    System.out.println("cai");
-                
+                contentTable.add(row);
             }
-            reader.close();    
-            
+            reader.close();
         } catch (FileNotFoundException e) {
             System.out.println("Problema ao ler arquivo");
-            e.printStackTrace();
-        }    
+        }
         
+        for(String[] r : contentTable){
+            if(r[0].length()==0)
+                r[0] = null;
+        }
+        
+        //remover no fim do código
+        System.out.println("assembler");
+        System.out.println("programa lido: "+programName);
+        System.out.println("|label\tcomando\topd1\topd2\t|");
+        System.out.println("----------------------------------");
+        for(String[] r:contentTable){
+            System.out.print("|");
+            for (String r1 : r) {
+                System.out.print(r1 + "\t");
+            }
+            System.out.println("|");
+        }
+        System.out.println("----------------------------------");
+        symbolTable();
+    }
+    
+    void symbolTable(){
+        int i = 0;
+        boolean isData = false;
+        for(String[] line : contentTable){
+            if(!line[1].equals("start") && !line[1].equals("end")){
+                for(int j=0;j<line.length;j++){
+                   if(line[0] != null && j==0){
+                       String[] row = new String[3];
+                       row[0] = line[0];
+                       row[1] = null;
+                       row[2] = Integer.toString(i);
+                       symbolTable.add(row);
+                   }
+                   if(line[j] != null && !isData){
+                       i+=1;
+                   }else if(isData && j == 1) i+=1;
+                   if(line[1].equals("stop")) isData = true;
+               }   
+            }
+        }
+        //remover no fim do código
+        System.out.println("symbol table:\n|symbol\tvalor\tend\t|");
+        System.out.println("-------------------------");
+        for(String[] r:symbolTable){
+            System.out.print("|");
+            for (String r1 : r) {
+                System.out.print(r1 + "\t");
+            }
+            System.out.println("|");
+        }
+        System.out.println("-------------------------");
+    }
+    
+    int getAddress(String target){
+        for(String[] r:symbolTable){
+            if(r[0].equals(target)){
+                return Integer.parseInt(r[2]);
+            }
+        }
+        return -1;
+    }
+    
+    void assembleProgram(){
+        for(String[] r : contentTable){
+            for(int y=0;y<r.length;y++){
+                if(y>0 && r[y]!=null){
+                    int address = getAddress(r[y]);
+                    if(address != -1){
+                        r[y] = Integer.toString(address);
+                        //System.out.println("achei "+r[y]+" "+address);
+                    }
+                }
+            }
+        }
+        
+        ///////////////
+        System.out.println("assembler");
+        System.out.println("programa lido: "+programName);
+        System.out.println("|label\tcomando\topd1\topd2\t|");
+        System.out.println("----------------------------------");
+        for(String[] r:contentTable){
+            System.out.print("|");
+            for (String r1 : r) {
+                System.out.print(r1 + "\t");
+            }
+            System.out.println("|");
+        }
+        System.out.println("----------------------------------");
+        /////////////////
+    }
+    
+    void assemble(String path) {
+        //Li o conteudo        
+        readContent(path);
+        //fim do primeiro passo
+        assembleProgram();
     }
 }

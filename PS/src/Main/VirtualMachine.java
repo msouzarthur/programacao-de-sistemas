@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
+import javax.swing.JTextField;
 
 /*
  * @author arthur souza
@@ -98,119 +99,12 @@ public class VirtualMachine extends javax.swing.JFrame {
 
         tMemory.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+
             },
             new String [] {
-                "Address", "Content"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-        });
+        ));
         jScrollPane1.setViewportView(tMemory);
 
         jScrollPane2.setViewportView(outCod);
@@ -426,21 +320,21 @@ public class VirtualMachine extends javax.swing.JFrame {
         Integer opd1 = null, opd2 = null;
         Assembler assembler = new Assembler();
         Instruction instruction;
-        String path = inCod.getText();
-        File f = new File(path);
-        if(inCod.getText().length() == 0 ){
+        //String path = inCod.getText();
+        //File f = new File(path);
+        /*if(inCod.getText().length() == 0 ){
             Error.showError("não há entrada de dados");
             return;
         }
-        else if(f.exists() && !f.isDirectory()) { 
-            assembler.readContent(path,position);
+        else if(f.exists() && !f.isDirectory()) { */
+            assembler.assemble("");
             //inCod.setText("");
             
-        } 
+        /*} 
         else{
             Error.showError("arquivo não encontrado");
             return;
-        }
+        }*/
         
         //String[] cod = inCod.getText().split("\n");;;
         //readContent(cod, position);
@@ -611,7 +505,6 @@ public class VirtualMachine extends javax.swing.JFrame {
             tMemory.setValueAt(memory.get(i), i, 1);
         }
         Integer position = 2;
-
         RE.setValue(position);
         PC.setValue(position);
         SP.setValue(memory.size()-1);
