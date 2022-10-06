@@ -3,11 +3,7 @@ package Main;
 import Instructions.*;
 import Registers.*;
 import static Main.Memory.*;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.Scanner;
-import javax.swing.JTextField;
 
 /*
  * @author arthur souza
@@ -78,6 +74,7 @@ public class VirtualMachine extends javax.swing.JFrame {
         jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(0, 0, 0));
 
         btnRun.setText("Executar");
         btnRun.addActionListener(new java.awt.event.ActionListener() {
@@ -97,18 +94,123 @@ public class VirtualMachine extends javax.swing.JFrame {
 
         btnRunCicle.setText("Executar Passo");
 
+        tMemory.setBackground(new java.awt.Color(204, 204, 204));
+        tMemory.setForeground(new java.awt.Color(0, 0, 0));
         tMemory.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-
+                "Address", "Content"
             }
         ));
         jScrollPane1.setViewportView(tMemory);
 
+        outCod.setBackground(new java.awt.Color(204, 204, 204));
+        outCod.setForeground(new java.awt.Color(0, 0, 0));
         jScrollPane2.setViewportView(outCod);
 
+        inCod.setBackground(new java.awt.Color(204, 204, 204));
+        inCod.setForeground(new java.awt.Color(0, 0, 0));
         jScrollPane3.setViewportView(inCod);
 
         label1.setText("Entrada de código");
@@ -122,7 +224,9 @@ public class VirtualMachine extends javax.swing.JFrame {
         jScrollPane5.setAutoscrolls(true);
         jScrollPane5.setWheelScrollingEnabled(false);
 
+        accValue.setBackground(new java.awt.Color(204, 204, 204));
         accValue.setColumns(20);
+        accValue.setForeground(new java.awt.Color(0, 0, 0));
         accValue.setRows(1);
         accValue.setTabSize(1);
         accValue.setAutoscrolls(false);
@@ -131,7 +235,9 @@ public class VirtualMachine extends javax.swing.JFrame {
         jScrollPane6.setAutoscrolls(true);
         jScrollPane6.setWheelScrollingEnabled(false);
 
+        pcValue.setBackground(new java.awt.Color(204, 204, 204));
         pcValue.setColumns(20);
+        pcValue.setForeground(new java.awt.Color(0, 0, 0));
         pcValue.setRows(1);
         pcValue.setTabSize(1);
         pcValue.setAutoscrolls(false);
@@ -140,7 +246,9 @@ public class VirtualMachine extends javax.swing.JFrame {
         jScrollPane7.setAutoscrolls(true);
         jScrollPane7.setWheelScrollingEnabled(false);
 
+        spValue.setBackground(new java.awt.Color(204, 204, 204));
         spValue.setColumns(20);
+        spValue.setForeground(new java.awt.Color(0, 0, 0));
         spValue.setRows(1);
         spValue.setTabSize(1);
         spValue.setAutoscrolls(false);
@@ -149,7 +257,9 @@ public class VirtualMachine extends javax.swing.JFrame {
         jScrollPane8.setAutoscrolls(true);
         jScrollPane8.setWheelScrollingEnabled(false);
 
+        mopValue.setBackground(new java.awt.Color(204, 204, 204));
         mopValue.setColumns(20);
+        mopValue.setForeground(new java.awt.Color(0, 0, 0));
         mopValue.setRows(1);
         mopValue.setTabSize(1);
         mopValue.setAutoscrolls(false);
@@ -158,7 +268,9 @@ public class VirtualMachine extends javax.swing.JFrame {
         jScrollPane9.setAutoscrolls(true);
         jScrollPane9.setWheelScrollingEnabled(false);
 
+        reValue.setBackground(new java.awt.Color(204, 204, 204));
         reValue.setColumns(20);
+        reValue.setForeground(new java.awt.Color(0, 0, 0));
         reValue.setRows(1);
         reValue.setTabSize(1);
         reValue.setAutoscrolls(false);
@@ -167,7 +279,9 @@ public class VirtualMachine extends javax.swing.JFrame {
         jScrollPane10.setAutoscrolls(true);
         jScrollPane10.setWheelScrollingEnabled(false);
 
+        riValue.setBackground(new java.awt.Color(204, 204, 204));
         riValue.setColumns(20);
+        riValue.setForeground(new java.awt.Color(0, 0, 0));
         riValue.setRows(1);
         riValue.setTabSize(1);
         riValue.setAutoscrolls(false);

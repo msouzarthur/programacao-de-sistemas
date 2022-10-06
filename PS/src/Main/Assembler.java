@@ -20,6 +20,8 @@ public class Assembler {
             reader = new Scanner(file);
             while (reader.hasNextLine()) {
                 String l = reader.nextLine();
+                if(l.length()>80)
+                    Error.showError("linha de código com comprimento maior que o suportado");
                 String[] words = l.split(" ");
                 String[] row = new String[4];
                                
@@ -41,19 +43,22 @@ public class Assembler {
         }
         
         //remover no fim do código
-        System.out.println("assembler");
-        System.out.println("programa lido: "+programName);
-        System.out.println("|label\tcomando\topd1\topd2\t|");
-        System.out.println("----------------------------------");
-        for(String[] r:contentTable){
+        System.out.println("assemble do programa: "+programName);
+        print(contentTable,"|label\tcomando\topd1\topd2\t|");
+        symbolTable();
+    }
+    
+    void print(List<String[]> target, String header){
+        System.out.println(header);
+        System.out.println(" -------------------------------");
+        for(String[] r:target){
             System.out.print("|");
             for (String r1 : r) {
                 System.out.print(r1 + "\t");
             }
             System.out.println("|");
         }
-        System.out.println("----------------------------------");
-        symbolTable();
+        System.out.println(" -------------------------------");
     }
     
     void symbolTable(){
@@ -77,16 +82,7 @@ public class Assembler {
             }
         }
         //remover no fim do código
-        System.out.println("symbol table:\n|symbol\tvalor\tend\t|");
-        System.out.println("-------------------------");
-        for(String[] r:symbolTable){
-            System.out.print("|");
-            for (String r1 : r) {
-                System.out.print(r1 + "\t");
-            }
-            System.out.println("|");
-        }
-        System.out.println("-------------------------");
+        print(symbolTable,"symbol table:\n|symbol\tvalor\tend\t|");
     }
     
     int getAddress(String target){
@@ -103,28 +99,14 @@ public class Assembler {
             for(int y=0;y<r.length;y++){
                 if(y>0 && r[y]!=null){
                     int address = getAddress(r[y]);
-                    if(address != -1){
+                    if(address != -1)
                         r[y] = Integer.toString(address);
-                        //System.out.println("achei "+r[y]+" "+address);
-                    }
                 }
             }
         }
         
-        ///////////////
-        System.out.println("assembler");
-        System.out.println("programa lido: "+programName);
-        System.out.println("|label\tcomando\topd1\topd2\t|");
-        System.out.println("----------------------------------");
-        for(String[] r:contentTable){
-            System.out.print("|");
-            for (String r1 : r) {
-                System.out.print(r1 + "\t");
-            }
-            System.out.println("|");
-        }
-        System.out.println("----------------------------------");
-        /////////////////
+        System.out.println("programa "+programName+" montado");
+        print(contentTable,"|label\tcomando\topd1\topd2\t|");
     }
     
     void assemble(String path) {

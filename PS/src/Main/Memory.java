@@ -26,7 +26,7 @@ public final class Memory {
         }
     }
     public static Integer memorySize(){
-        return 100;
+        return memory.size();
     }
     
     public static void memoryInit(){
