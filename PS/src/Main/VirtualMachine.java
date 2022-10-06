@@ -488,19 +488,6 @@ public class VirtualMachine extends javax.swing.JFrame {
         attScreen();
     }
     
-    /*private void readContent(String[] cod, Integer position) {
-        String[] aux = null;
-        if(cod.length>0){
-            for (String command : cod){
-                aux = command.split(" ");
-                for(String p : aux){
-                    Memory.memorySet(position, Integer.parseInt(p.trim()));
-                    position++;
-                }
-            }
-        }
-    }*/
-                
     private Instruction decodeInstruction(Integer insCod) {
         Instruction instruction = null;
         Integer opcode = insCod;

@@ -2,9 +2,13 @@ package Main;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Assembler {
     
@@ -36,14 +40,11 @@ public class Assembler {
         } catch (FileNotFoundException e) {
             System.out.println("Problema ao ler arquivo");
         }
-        
         for(String[] r : contentTable){
             if(r[0].length()==0)
                 r[0] = null;
         }
-        
-        //remover no fim do código
-        System.out.println("assemble do programa: "+programName);
+        System.out.println("> estrutura do programa "+programName);
         print(contentTable,"|label\tcomando\topd1\topd2\t|");
         symbolTable();
     }
@@ -62,6 +63,7 @@ public class Assembler {
     }
     
     void symbolTable(){
+        System.out.println("> montando tabela de simbolos");
         int i = 0;
         boolean isData = false;
         for(String[] line : contentTable){
@@ -81,8 +83,8 @@ public class Assembler {
                }   
             }
         }
-        //remover no fim do código
-        print(symbolTable,"symbol table:\n|symbol\tvalor\tend\t|");
+        System.out.println("> tabela de simbolos");
+        print(symbolTable,"|symbol\tvalor\tend\t|");
     }
     
     int getAddress(String target){
@@ -104,15 +106,48 @@ public class Assembler {
                 }
             }
         }
-        
-        System.out.println("programa "+programName+" montado");
+        System.out.println("> programa "+programName+" montado");
         print(contentTable,"|label\tcomando\topd1\topd2\t|");
     }
     
-    void assemble(String path) {
-        //Li o conteudo        
+    void toObj(){
+        //implementar
+    }
+    
+    void toLst() throws IOException{ 
+        FileWriter writer = new FileWriter("file.lst"); 
+        writer.write("conteudo do programa" + System.lineSeparator());
+        for(String[] str: contentTable) {
+            for(String s : str)
+                writer.write(s+" ");
+            writer.write(System.lineSeparator());
+        }
+        writer.write("tabela de simbolos" + System.lineSeparator());
+        for(String[] str: symbolTable) {
+            for(String s : str)
+                writer.write(s+" ");
+            writer.write(System.lineSeparator());
+        }
+        writer.close();
+
+    }
+    
+    void assemble(String path){
+        System.out.println("> lendo código .asm");
         readContent(path);
         //fim do primeiro passo
+        System.out.println("> montando programa");
         assembleProgram();
+        //fim do segundo passo
+        System.out.println("> salvando arquivo obj");
+        toObj();
+        
+        System.out.println("> salvando arquivo lst");
+        try {
+            toLst();
+        } catch (IOException ex) {
+            System.out.println("Problema ao salvar arquivo");
+        }
+        
     }
 }
