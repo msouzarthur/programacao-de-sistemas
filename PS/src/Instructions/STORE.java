@@ -1,27 +1,28 @@
 package Instructions;
-import Main.CompleteBinary;
+
 import Main.Instruction;
 import Registers.ACC;
 import javax.swing.JTextPane;
 
-public class STORE implements Instruction{
+public class STORE implements Instruction {
+
     Integer op = 7, numberOpd = 1;
     EndType end;
     String opcode = "0000000000000111";
-    
+
     @Override
     public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
-        if(opd2!=null){
+        if (opd2 != null) {
             Main.Error.showError("o store possui um argumento a mais");
         }
         opd1 = ACC.getValue();
     }
-    
+
     @Override
     public int numberOpd() {
         return numberOpd;
     }
-    
+
     @Override
     public void setEndType(EndType end) {
         this.end = end;
