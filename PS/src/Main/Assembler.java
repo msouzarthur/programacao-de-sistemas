@@ -18,7 +18,7 @@ public class Assembler {
     private static String programName;
 
     public void readContent(String path) {
-        path = "C:\\Users\\arthu\\Desktop\\Programação de Sistemas\\arquivo.txt";
+        path = "../arquivo.txt";
         File file = new File(path);
         Scanner reader;
         try {
