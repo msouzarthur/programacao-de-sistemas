@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import static java.lang.System.exit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,7 +14,6 @@ public class Assembler {
     private static List<String[]> contentTable = new ArrayList<>();
     private static List<String[]> symbolTable = new ArrayList<>();
     private static List<String[]> assembledTable = new ArrayList<>();
-
     private static String programName;
 
     public void readContent(String path) {
@@ -26,7 +25,7 @@ public class Assembler {
             while (reader.hasNextLine()) {
                 String l = reader.nextLine();
                 if (l.length() > 80) {
-                    Error.showError("linha de código com comprimento maior que o suportado");
+                    Error.showError("> linha de código com comprimento maior que o suportado");
                 }
                 String[] words = l.split(" ");
                 String[] row = new String[4];
@@ -42,7 +41,7 @@ public class Assembler {
             }
             reader.close();
         } catch (FileNotFoundException e) {
-            System.out.println("Problema ao ler arquivo");
+            Error.showError("> erro ao ler arquivo");
         }
         for (String[] r : contentTable) {
             if (r[0].length() == 0) {
@@ -51,7 +50,6 @@ public class Assembler {
         }
         if (!contentTable.get(contentTable.size() - 1)[1].equals("end")) {
             Error.showError("> diretiva end não encontrada");
-            //exit(0);
         }
         System.out.println("> estrutura do programa " + programName);
         print(contentTable, "|label\tcomando\topd1\topd2\t|");
@@ -112,7 +110,7 @@ public class Assembler {
     //remover coluna de label do codigo montado
     //ver o opd2 imediato do copy
     void assembleProgram() {
-        int address = 0, start = 0;
+        int address, start = 0;
         for (String[] r : contentTable) {
             int a = 0;
             r[0] = null;
@@ -197,39 +195,46 @@ public class Assembler {
             case "call":
                 return 15;
             default:
+                Error.showError("> instrução não reconhecida " + opd);
                 return -1;
         }
     }
 
     void toObj() throws IOException {
-        FileWriter writer = new FileWriter("");
-        writer.close();
+        try (FileWriter writer = new FileWriter("arquivo.obj")) {
+            for (String[] str : assembledTable) {
+                for (String s : str) {
+                    writer.write(s + " ");
+                }
+                writer.write(System.lineSeparator());
+            }
+        }
     }
 
     void toLst() throws IOException {
-        FileWriter writer = new FileWriter("file.lst");
-        writer.write("conteudo do programa" + System.lineSeparator());
-        for (String[] str : contentTable) {
-            for (String s : str) {
-                writer.write(s + " ");
+        try (FileWriter writer = new FileWriter("arquivo.lst")) {
+            writer.write("conteudo do programa" + System.lineSeparator());
+            for (String[] str : contentTable) {
+                for (String s : str) {
+                    writer.write(s + " ");
+                }
+                writer.write(System.lineSeparator());
             }
-            writer.write(System.lineSeparator());
-        }
-        writer.write("tabela de simbolos" + System.lineSeparator());
-        for (String[] str : symbolTable) {
-            for (String s : str) {
-                writer.write(s + " ");
+            writer.write("tabela de simbolos" + System.lineSeparator());
+            for (String[] str : symbolTable) {
+                for (String s : str) {
+                    writer.write(s + " ");
+                }
+                writer.write(System.lineSeparator());
             }
-            writer.write(System.lineSeparator());
-        }
-        writer.write("programa montado" + System.lineSeparator());
-        for (String[] str : assembledTable) {
-            for (String s : str) {
-                writer.write(s + " ");
+            writer.write("programa montado" + System.lineSeparator());
+            for (String[] str : assembledTable) {
+                for (String s : str) {
+                    writer.write(s + " ");
+                }
+                writer.write(System.lineSeparator());
             }
-            writer.write(System.lineSeparator());
         }
-        writer.close();
     }
 
     void assemble(String path) {
@@ -244,14 +249,14 @@ public class Assembler {
             toObj();
             System.out.println("> arquivo obj salvo");
         } catch (IOException ex) {
-            System.out.println("> problema ao salvar arquivo obj");
+            Error.showError("> problema ao salvar arquivo obj");
         }
         System.out.println("> salvando arquivo lst");
         try {
             toLst();
             System.out.println("> arquivo lst salvo");
         } catch (IOException ex) {
-            System.out.println("> problema ao salvar arquivo lst");
+            Error.showError("> problema ao salvar arquivo lst");
         }
     }
 }

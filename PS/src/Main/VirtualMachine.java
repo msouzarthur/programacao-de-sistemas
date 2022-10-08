@@ -9,6 +9,8 @@ import java.util.List;
  * @author arthur souza
  * @author hector fernandes
  * @author rafael grimmler
+ * @author willian do espirito santo
+ * @author mateus cardoso
  */
 
 public class VirtualMachine extends javax.swing.JFrame {
@@ -430,7 +432,7 @@ public class VirtualMachine extends javax.swing.JFrame {
 
     private void btnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunActionPerformed
         //reset();
-        int position = 2;
+        //int position = 2;
         Integer opd1 = null, opd2 = null;
         Assembler assembler = new Assembler();
         Instruction instruction;
@@ -441,7 +443,7 @@ public class VirtualMachine extends javax.swing.JFrame {
             return;
         }
         else if(f.exists() && !f.isDirectory()) { */
-            assembler.assemble("");
+            assembler.assemble("ar");
             //inCod.setText("");
             
         /*} 

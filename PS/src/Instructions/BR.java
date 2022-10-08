@@ -18,14 +18,12 @@ public class BR implements Instruction {
     public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
         if (opd2 != null) {
             Main.Error.showError("o br possui um argumento a mais");
-            return;
         }
         //converter pra decimal
         if (opd1 >= 12 && opd1 < 100) {
             PC.setValue(opd1);
         } else {
             Main.Error.showError("endereco nao acessivel");
-            return;
         }
     }
 
