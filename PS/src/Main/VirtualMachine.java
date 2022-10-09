@@ -12,12 +12,11 @@ import java.util.List;
  * @author willian do espirito santo
  * @author mateus cardoso
  */
+
 public class VirtualMachine extends javax.swing.JFrame {
 
     public VirtualMachine() {
-        //MONTADOR: opcode -> binário
         initComponents();
-
         setInitValues();
         attScreen();
     }
@@ -60,6 +59,7 @@ public class VirtualMachine extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        btnPlay = new javax.swing.JButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -92,8 +92,18 @@ public class VirtualMachine extends javax.swing.JFrame {
         });
 
         btnDebug.setText("Debug");
+        btnDebug.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDebugActionPerformed(evt);
+            }
+        });
 
-        btnRunCicle.setText("Executar Passo");
+        btnRunCicle.setText("Executar Visual");
+        btnRunCicle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRunCicleActionPerformed(evt);
+            }
+        });
 
         tMemory.setBackground(new java.awt.Color(204, 204, 204));
         tMemory.setForeground(new java.awt.Color(0, 0, 0));
@@ -300,6 +310,8 @@ public class VirtualMachine extends javax.swing.JFrame {
 
         jLabel7.setText("RE");
 
+        btnPlay.setText("Play");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -374,7 +386,9 @@ public class VirtualMachine extends javax.swing.JFrame {
                                 .addGap(282, 282, 282))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(btnDebug)
-                                .addGap(300, 300, 300))))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnPlay, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(231, 231, 231))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -422,7 +436,9 @@ public class VirtualMachine extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnRunCicle)
                         .addGap(18, 18, 18)
-                        .addComponent(btnDebug)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnDebug)
+                            .addComponent(btnPlay))))
                 .addGap(109, 109, 109))
         );
 
@@ -474,10 +490,94 @@ public class VirtualMachine extends javax.swing.JFrame {
             }
 
             instruction.runInstruction(outCod, opd1, opd2);
+        } while (Memory.memoryGet(PC.getValue()) != null);
+        attScreen();
+    }//GEN-LAST:event_btnRunActionPerformed
 
+
+    private void btnHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpActionPerformed
+        // abrir pop up com infos das instruções
+    }//GEN-LAST:event_btnHelpActionPerformed
+
+    private void btnDebugActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDebugActionPerformed
+        Integer opd1 = null, opd2 = null;
+        Assembler assembler = new Assembler();
+        Instruction instruction;
+        attScreen();
+        assembler.assemble("ar");
+
+        do {
+            attScreen();
+            instruction = decodeInstruction(Memory.memoryGet(PC.getValue()));
+
+            if (PC.getValue() != null) {
+                RI.setValue(Memory.memoryGet(PC.getValue()));
+            }
+            PC.setValue(PC.getValue() + instruction.numberOpd() + 1);
+
+            if (instruction instanceof STOP || PC.getValue() == null) {
+                PC.setValue(null);
+                break;
+            }
+
+            if (instruction.numberOpd() == 1) {
+                opd1 = Memory.memoryGet(PC.getValue() - 1);
+            } else if (instruction.numberOpd() == 2) {
+                opd2 = Memory.memoryGet(PC.getValue() - 2);
+            }
+
+            instruction.runInstruction(outCod, opd1, opd2);
+        } while (true);
+        attScreen();
+    }//GEN-LAST:event_btnDebugActionPerformed
+
+    private void btnRunCicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunCicleActionPerformed
+        //reset();
+        Integer opd1 = null, opd2 = null;
+        Assembler assembler = new Assembler();
+        Instruction instruction;
+        attScreen();
+
+        //String path = inCod.getText();
+        //File f = new File(path);
+        /*if(inCod.getText().length() == 0 ){
+            Error.showError("não há entrada de dados");
+            return;
+        }
+        else if(f.exists() && !f.isDirectory()) { */
+        assembler.assemble("ar");
+        //inCod.setText("");
+
+        /*} 
+        else{
+            Error.showError("arquivo não encontrado");
+            return;
+        }*/
+        //String[] cod = inCod.getText().split("\n");;;
+        //readContent(cod, position);
+        do {
+            attScreen();
+            instruction = decodeInstruction(Memory.memoryGet(PC.getValue()));
+
+            if (PC.getValue() != null) {
+                RI.setValue(Memory.memoryGet(PC.getValue()));
+            }
+            PC.setValue(PC.getValue() + instruction.numberOpd() + 1);
+
+            if (instruction instanceof STOP || PC.getValue() == null) {
+                PC.setValue(null);
+                break;
+            }
+            
+            if (instruction.numberOpd() == 1) {
+                opd1 = Memory.memoryGet(PC.getValue() - 1);
+            } else if (instruction.numberOpd() == 2) {
+                opd2 = Memory.memoryGet(PC.getValue() - 2);
+            }
+            instruction.runInstruction(outCod, opd1, opd2);
             attScreen();
         } while (Memory.memoryGet(PC.getValue()) != null);
-    }//GEN-LAST:event_btnRunActionPerformed
+    }//GEN-LAST:event_btnRunCicleActionPerformed
 
     private void reset() {
         RE.setValue(2);
@@ -611,10 +711,6 @@ public class VirtualMachine extends javax.swing.JFrame {
         MOP.setValue(0);
     }
 
-    private void btnHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpActionPerformed
-        // abrir pop up com infos das instruções
-    }//GEN-LAST:event_btnHelpActionPerformed
-
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -627,6 +723,7 @@ public class VirtualMachine extends javax.swing.JFrame {
     private javax.swing.JTextArea accValue;
     private javax.swing.JButton btnDebug;
     private javax.swing.JButton btnHelp;
+    private javax.swing.JButton btnPlay;
     private javax.swing.JButton btnRun;
     private javax.swing.JButton btnRunCicle;
     private javax.swing.JTextPane inCod;
