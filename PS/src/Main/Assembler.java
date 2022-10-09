@@ -14,10 +14,12 @@ public class Assembler {
     private static List<String[]> contentTable = new ArrayList<>();
     private static List<String[]> symbolTable = new ArrayList<>();
     private static List<String[]> assembledTable = new ArrayList<>();
-    private static String programName;
+    private static String programName, fileName;
 
     public void readContent(String path) {
         path = "../arquivo.txt";
+        fileName = path.substring(path.lastIndexOf('/') + 1);
+        fileName = fileName.replace(".txt","").trim();
         File file = new File(path);
         Scanner reader;
         try {
@@ -201,7 +203,7 @@ public class Assembler {
     }
 
     void toObj() throws IOException {
-        try (FileWriter writer = new FileWriter("arquivo.obj")) {
+        try (FileWriter writer = new FileWriter(fileName+".obj")) {
             for (String[] str : assembledTable) {
                 for (String s : str) {
                     writer.write(s + " ");
@@ -212,7 +214,7 @@ public class Assembler {
     }
 
     void toLst() throws IOException {
-        try (FileWriter writer = new FileWriter("arquivo.lst")) {
+        try (FileWriter writer = new FileWriter(fileName+".lst")) {
             writer.write("conteudo do programa" + System.lineSeparator());
             for (String[] str : contentTable) {
                 for (String s : str) {

@@ -11,14 +11,14 @@ public final class SP {
     }
 
     public static void setValue(Integer value) {
-        //Memory.memorySet(PC.getValue(), value);
         SP.value = value;
     }
 
     public static void nextValue() {
-        if (SP.getValue() > 2 && SP.getValue() < 100 && Memory.memoryGet(SP.getValue() - 1) == null) {
+        if (SP.getValue() > 2 && SP.getValue() < Memory.memorySize() && Memory.memoryGet(SP.getValue() - 1) == null) {
             SP.value -= 1;
         } else {
+            Memory.memorySet(1, 1);
             Main.Error.showError("stackoverflow");
             reset();
         }
@@ -32,10 +32,10 @@ public final class SP {
     }
 
     public static void previousValue() {
-        if (SP.getValue() > 2 && SP.getValue() < 100) {
+        if (SP.getValue() > 2 && SP.getValue() < Memory.memorySize()) {
             SP.value += 1;
         } else {
-            Main.Error.showError("posicao de pilha inacessivel");
+            Main.Error.showError("> posicao de pilha inacessivel");
             reset();
         }
     }

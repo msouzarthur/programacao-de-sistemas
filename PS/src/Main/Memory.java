@@ -19,7 +19,7 @@ public final class Memory {
 
     public static void memorySet(Integer address, Integer content) {
         if (address < 100) {
-            memory.add(address, content);
+            memory.set(address, content);
         }
     }
 
@@ -45,9 +45,16 @@ public final class Memory {
     }
 
     public static Integer stackPop() {
-        Integer value = Memory.memoryGet(SP.getValue());
-        Memory.memorySet(PC.getValue(), null);
         SP.previousValue();
-        return value;
+        if (SP.getValue() < memory.size()) {
+            Integer value;
+            value = Memory.memoryGet(SP.getValue());
+            Memory.memorySet(SP.getValue(), null);
+            return value;
+        }
+        else{
+            Error.showError("> não há nada na pilha");
+            return -1;
+        }
     }
 }

@@ -12,13 +12,12 @@ import java.util.List;
  * @author willian do espirito santo
  * @author mateus cardoso
  */
-
 public class VirtualMachine extends javax.swing.JFrame {
 
     public VirtualMachine() {
         //MONTADOR: opcode -> binário
         initComponents();
-        
+
         setInitValues();
         attScreen();
     }
@@ -432,10 +431,11 @@ public class VirtualMachine extends javax.swing.JFrame {
 
     private void btnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunActionPerformed
         //reset();
-        //int position = 2;
         Integer opd1 = null, opd2 = null;
         Assembler assembler = new Assembler();
         Instruction instruction;
+        attScreen();
+
         //String path = inCod.getText();
         //File f = new File(path);
         /*if(inCod.getText().length() == 0 ){
@@ -443,149 +443,146 @@ public class VirtualMachine extends javax.swing.JFrame {
             return;
         }
         else if(f.exists() && !f.isDirectory()) { */
-            assembler.assemble("ar");
-            //inCod.setText("");
-            
+        assembler.assemble("ar");
+        //inCod.setText("");
+
         /*} 
         else{
             Error.showError("arquivo não encontrado");
             return;
         }*/
-        
         //String[] cod = inCod.getText().split("\n");;;
         //readContent(cod, position);
-
         do {
             attScreen();
             instruction = decodeInstruction(Memory.memoryGet(PC.getValue()));
 
-            if(PC.getValue() != null)
+            if (PC.getValue() != null) {
                 RI.setValue(Memory.memoryGet(PC.getValue()));
-            PC.setValue(PC.getValue()+instruction.numberOpd()+1);
-            
-            if(instruction instanceof STOP || PC.getValue() == null){
+            }
+            PC.setValue(PC.getValue() + instruction.numberOpd() + 1);
+
+            if (instruction instanceof STOP || PC.getValue() == null) {
                 PC.setValue(null);
                 break;
             }
-                        
-            if(instruction.numberOpd() == 1)
-                opd1 = Memory.memoryGet(PC.getValue()-1);
-            else if(instruction.numberOpd() == 2)
-                opd2 = Memory.memoryGet(PC.getValue()-2);
-            
+
+            if (instruction.numberOpd() == 1) {
+                opd1 = Memory.memoryGet(PC.getValue() - 1);
+            } else if (instruction.numberOpd() == 2) {
+                opd2 = Memory.memoryGet(PC.getValue() - 2);
+            }
+
             instruction.runInstruction(outCod, opd1, opd2);
-            
+
             attScreen();
-        }while(Memory.memoryGet(PC.getValue())!= null);
+        } while (Memory.memoryGet(PC.getValue()) != null);
     }//GEN-LAST:event_btnRunActionPerformed
 
-    private void reset(){
+    private void reset() {
         RE.setValue(2);
         PC.setValue(2);
-        SP.setValue(Memory.memorySize()-1);
+        SP.setValue(Memory.memorySize() - 1);
         MOP.setValue(0);
         ACC.reset();
         RI.reset();
         Memory.memoryReset();
         attScreen();
     }
-    
+
     private Instruction decodeInstruction(Integer insCod) {
         Instruction instruction = null;
         Integer opcode = insCod;
-        if(insCod>16){
-            if(insCod-32<=15 && insCod-32>=0){
-                opcode = insCod-32;
+        if (insCod > 16) {
+            if (insCod - 32 <= 15 && insCod - 32 >= 0) {
+                opcode = insCod - 32;
                 insCod = 32;
             }
-            if(insCod-64<=15 && insCod-64>=0){
-                opcode = insCod-64;
+            if (insCod - 64 <= 15 && insCod - 64 >= 0) {
+                opcode = insCod - 64;
                 insCod = 64;
             }
-            if(insCod-128<=15 && insCod-128>=0){
-                opcode = insCod-128;
+            if (insCod - 128 <= 15 && insCod - 128 >= 0) {
+                opcode = insCod - 128;
                 insCod = 128;
             }
         }
-        if(opcode!=null){
-            switch(opcode){
-            case 0: //BR: PC <- opd1
-                instruction = new BR();
-                break;
-            case 1: //BRPOS: PC <- opd1, se ACC > 0
-                instruction = new BRPOS();
-                break;
-            case 2: //ADD: ACC <- ACC + opd1
-                instruction = new ADD();
-                break;
-            case 3: //LOAD: ACC <- opd1
-                instruction = new LOAD();
-                break;
-            case 4: //BRZERO: PC <- opd1, se ACC = 0
-                instruction = new BRZERO();
-                break;
-            case 5: //BRNEG: PC <- opd1, se ACC < 0
-                instruction = new BRNEG();
-                break;
-            case 6: //SUB: ACC <- ACC - opd1
-                instruction = new SUB();
-                break;
-            case 7: //STORE: opd1 <- ACC
-                instruction = new STORE();
-                break;
-            case 8: //WRITE: output <- opd1
-                instruction = new WRITE();
-                break;
-            case 9: //RET: PC <- [SP]
-                instruction = new RET();
-                break;
-            case 10: //DIV: ACC <- ACC / opd1
-                instruction = new DIV();
-                break;
-            case 11: //STOP: fim do programa
-                instruction = new STOP();
-                break;
-            case 12: //READ: opd1 <- input stream
-                instruction = new READ();
-                break;
-            case 13: //COPY: opd1 <- opd2
-                instruction = new COPY();
-                break;
-            case 14: //MULT: ACC <- ACC * opd1
-                instruction = new MULT();
-                break;
-            case 15: //CALL: [SP] <- PC; PC <- opd1
-                instruction = new CALL();
-                break;
-            default:
-                System.out.println("ERRO DE OPCODE");
+        if (opcode != null) {
+            switch (opcode) {
+                case 0: //BR: PC <- opd1
+                    instruction = new BR();
+                    break;
+                case 1: //BRPOS: PC <- opd1, se ACC > 0
+                    instruction = new BRPOS();
+                    break;
+                case 2: //ADD: ACC <- ACC + opd1
+                    instruction = new ADD();
+                    break;
+                case 3: //LOAD: ACC <- opd1
+                    instruction = new LOAD();
+                    break;
+                case 4: //BRZERO: PC <- opd1, se ACC = 0
+                    instruction = new BRZERO();
+                    break;
+                case 5: //BRNEG: PC <- opd1, se ACC < 0
+                    instruction = new BRNEG();
+                    break;
+                case 6: //SUB: ACC <- ACC - opd1
+                    instruction = new SUB();
+                    break;
+                case 7: //STORE: opd1 <- ACC
+                    instruction = new STORE();
+                    break;
+                case 8: //WRITE: output <- opd1
+                    instruction = new WRITE();
+                    break;
+                case 9: //RET: PC <- [SP]
+                    instruction = new RET();
+                    break;
+                case 10: //DIV: ACC <- ACC / opd1
+                    instruction = new DIV();
+                    break;
+                case 11: //STOP: fim do programa
+                    instruction = new STOP();
+                    break;
+                case 12: //READ: opd1 <- input stream
+                    instruction = new READ();
+                    break;
+                case 13: //COPY: opd1 <- opd2
+                    instruction = new COPY();
+                    break;
+                case 14: //MULT: ACC <- ACC * opd1
+                    instruction = new MULT();
+                    break;
+                case 15: //CALL: [SP] <- PC; PC <- opd1
+                    instruction = new CALL();
+                    break;
+                default:
+                    System.out.println("ERRO DE OPCODE");
             }
-            if(insCod==32){
+            if (insCod == 32) {
                 instruction.setEndType(Instruction.EndType.IN1);
-            }
-            else if(insCod==64){
+            } else if (insCod == 64) {
                 instruction.setEndType(Instruction.EndType.IN2);
 
-            }
-            else if(insCod==128){             
+            } else if (insCod == 128) {
                 instruction.setEndType(Instruction.EndType.IM);
-            }
-            else {
+            } else {
                 instruction.setEndType(Instruction.EndType.D);
             }
         }
-        return instruction;        
+        return instruction;
     }
 
-    public void attScreen(){
+    public void attScreen() {
         String bin;
-        for(int i=0;i<100;i++){
-            if(Memory.memoryGet(i)!=null){
+        for (int i = 0; i < 100; i++) {
+            if (Memory.memoryGet(i) != null) {
                 bin = CompleteBinary.toBin(Memory.memoryGet(i));
                 tMemory.setValueAt(bin, i, 1);
-            }
-            else
+            } else {
                 tMemory.setValueAt(Memory.memoryGet(i), i, 1);
+            }
         }
         accValue.setText(ACC.getText());
         pcValue.setText(PC.getText());
@@ -594,26 +591,26 @@ public class VirtualMachine extends javax.swing.JFrame {
         riValue.setText(RI.getText());
         reValue.setText(RE.getText());
     }
-    
-    public void outMessage(String message){
+
+    public void outMessage(String message) {
         outCod.setText(message);
     }
-    
-    public void setInitValues(){     
+
+    public void setInitValues() {
         memoryInit();
         List<Integer> memory = Memory.memoryGetAll();
-        
-        for(int i=0;i<memory.size();i++){
+
+        for (int i = 0; i < memory.size(); i++) {
             tMemory.setValueAt(i, i, 0);
             tMemory.setValueAt(memory.get(i), i, 1);
         }
-        Integer position = 2;
-        RE.setValue(position);
-        PC.setValue(position);
-        SP.setValue(memory.size()-1);
+
+        RE.setValue(2);
+        PC.setValue(2);
+        SP.setValue(memory.size() - 1);
         MOP.setValue(0);
     }
-    
+
     private void btnHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpActionPerformed
         // abrir pop up com infos das instruções
     }//GEN-LAST:event_btnHelpActionPerformed
