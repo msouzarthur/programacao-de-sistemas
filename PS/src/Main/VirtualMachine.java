@@ -1,6 +1,7 @@
 package Main;
 
 import Instructions.*;
+import Main.Instruction.EndType;
 import Registers.*;
 import static Main.Memory.*;
 import java.util.List;
@@ -459,18 +460,33 @@ public class VirtualMachine extends javax.swing.JFrame {
 
             if(PC.getValue() != null)
                 RI.setValue(Memory.memoryGet(PC.getValue()));
-            PC.setValue(PC.getValue()+instruction.numberOpd()+1);
+            PC.setValue(PC.getValue() + instruction.numberOpd() + 1);
             
             if(instruction instanceof STOP || PC.getValue() == null){
                 PC.setValue(null);
                 break;
             }
-                        
+			//imediato: é o valor que foi passado
             if(instruction.numberOpd() == 1)
-                opd1 = Memory.memoryGet(PC.getValue()-1);
+                opd1 = Memory.memoryGet(PC.getValue() - 1);
             else if(instruction.numberOpd() == 2)
-                opd2 = Memory.memoryGet(PC.getValue()-2);
-            
+                opd2 = Memory.memoryGet(PC.getValue() - 2);
+			//direto: é o valor que tá no endereço
+            if(instruction.getEndType() == EndType.DIRECT)
+			{
+				if(instruction.numberOpd() == 1)
+					opd1 = Memory.memoryGet(opd1);
+				else if(instruction.numberOpd() == 2)
+					opd2 = Memory.memoryGet(opd2);
+			}
+			//indireto: é o valor que tá no endereço apontado pelo valor passado
+			if(instruction.getEndType() == EndType.INDIRECT1) {
+				opd1 = Memory.memoryGet(Memory.memoryGet(opd1));
+			}
+			if (instruction.getEndType() == EndType.INDIRECT2) {
+				opd2 = Memory.memoryGet(Memory.memoryGet(opd2));
+			}
+
             instruction.runInstruction(outCod, opd1, opd2);
             
             attScreen();
@@ -492,16 +508,16 @@ public class VirtualMachine extends javax.swing.JFrame {
         Instruction instruction = null;
         Integer opcode = insCod;
         if(insCod>16){
-            if(insCod-32<=15 && insCod-32>=0){
-                opcode = insCod-32;
+            if(insCod - 32 <= 15 && insCod - 32 >= 0){
+                opcode = insCod - 32;
                 insCod = 32;
             }
-            if(insCod-64<=15 && insCod-64>=0){
-                opcode = insCod-64;
+            if(insCod - 64 <= 15 && insCod - 64 >= 0){
+                opcode = insCod - 64;
                 insCod = 64;
             }
-            if(insCod-128<=15 && insCod-128>=0){
-                opcode = insCod-128;
+            if(insCod - 128 <= 15 && insCod - 128 >= 0){
+                opcode = insCod - 128;
                 insCod = 128;
             }
         }
@@ -558,18 +574,18 @@ public class VirtualMachine extends javax.swing.JFrame {
             default:
                 System.out.println("ERRO DE OPCODE");
             }
-            if(insCod==32){
-                instruction.setEndType(Instruction.EndType.IN1);
+            if(insCod == 32){
+                instruction.setEndType(Instruction.EndType.INDIRECT1);
             }
-            else if(insCod==64){
-                instruction.setEndType(Instruction.EndType.IN2);
+            else if(insCod == 64){
+                instruction.setEndType(Instruction.EndType.INDIRECT2);
 
             }
-            else if(insCod==128){             
-                instruction.setEndType(Instruction.EndType.IM);
+            else if(insCod == 128){             
+                instruction.setEndType(Instruction.EndType.IMMEDIATE);
             }
             else {
-                instruction.setEndType(Instruction.EndType.D);
+                instruction.setEndType(Instruction.EndType.DIRECT);
             }
         }
         return instruction;        
