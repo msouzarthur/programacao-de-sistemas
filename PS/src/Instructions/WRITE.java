@@ -31,7 +31,7 @@ public class WRITE implements Instruction {
     }
 
     @Override
-    public String getEndType() {
-        return this.end.toString();
+    public EndType getEndType() {
+        return this.end;
     }
 }

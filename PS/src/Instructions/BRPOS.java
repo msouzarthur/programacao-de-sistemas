@@ -31,7 +31,7 @@ public class BRPOS implements Instruction {
     }
 
     @Override
-    public String getEndType() {
-        return this.end.toString();
+    public EndType getEndType() {
+        return this.end;
     }
 }
