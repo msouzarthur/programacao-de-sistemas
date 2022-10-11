@@ -4,6 +4,7 @@ import Instructions.*;
 import Registers.*;
 import static Main.Memory.*;
 import java.util.List;
+import javax.swing.table.DefaultTableModel;
 
 /*
  * @author arthur souza
@@ -12,7 +13,6 @@ import java.util.List;
  * @author willian do espirito santo
  * @author mateus cardoso
  */
-
 public class VirtualMachine extends javax.swing.JFrame {
 
     public VirtualMachine() {
@@ -568,7 +568,7 @@ public class VirtualMachine extends javax.swing.JFrame {
                 PC.setValue(null);
                 break;
             }
-            
+
             if (instruction.numberOpd() == 1) {
                 opd1 = Memory.memoryGet(PC.getValue() - 1);
             } else if (instruction.numberOpd() == 2) {
@@ -676,7 +676,7 @@ public class VirtualMachine extends javax.swing.JFrame {
 
     public void attScreen() {
         String bin;
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < Memory.memorySize(); i++) {
             if (Memory.memoryGet(i) != null) {
                 bin = CompleteBinary.toBin(Memory.memoryGet(i));
                 tMemory.setValueAt(bin, i, 1);
@@ -699,6 +699,10 @@ public class VirtualMachine extends javax.swing.JFrame {
     public void setInitValues() {
         memoryInit();
         List<Integer> memory = Memory.memoryGetAll();
+
+        DefaultTableModel table = (DefaultTableModel) tMemory.getModel();
+        table.setRowCount(500);
+        tMemory.setModel(table);
 
         for (int i = 0; i < memory.size(); i++) {
             tMemory.setValueAt(i, i, 0);

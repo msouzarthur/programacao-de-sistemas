@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 public final class Memory {
-
-    private static List<Integer> memory = new ArrayList<>(100);
+    
+    private static List<Integer> memory = new ArrayList<>(500);
 
     public static Integer memoryGet(Integer address) {
         return memory.get(address);
@@ -18,7 +18,7 @@ public final class Memory {
     }
 
     public static void memorySet(Integer address, Integer content) {
-        if (address < 100) {
+        if (address < memory.size()) {
             memory.set(address, content);
         }
     }
@@ -28,7 +28,7 @@ public final class Memory {
     }
 
     public static void memoryInit() {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 500; i++) {
             memory.add(null);
         }
     }
@@ -40,6 +40,8 @@ public final class Memory {
     }
 
     public static void stackPush(Integer value) {
+        System.out.println(SP.getValue());
+        System.out.println("tamanho "+memory.size());
         memory.set(SP.getValue(), value);
         SP.nextValue();
     }
