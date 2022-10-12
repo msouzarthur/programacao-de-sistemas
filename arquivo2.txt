@@ -1,0 +1,43 @@
+ start teste
+*
+ macro
+ scale &rp
+ macro
+ multsc &a &b &c
+ load &a
+ mult &b
+ store &c
+ mend
+ macro
+ divsc &a &b &c
+ load &a
+ div &b
+ store &c
+ mend
+ mend
+*
+ macro
+&lab discr &a &b &c &d
+&lab multsc &a &c temp1
+ multsc temp1 @4 temp1
+ multsc &a &b temp2
+ sub temp1
+ store &d
+ mend
+*
+ read a
+ read b
+ read c
+ scale 3
+ discr a b c d
+ write d
+ stop
+*
+a space
+b space
+c space
+d space
+temp1 space
+temp2 space
+*
+ end

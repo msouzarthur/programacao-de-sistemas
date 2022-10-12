@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -19,37 +18,11 @@ public class Assembler {
     public void readContent(String path) {
         path = "../arquivo.txt";
         fileName = path.substring(path.lastIndexOf('/') + 1);
-        fileName = fileName.replace(".txt","").trim();
-        File file = new File(path);
-        Scanner reader;
-        try {
-            reader = new Scanner(file);
-            while (reader.hasNextLine()) {
-                String l = reader.nextLine();
-                if (l.length() > 80) {
-                    Error.showError("> linha de código com comprimento maior que o suportado");
-                }
-                String[] words = l.split(" ");
-                String[] row = new String[4];
-                if (!words[0].equals("*")) {
-                    for (int i = 0; i < words.length; i++) {
-                        row[i] = words[i];
-                        if (words[i].contains("start")) {
-                            programName = words[i + 1];
-                        }
-                    }
-                    contentTable.add(row);
-                }
-            }
-            reader.close();
-        } catch (FileNotFoundException e) {
-            Error.showError("> erro ao ler arquivo");
-        }
-        for (String[] r : contentTable) {
-            if (r[0].length() == 0) {
-                r[0] = null;
-            }
-        }
+        fileName = fileName.replace(".txt", "").trim();
+        
+        contentTable = Reader.read(path, 4);
+        programName = contentTable.get(0)[2];
+        
         if (!contentTable.get(contentTable.size() - 1)[1].equals("end")) {
             Error.showError("> diretiva end não encontrada");
         }
@@ -138,6 +111,12 @@ public class Assembler {
                     r[2] = r[2].replace("#", "");
                     address += 128;
                 }
+                if (r[2] != null && r[2].contains("@")) {
+                    r[2] = r[2].replace("@", "");
+                }
+                if (r[3] != null && r[3].contains("@")) {
+                    r[3] = r[3].replace("@", "");
+                }
 
                 r[1] = Integer.toString(getOpcode(r[1]) + address);
 
@@ -203,7 +182,7 @@ public class Assembler {
     }
 
     void toObj() throws IOException {
-        try (FileWriter writer = new FileWriter(fileName+".obj")) {
+        try (FileWriter writer = new FileWriter(fileName + ".obj")) {
             for (String[] str : assembledTable) {
                 for (String s : str) {
                     writer.write(s + " ");
@@ -214,7 +193,7 @@ public class Assembler {
     }
 
     void toLst() throws IOException {
-        try (FileWriter writer = new FileWriter(fileName+".lst")) {
+        try (FileWriter writer = new FileWriter(fileName + ".lst")) {
             writer.write("conteudo do programa" + System.lineSeparator());
             for (String[] str : contentTable) {
                 for (String s : str) {
@@ -260,5 +239,9 @@ public class Assembler {
         } catch (IOException ex) {
             Error.showError("> problema ao salvar arquivo lst");
         }
+
+        System.out.println();
+        System.out.println();
+        System.out.println();
     }
 }

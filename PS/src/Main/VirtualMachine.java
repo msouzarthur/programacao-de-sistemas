@@ -11,14 +11,15 @@ import javax.swing.table.DefaultTableModel;
  * @author hector fernandes
  * @author rafael grimmler
  * @author willian do espirito santo
- * @author mateus cardoso
  */
 public class VirtualMachine extends javax.swing.JFrame {
 
     public VirtualMachine() {
-        initComponents();
-        setInitValues();
-        attScreen();
+        Macros.process("");
+        
+        //initComponents();
+        //setInitValues();
+        //attScreen();
     }
 
     @SuppressWarnings("unchecked")
@@ -459,7 +460,7 @@ public class VirtualMachine extends javax.swing.JFrame {
             return;
         }
         else if(f.exists() && !f.isDirectory()) { */
-        assembler.assemble("ar");
+        assembler.assemble("");
         //inCod.setText("");
 
         /*} 
