@@ -4,7 +4,6 @@ import Instructions.*;
 import Main.Instruction.EndType;
 import Registers.*;
 import static Main.Memory.*;
-import java.util.HashSet;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,6 +23,7 @@ public class VirtualMachine extends javax.swing.JFrame {
         //setInitValues();
         //attScreen();
     }
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

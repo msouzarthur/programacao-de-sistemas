@@ -1,7 +1,6 @@
 package Main;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Macros {
@@ -31,22 +30,26 @@ public class Macros {
 
         print(contentTable, "|label\tcomando\targ1\targ2\targ3\targ4\t|");
         System.out.println("> macros contadas: " + macrosCount);
-
+        int nivel = 0;
         for (int r = 0; r < contentTable.size(); r++) {
             for (int w = 0; w < contentTable.get(r).length; w++) {
-                String[] row = new String[2];
+                String[] row = new String[3];
                 if (contentTable.get(r)[w] != null && contentTable.get(r)[w].equals("macro")) {
-                    row[0] = contentTable.get(r)[1];
-                    row[1] = Integer.toString(r);
+                    nivel += 1;
+                    row[0] = contentTable.get(r + 1)[1];
+                    row[1] = Integer.toString(r + 1);
+                    row[2] = Integer.toString(nivel);
                     macrosEscope.add(row);
                 }
                 if (contentTable.get(r)[w] != null && contentTable.get(r)[w].equals("mend")) {
                     row[0] = contentTable.get(r)[1];
                     row[1] = Integer.toString(r);
+                    row[2] = Integer.toString(nivel);
+                    nivel -= 1;
                     macrosEscope.add(row);
                 }
                 if (contentTable.get(r)[w] != null && contentTable.get(r)[w].equals("start")) {
-                    start = r+1;
+                    start = r + 1;
                 }
                 if (contentTable.get(r)[w] != null && contentTable.get(r)[w].equals("stop")) {
                     stop = r;
@@ -54,16 +57,35 @@ public class Macros {
             }
         }
         codeTable = contentTable.subList(start, stop);
-        print(macrosEscope, "escope");
+        print(macrosEscope, "|macro\tpos\tnivel\t|");
         print(codeTable, "code");
-        
+
+    }
+
+    public static int isMacro(String target) {
+        for (String[] r : macrosEscope) {
+            if (r[0].equals(target)) {
+                //r -> [                       ]
+                //w
+                return Integer.parseInt(r[1]);
+            }
+        }
+        return -1;
     }
 
     public static List<String[]> macroReader(List<String[]> content) {
-        List<String[]> array = null;
+        int pos = -1;
         for (int r = 0; r < content.size(); r++) {
-            for (int w = 0; w < content.get(r).length; w++) {
-                
+            //a linha que a gente pegou já foi definida   e  não é definicao 
+            pos = isMacro(content.get(r)[1]);
+            if (pos != -1 && !content.get(r)[1].equals("mend") && !content.get(r - 1)[1].equals("macro")) {
+                //substituir a chamada pela macro
+                //[1] é o nome da macro
+                //[2,3,4,5] são os argumentos
+
+                System.out.println("achei um " + content.get(r)[1] + " " + r + " "+pos);
+                //expandir a macro
+
             }
         }
         return null;
@@ -87,7 +109,7 @@ public class Macros {
         readContent(path);
         //processa as macros
         System.out.println("> lendo macros");
-        macroReader(contentTable);
+        macroReader(codeTable);
         print(macrosTable, "");
 
     }
