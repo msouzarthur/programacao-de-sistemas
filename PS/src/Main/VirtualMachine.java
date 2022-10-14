@@ -19,7 +19,7 @@ public class VirtualMachine extends javax.swing.JFrame {
 
     public VirtualMachine() {
         Macros.process("");
-        
+
         //initComponents();
         //setInitValues();
         //attScreen();
@@ -447,7 +447,7 @@ public class VirtualMachine extends javax.swing.JFrame {
         //ViewAjuda.setVisible(true);
     }//GEN-LAST:event_btnHelpActionPerformed
 
-    private void btnDebugActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDebugActionPerformed
+    private void btnDebugActionPerformed(java.awt.event.ActionEvent evt) {
         Integer opd1 = null, opd2 = null;
         Assembler assembler = new Assembler();
         Instruction instruction;
@@ -460,49 +460,50 @@ public class VirtualMachine extends javax.swing.JFrame {
 
             if (PC.getValue() != null) {
                 RI.setValue(Memory.memoryGet(PC.getValue()));
-            PC.setValue(PC.getValue() + instruction.numberOpd() + 1);
-            
-            if(instruction instanceof STOP || PC.getValue() == null){
-                PC.setValue(null);
-                break;
+                PC.setValue(PC.getValue() + instruction.numberOpd() + 1);
+
+                if (instruction instanceof STOP || PC.getValue() == null) {
+                    PC.setValue(null);
+                    break;
+                }
+                //imediato: é o valor que foi passado
+                if (instruction.numberOpd() == 1) {
+                    opd1 = Memory.memoryGet(PC.getValue() - 1);
+                } else if (instruction.numberOpd() == 2) {
+                    opd2 = Memory.memoryGet(PC.getValue() - 2);
+                }
+                //direto: é o valor que tá no endereço
+                if (instruction.getEndType() == EndType.DIRECT) {
+                    if (instruction.numberOpd() == 1) {
+                        opd1 = Memory.memoryGet(opd1);
+                    } else if (instruction.numberOpd() == 2) {
+                        opd2 = Memory.memoryGet(opd2);
+                    }
+                }
+                //indireto: é o valor que tá no endereço apontado pelo valor passado
+                if (instruction.getEndType() == EndType.INDIRECT1) {
+                    opd1 = Memory.memoryGet(Memory.memoryGet(opd1));
+                }
+                if (instruction.getEndType() == EndType.INDIRECT2) {
+                    opd2 = Memory.memoryGet(Memory.memoryGet(opd2));
+                }
+
+                instruction.runInstruction(outCod, opd1, opd2);
+
+                attScreen();
             }
-			//imediato: é o valor que foi passado
-            if(instruction.numberOpd() == 1)
-                opd1 = Memory.memoryGet(PC.getValue() - 1);
-            else if(instruction.numberOpd() == 2)
-                opd2 = Memory.memoryGet(PC.getValue() - 2);
-			//direto: é o valor que tá no endereço
-            if(instruction.getEndType() == EndType.DIRECT)
-			{
-				if(instruction.numberOpd() == 1)
-					opd1 = Memory.memoryGet(opd1);
-				else if(instruction.numberOpd() == 2)
-					opd2 = Memory.memoryGet(opd2);
-			}
-			//indireto: é o valor que tá no endereço apontado pelo valor passado
-			if(instruction.getEndType() == EndType.INDIRECT1) {
-				opd1 = Memory.memoryGet(Memory.memoryGet(opd1));
-			}
-			if (instruction.getEndType() == EndType.INDIRECT2) {
-				opd2 = Memory.memoryGet(Memory.memoryGet(opd2));
-			}
-
-            instruction.runInstruction(outCod, opd1, opd2);
+        }while (Memory.memoryGet(PC.getValue()) != null);                                      
             
-            attScreen();
-        }while(Memory.memoryGet(PC.getValue())!= null);
-    }//GEN-LAST:event_btnRunActionPerformed
+        if (instruction.numberOpd() == 1) {
+            opd1 = Memory.memoryGet(PC.getValue() - 1);
+        } else if (instruction.numberOpd() == 2) {
+            opd2 = Memory.memoryGet(PC.getValue() - 2);
+        }
 
-            if (instruction.numberOpd() == 1) {
-                opd1 = Memory.memoryGet(PC.getValue() - 1);
-            } else if (instruction.numberOpd() == 2) {
-                opd2 = Memory.memoryGet(PC.getValue() - 2);
-            }
+        instruction.runInstruction(outCod, opd1, opd2);
+    }
 
-            instruction.runInstruction(outCod, opd1, opd2);
-        } while (true);
-        attScreen();
-    }//GEN-LAST:event_btnDebugActionPerformed
+
 
     private void btnRunCicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunCicleActionPerformed
         //reset();
