@@ -14,7 +14,7 @@ public class Macros {
 
     public static void readContent(String path) {
         macrosCount = 0;
-        path = "../arquivo2.txt";
+        path = "../arquivopdf.txt";
         fileName = path.substring(path.lastIndexOf('/') + 1);
         fileName = fileName.replace(".txt", "").trim();
 
@@ -28,8 +28,9 @@ public class Macros {
             }
         }
 
+        System.out.println("> conteudo lido");
         print(contentTable, "|label\tcomando\targ1\targ2\targ3\targ4\t|");
-        System.out.println("> macros contadas: " + macrosCount);
+        System.out.println("> macros identificadas: " + macrosCount);
         int nivel = 0;
         for (int r = 0; r < contentTable.size(); r++) {
             for (int w = 0; w < contentTable.get(r).length; w++) {
@@ -48,17 +49,21 @@ public class Macros {
                     nivel -= 1;
                     macrosEscope.add(row);
                 }
-                if (contentTable.get(r)[w] != null && contentTable.get(r)[w].equals("start")) {
+                if (contentTable.get(r)[w] != null && contentTable.get(r)[w].equals("mend")) {
                     start = r + 1;
                 }
                 if (contentTable.get(r)[w] != null && contentTable.get(r)[w].equals("stop")) {
                     stop = r;
                 }
+                if (nivel>0){
+                    contentTable.remove(r);
+                }
             }
         }
         codeTable = contentTable.subList(start, stop);
         print(macrosEscope, "|macro\tpos\tnivel\t|");
-        print(codeTable, "code");
+        System.out.println("> trecho de codigo");
+        print(codeTable, "|label\tcomando\targ1\targ2\targ3\targ4\t|");
 
     }
 
@@ -110,6 +115,9 @@ public class Macros {
         //processa as macros
         System.out.println("> lendo macros");
         macroReader(codeTable);
+        System.out.println("> conteudo lido");
+        print(contentTable, "|label\tcomando\targ1\targ2\targ3\targ4\t|");
+        
         print(macrosTable, "");
 
     }

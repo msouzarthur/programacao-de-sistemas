@@ -20,6 +20,7 @@ public class Reader {
                 if (l.length() > 80) {
                     Error.showError("> linha de código com comprimento maior que o suportado");
                 }
+                l = l.replaceAll(","," ");
                 String[] words = l.split(" ");
                 String[] row = new String[wordCount];
                 if (!words[0].equals("*")) {
