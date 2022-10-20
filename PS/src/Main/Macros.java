@@ -7,10 +7,13 @@ public class Macros {
 
     private static String fileName;
     private static int macrosCount, start, stop;
+    //arquivo de entrada
     private static List<String[]> contentTable = new ArrayList<>();
+    //arquivo de saída pro montador
     private static List<String[]> codeTable = new ArrayList<>();
+    //arquivo de definição das macros
     private static List<String[]> macrosTable = new ArrayList<>();
-    private static List<String[]> macrosEscope = new ArrayList<>();
+    private static List<List<String[]>> macrosDef = new ArrayList<>();
 
     public static void readContent(String path) {
         macrosCount = 0;
@@ -31,43 +34,60 @@ public class Macros {
         System.out.println("> conteudo lido");
         print(contentTable, "|label\tcomando\targ1\targ2\targ3\targ4\t|");
         System.out.println("> macros identificadas: " + macrosCount);
-        int nivel = 0;
-        for (int r = 0; r < contentTable.size(); r++) {
-            for (int w = 0; w < contentTable.get(r).length; w++) {
-                String[] row = new String[3];
-                if (contentTable.get(r)[w] != null && contentTable.get(r)[w].equals("macro")) {
-                    nivel += 1;
-                    row[0] = contentTable.get(r + 1)[1];
-                    row[1] = Integer.toString(r + 1);
-                    row[2] = Integer.toString(nivel);
-                    macrosEscope.add(row);
-                }
-                if (contentTable.get(r)[w] != null && contentTable.get(r)[w].equals("mend")) {
-                    row[0] = contentTable.get(r)[1];
-                    row[1] = Integer.toString(r);
-                    row[2] = Integer.toString(nivel);
-                    nivel -= 1;
-                    macrosEscope.add(row);
-                }
-                if (contentTable.get(r)[w] != null && contentTable.get(r)[w].equals("mend")) {
-                    start = r + 1;
-                }
-                if (contentTable.get(r)[w] != null && contentTable.get(r)[w].equals("stop")) {
-                    stop = r;
-                }
-                if (nivel>0){
-                    contentTable.remove(r);
-                }
-            }
-        }
-        codeTable = contentTable.subList(start, stop);
-        print(macrosEscope, "|macro\tpos\tnivel\t|");
-        System.out.println("> trecho de codigo");
-        print(codeTable, "|label\tcomando\targ1\targ2\targ3\targ4\t|");
-
     }
 
-    public static int isMacro(String target) {
+    public static void processMacros() {
+        int nivel = 0;
+        for (int r = 0; r < contentTable.size(); r++) {
+            if (contentTable.get(r)[1] != null && contentTable.get(r)[1].equals("macro")) {
+                nivel += 1;
+            }
+
+            if (nivel > 0) {
+                macrosTable.add(contentTable.get(r));
+            }
+
+            if (contentTable.get(r)[1] != null && contentTable.get(r)[1].equals("mend")) {
+                start = r + 1;
+                nivel -= 1;
+            }
+
+            if (contentTable.get(r)[1] != null && contentTable.get(r)[1].equals("stop")) {
+                stop = r;
+            }
+        }
+        System.out.println("> macros");
+        print(macrosTable, "|label\tcomando\targ1\targ2\targ3\targ4\t|");
+    }
+
+    /*
+|null	macro	null	null	null	null	|
+|null	scale	&rp	null	null	null	|
+|null	macro	null	null	null	null	|
+|null	multsc	&a	&b	&c	null	|
+|null	load	&a	null	null	null	|
+|null	mult	&b	null	null	null	|
+|null	shiftr	&rp	null	null	null	|
+|null	store	&c	null	null	null	|
+|null	mend	null	null	null	null	|
+|null	macro	null	null	null	null	|
+|null	divsc	&a	&b	&c	null	|
+|null	load	&a	null	null	null	|
+|null	div	&b	null	null	null	|
+|null	shiftl	&rp	null	null	null	|
+|null	store	&c	null	null	null	|
+|null	mend	null	null	null	null	|
+|null	mend	null	null	null	null	|
+|null	macro	null	null	null	null	|
+|&lab	discr	&a	&b	&c	&d	|
+|&lab	multsc	&a	&c	temp1	null	|
+|null	multsc	temp1	@4	temp1	null	|
+|null	multsc	&a	&b	temp2	null	|
+|null	sub	temp1	null	null	null	|
+|null	store	&d	null	null	null	|
+|null	mend	null	null	null	null	|
+     */
+ /*public static int isMacro(String target) {
         for (String[] r : macrosEscope) {
             if (r[0].equals(target)) {
                 //r -> [                       ]
@@ -77,8 +97,8 @@ public class Macros {
         }
         return -1;
     }
-
-    public static List<String[]> macroReader(List<String[]> content) {
+     */
+ /*    public static List<String[]> macroReader(List<String[]> content) {
         int pos = -1;
         for (int r = 0; r < content.size(); r++) {
             //a linha que a gente pegou já foi definida   e  não é definicao 
@@ -95,7 +115,7 @@ public class Macros {
         }
         return null;
     }
-
+     */
     public static void print(List<String[]> target, String header) {
         System.out.println(header);
         System.out.println(" -----------------------------------------------");
@@ -113,12 +133,12 @@ public class Macros {
         //estrutura o programa lido
         readContent(path);
         //processa as macros
-        System.out.println("> lendo macros");
-        macroReader(codeTable);
-        System.out.println("> conteudo lido");
-        print(contentTable, "|label\tcomando\targ1\targ2\targ3\targ4\t|");
-        
-        print(macrosTable, "");
+        processMacros();
+        //System.out.println("> lendo macros");
+        //macroReader(codeTable);
+        //System.out.println("> conteudo lido");
+        //print(contentTable, "|label\tcomando\targ1\targ2\targ3\targ4\t|");
 
+        //print(macrosTable, "");
     }
 }
