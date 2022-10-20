@@ -55,9 +55,6 @@ public class Macros {
                 if (contentTable.get(r)[w] != null && contentTable.get(r)[w].equals("stop")) {
                     stop = r;
                 }
-                if (nivel>0){
-                    contentTable.remove(r);
-                }
             }
         }
         codeTable = contentTable.subList(start, stop);
@@ -115,8 +112,6 @@ public class Macros {
         //processa as macros
         System.out.println("> lendo macros");
         macroReader(codeTable);
-        System.out.println("> conteudo lido");
-        print(contentTable, "|label\tcomando\targ1\targ2\targ3\targ4\t|");
         
         print(macrosTable, "");
 
