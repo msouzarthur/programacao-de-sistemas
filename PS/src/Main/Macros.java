@@ -14,12 +14,12 @@ public class Macros {
 
     public static void readContent(String path) {
         macrosCount = 0;
-        path = "../arquivopdf.txt";
+        path = "../arquivo2.txt";
         fileName = path.substring(path.lastIndexOf('/') + 1);
         fileName = fileName.replace(".txt", "").trim();
-
+        //leu o arquivo de entrada
         contentTable = Reader.read(path, 6);
-
+        //contou as macros
         for (String[] r : contentTable) {
             for (String w : r) {
                 if (w != null && w.equals("macro")) {
@@ -31,18 +31,19 @@ public class Macros {
         System.out.println("> conteudo lido");
         print(contentTable, "|label\tcomando\targ1\targ2\targ3\targ4\t|");
         System.out.println("> macros identificadas: " + macrosCount);
+        //cria o escopo das macros
         int nivel = 0;
         for (int r = 0; r < contentTable.size(); r++) {
             for (int w = 0; w < contentTable.get(r).length; w++) {
                 String[] row = new String[3];
-                if (contentTable.get(r)[w] != null && contentTable.get(r)[w].equals("macro")) {
+                if (contentTable.get(r)[w] != null && contentTable.get(r)[w].equals("macro") && nivel < 2) {
                     nivel += 1;
                     row[0] = contentTable.get(r + 1)[1];
                     row[1] = Integer.toString(r + 1);
                     row[2] = Integer.toString(nivel);
                     macrosEscope.add(row);
                 }
-                if (contentTable.get(r)[w] != null && contentTable.get(r)[w].equals("mend")) {
+                if (contentTable.get(r)[w] != null && contentTable.get(r)[w].equals("mend")&& nivel< 2) {
                     row[0] = contentTable.get(r)[1];
                     row[1] = Integer.toString(r);
                     row[2] = Integer.toString(nivel);
