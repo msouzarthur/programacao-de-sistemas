@@ -6,116 +6,131 @@ import java.util.List;
 public class Macros {
 
     private static String fileName;
-    private static int macrosCount, start, stop;
-    //arquivo de entrada
+    private static int start, stop;
     private static List<String[]> contentTable = new ArrayList<>();
-    //arquivo de saída pro montador
+    private static List<Macro> macros = new ArrayList<>();
     private static List<String[]> codeTable = new ArrayList<>();
-    //arquivo de definição das macros
     private static List<String[]> macrosTable = new ArrayList<>();
-    private static List<List<String[]>> macrosDef = new ArrayList<>();
+    private static List<String[]> macrosDef = new ArrayList<>();
 
     public static void readContent(String path) {
-        macrosCount = 0;
+        //leitura do arquivo
         path = "../arquivopdf.txt";
         fileName = path.substring(path.lastIndexOf('/') + 1);
         fileName = fileName.replace(".txt", "").trim();
 
         contentTable = Reader.read(path, 6);
-
-        for (String[] r : contentTable) {
-            for (String w : r) {
-                if (w != null && w.equals("macro")) {
-                    macrosCount += 1;
-                }
-            }
-        }
-
-        System.out.println("> conteudo lido");
-        print(contentTable, "|label\tcomando\targ1\targ2\targ3\targ4\t|");
-        System.out.println("> macros identificadas: " + macrosCount);
     }
 
-    public static void processMacros() {
+    public static String getEnd(String target, int start) {
         int nivel = 0;
-        for (int r = 0; r < contentTable.size(); r++) {
-            if (contentTable.get(r)[1] != null && contentTable.get(r)[1].equals("macro")) {
-                nivel += 1;
-            }
-
-            if (nivel > 0) {
-                macrosTable.add(contentTable.get(r));
-            }
-
-            if (contentTable.get(r)[1] != null && contentTable.get(r)[1].equals("mend")) {
-                start = r + 1;
-                nivel -= 1;
-            }
-
-            if (contentTable.get(r)[1] != null && contentTable.get(r)[1].equals("stop")) {
-                stop = r;
-            }
-        }
-        System.out.println("> macros");
-        print(macrosTable, "|label\tcomando\targ1\targ2\targ3\targ4\t|");
-    }
-
-    /*
-|null	macro	null	null	null	null	|
-|null	scale	&rp	null	null	null	|
-|null	macro	null	null	null	null	|
-|null	multsc	&a	&b	&c	null	|
-|null	load	&a	null	null	null	|
-|null	mult	&b	null	null	null	|
-|null	shiftr	&rp	null	null	null	|
-|null	store	&c	null	null	null	|
-|null	mend	null	null	null	null	|
-|null	macro	null	null	null	null	|
-|null	divsc	&a	&b	&c	null	|
-|null	load	&a	null	null	null	|
-|null	div	&b	null	null	null	|
-|null	shiftl	&rp	null	null	null	|
-|null	store	&c	null	null	null	|
-|null	mend	null	null	null	null	|
-|null	mend	null	null	null	null	|
-|null	macro	null	null	null	null	|
-|&lab	discr	&a	&b	&c	&d	|
-|&lab	multsc	&a	&c	temp1	null	|
-|null	multsc	temp1	@4	temp1	null	|
-|null	multsc	&a	&b	temp2	null	|
-|null	sub	temp1	null	null	null	|
-|null	store	&d	null	null	null	|
-|null	mend	null	null	null	null	|
-     */
- /*public static int isMacro(String target) {
-        for (String[] r : macrosEscope) {
-            if (r[0].equals(target)) {
-                //r -> [                       ]
-                //w
-                return Integer.parseInt(r[1]);
-            }
-        }
-        return -1;
-    }
-     */
- /*    public static List<String[]> macroReader(List<String[]> content) {
-        int pos = -1;
-        for (int r = 0; r < content.size(); r++) {
-            //a linha que a gente pegou já foi definida   e  não é definicao 
-            pos = isMacro(content.get(r)[1]);
-            if (pos != -1 && !content.get(r)[1].equals("mend") && !content.get(r - 1)[1].equals("macro")) {
-                //substituir a chamada pela macro
-                //[1] é o nome da macro
-                //[2,3,4,5] são os argumentos
-
-                System.out.println("achei um " + content.get(r)[1] + " " + r + " "+pos);
-                //expandir a macro
-
+        for (int r = start; r < contentTable.size(); r++) {
+            if (contentTable.get(r)[1] != null) {
+                if (contentTable.get(r)[1].equals("macro")) {
+                    nivel += 1;
+                }
+                if (contentTable.get(r)[1].equals("mend")) {
+                    if (nivel == 0) {
+                        return Integer.toString(r);
+                    }
+                    nivel -= 1;
+                }
             }
         }
         return null;
     }
-     */
+
+    public static void processMacros() {
+        int nivel = 0, macrosCount = 1;
+        String[] row;
+        for (int r = 0; r < contentTable.size(); r++) {
+            row = new String[6];
+            if (contentTable.get(r)[1] != null) {
+                if (contentTable.get(r)[1].equals("macro")) {
+                    row[0] = Integer.toString(macrosCount);
+                    row[1] = contentTable.get(r + 1)[1];
+                    row[2] = Integer.toString(r + 1);
+                    row[3] = getEnd(contentTable.get(r + 1)[1], r + 1);
+                    row[4] = Integer.toString(nivel);
+                    if (nivel > 0) {
+                        row[5] = "aninhad";
+                    } else {
+                        row[5] = "normal";
+                    }
+                    Macro m = new Macro(contentTable.get(r + 1));
+                    m.setInit(r + 1);
+                    m.setEnd(Integer.parseInt(getEnd(contentTable.get(r + 1)[1], r + 1)));
+                    m.setContent(contentTable.subList(m.getInit(), m.getEnd()));
+                    macros.add(m);
+                    macrosDef.add(row);
+                    nivel += 1;
+                    macrosCount += 1;
+                }
+
+                if (nivel > 0) {
+                    macrosTable.add(contentTable.get(r));
+                }
+
+                if (contentTable.get(r)[1].equals("mend")) {
+                    nivel -= 1;
+                }
+
+                if (contentTable.get(r)[1].equals("stop")) {
+                    stop = r;
+                }
+                if (nivel == 0 && !contentTable.get(r)[1].equals("mend")) {
+                    codeTable.add(contentTable.get(r));
+                }
+            }
+        }
+    }
+    //PROBLEMA TÁ AQUI
+    public static void expandMacros() {
+        //Ta causando looping infinito
+        Macro m;
+        String[] call;
+        //cria a copia do codigo
+        List<String[]> newCode = codeTable;
+        //percorre a tabela do codigo
+        for (int r = 0; r < codeTable.size(); r++) {
+            call = codeTable.get(r);
+            //se a linha lida não é nula e é uma macro
+            if (call[1] != null && isMacro(call[1])) {
+                //identifica e pega a macro
+                m = findMacro(call[1]);
+                //atualiza as variaveis da macro de acordo com a chamada
+                //acho que esse changeVar não tá 100% 
+                m.changeVar(contentTable.get(m.getInit()));
+                //tem que copiar o conteudo da macro com as variaveis atualizadas pra copia do codigo
+                //a expansao tem que substituir a linha de chamada da macro
+                for (String[] rr : m.getContent()) {
+                    System.out.println("quatro");
+                    newCode.add(r, rr);
+                }
+            }
+        }
+        codeTable = newCode;
+    }
+
+    public static boolean isMacro(String name) {
+        for (Macro m : macros) {
+            if (name.equals(m.getName())) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    public static Macro findMacro(String name) {
+        for (Macro m : macros) {
+            if (name.equals(m.getName())) {
+                return m;
+            }
+        }
+        return null;
+    }
+
     public static void print(List<String[]> target, String header) {
         System.out.println(header);
         System.out.println(" -----------------------------------------------");
@@ -132,13 +147,18 @@ public class Macros {
     public static void process(String path) {
         //estrutura o programa lido
         readContent(path);
-        //processa as macros
-        processMacros();
-        //System.out.println("> lendo macros");
-        //macroReader(codeTable);
         //System.out.println("> conteudo lido");
         //print(contentTable, "|label\tcomando\targ1\targ2\targ3\targ4\t|");
 
-        //print(macrosTable, "");
+        //processa as macros
+        processMacros();
+        //System.out.println("> definições das macros");
+        //print(macrosDef, "|macro\tname\tstart\tend\tlevel\ttype\t|");
+
+        //expande as macros
+        expandMacros();
+        System.out.println("code");
+        print(codeTable, "|label\tcomando\targ1\targ2\targ3\targ4\t|");
+
     }
 }
