@@ -10,6 +10,7 @@ public class Macro {
     public String name, label;
     public String arg1, arg2, arg3, arg4;
     public List<String[]> content = new ArrayList<>();
+    public List<String[]> newContent = new ArrayList<>();
 
     Macro(String[] definition) {
         this.label = definition[0];
@@ -48,15 +49,29 @@ public class Macro {
         return this.content;
     }
 
+    public List<String[]> getNewContent() {
+        return this.newContent;
+    }
+
     public void changeVar(String[] call) {
-        //atualiza as variaveis da macro de acordo com os parametros da chamada
-        //é posicional
-        String a1 = call[2], a2 = call[3], a3 = call[4], a4 = call[5];
-        for (String[] l : this.content) {
-            l[2] = a1;
-            l[3] = a2;
-            l[5] = a3;
-            l[5] = a4;
+        newContent = this.content;
+        for (int r = 0; r < newContent.size(); r++) {
+            for (int i = 0; i < newContent.get(r).length; i++) {
+                if (newContent.get(r)[i] != null) {
+                    if (newContent.get(r)[i].equals(arg1)) {
+                        newContent.get(r)[i] = call[2];
+                    }
+                    if (newContent.get(r)[i].equals(arg2)) {
+                        newContent.get(r)[i] = call[3];
+                    }
+                    if (newContent.get(r)[i].equals(arg3)) {
+                        newContent.get(r)[i] = call[4];
+                    }
+                    if (newContent.get(r)[i].equals(arg4)) {
+                        newContent.get(r)[i] = call[5];
+                    }
+                }
+            }
         }
     }
 }

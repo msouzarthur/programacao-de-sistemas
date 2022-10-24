@@ -1,7 +1,11 @@
 package Main;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Macros {
 
@@ -84,29 +88,23 @@ public class Macros {
             }
         }
     }
-    //PROBLEMA TÁ AQUI
+
     public static void expandMacros() {
-        //Ta causando looping infinito
         Macro m;
         String[] call;
-        //cria a copia do codigo
-        List<String[]> newCode = codeTable;
-        //percorre a tabela do codigo
+        List<String[]> newCode = new ArrayList<>();
         for (int r = 0; r < codeTable.size(); r++) {
             call = codeTable.get(r);
-            //se a linha lida não é nula e é uma macro
             if (call[1] != null && isMacro(call[1])) {
-                //identifica e pega a macro
                 m = findMacro(call[1]);
-                //atualiza as variaveis da macro de acordo com a chamada
-                //acho que esse changeVar não tá 100% 
-                m.changeVar(contentTable.get(m.getInit()));
-                //tem que copiar o conteudo da macro com as variaveis atualizadas pra copia do codigo
-                //a expansao tem que substituir a linha de chamada da macro
-                for (String[] rr : m.getContent()) {
-                    System.out.println("quatro");
-                    newCode.add(r, rr);
+                m.changeVar(call);
+                for (String[] rr : m.getNewContent()) {
+                    if (!rr[1].equals(call[1])) {
+                        newCode.add(rr);
+                    }
                 }
+            } else {
+                newCode.add(call);
             }
         }
         codeTable = newCode;
@@ -119,7 +117,6 @@ public class Macros {
             }
         }
         return false;
-
     }
 
     public static Macro findMacro(String name) {
@@ -144,21 +141,35 @@ public class Macros {
         System.out.println(" -----------------------------------------------");
     }
 
+    public static void toASM() {
+        try (FileWriter writer = new FileWriter("MASMAPRG.asm")) {
+            for (String[] str : codeTable) {
+                for (String s : str) {
+                    writer.write(s + " ");
+                }
+                writer.write(System.lineSeparator());
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Macros.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public static void process(String path) {
         //estrutura o programa lido
         readContent(path);
-        //System.out.println("> conteudo lido");
-        //print(contentTable, "|label\tcomando\targ1\targ2\targ3\targ4\t|");
+        System.out.println("> conteudo lido");
+        print(contentTable, "|label\tcomando\targ1\targ2\targ3\targ4\t|");
 
         //processa as macros
         processMacros();
-        //System.out.println("> definições das macros");
-        //print(macrosDef, "|macro\tname\tstart\tend\tlevel\ttype\t|");
+        System.out.println("> definições das macros");
+        print(macrosDef, "|macro\tname\tstart\tend\tlevel\ttype\t|");
 
         //expande as macros
         expandMacros();
-        System.out.println("code");
+        System.out.println("> codigo expandido");
         print(codeTable, "|label\tcomando\targ1\targ2\targ3\targ4\t|");
 
+        toASM();
     }
 }
