@@ -32,6 +32,7 @@
  read c
  scale 3
  discr a,b,c,d
+ discr x,y,z,k
  write d
  stop
 *

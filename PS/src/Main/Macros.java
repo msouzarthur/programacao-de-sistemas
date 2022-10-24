@@ -25,7 +25,9 @@ public class Macros {
 
         contentTable = Reader.read(path, 6);
     }
-
+    //scale não tem nada, spo define a multsc
+    //label não vai ser usado nesse caso
+    //no discr a gente expande a multsc
     public static String getEnd(String target, int start) {
         int nivel = 0;
         for (int r = start; r < contentTable.size(); r++) {
