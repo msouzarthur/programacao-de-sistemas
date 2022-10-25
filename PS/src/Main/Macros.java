@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 public class Macros {
 
     private static String fileName;
-    private static int start, stop;
+    private static int start, stop, macrosCount = 1;
     private static List<String[]> contentTable = new ArrayList<>();
     private static List<Macro> macros = new ArrayList<>();
     private static List<String[]> codeTable = new ArrayList<>();
@@ -25,10 +25,11 @@ public class Macros {
 
         contentTable = Reader.read(path, 6);
     }
+
     //scale não tem nada, spo define a multsc
     //label não vai ser usado nesse caso
-    //no discr a gente expande a multsc
-    public static String getEnd(String target, int start) {
+    //no discr a gente expande o mult
+    public static String getEnd(int start) {
         int nivel = 0;
         for (int r = start; r < contentTable.size(); r++) {
             if (contentTable.get(r)[1] != null) {
@@ -47,7 +48,8 @@ public class Macros {
     }
 
     public static void processMacros() {
-        int nivel = 0, macrosCount = 1;
+        int nivel = 0;
+        Macro m;
         String[] row;
         for (int r = 0; r < contentTable.size(); r++) {
             row = new String[6];
@@ -56,24 +58,21 @@ public class Macros {
                     row[0] = Integer.toString(macrosCount);
                     row[1] = contentTable.get(r + 1)[1];
                     row[2] = Integer.toString(r + 1);
-                    row[3] = getEnd(contentTable.get(r + 1)[1], r + 1);
-                    row[4] = Integer.toString(nivel);
-                    if (nivel > 0) {
-                        row[5] = "aninhad";
-                    } else {
-                        row[5] = "normal";
+                    row[3] = getEnd(r + 1);
+                    if (nivel == 0) {
+                        macrosDef.add(row);
+                        macrosCount += 1;
+                        m = new Macro(contentTable.get(r + 1));
+                        m.setContent(contentTable.subList(Integer.parseInt(row[2]), Integer.parseInt(row[3])));
+                        m.setInit(r + 1);
+                        macros.add(m);
                     }
-                    Macro m = new Macro(contentTable.get(r + 1));
-                    m.setInit(r + 1);
-                    m.setEnd(Integer.parseInt(getEnd(contentTable.get(r + 1)[1], r + 1)));
-                    m.setContent(contentTable.subList(m.getInit(), m.getEnd()));
-                    macros.add(m);
-                    macrosDef.add(row);
                     nivel += 1;
-                    macrosCount += 1;
-                }
+                } else if (nivel == 0 && isMacro(contentTable.get(r)[1])) {
+                    //expandir
+                    expand(contentTable.get(r), nivel);
 
-                if (nivel > 0) {
+                } else if (nivel == 0) {
                     macrosTable.add(contentTable.get(r));
                 }
 
@@ -88,6 +87,33 @@ public class Macros {
                     codeTable.add(contentTable.get(r));
                 }
             }
+        }
+    }
+
+    public static void expand(String[] call, int nivel) {
+        Macro macro = findMacro(call[1]);
+        Macro m;
+        String[] row = new String[6];
+        int count = 0;
+        for (String[] r : macro.getContent()) {
+            if (r[1].equals("macro")) {
+                row[0] = Integer.toString(macrosCount);
+                row[1] = macro.getContent().get(count + 1)[1];
+                row[2] = Integer.toString(macro.getInit() + count + 1);
+                row[3] = getEnd(macro.getInit() + count + 1);
+
+                if (nivel == 0) {
+                    macrosDef.add(row);
+                    macrosCount += 1;
+                    m = new Macro(r);
+                    m.setContent(contentTable.subList(Integer.parseInt(row[2]), Integer.parseInt(row[3])));
+                    m.setInit(count + 1);
+                    macros.add(m);
+                }
+
+                nivel += 1;
+            }
+            count += 1;
         }
     }
 
@@ -113,8 +139,8 @@ public class Macros {
     }
 
     public static boolean isMacro(String name) {
-        for (Macro m : macros) {
-            if (name.equals(m.getName())) {
+        for (String[] m : macrosDef) {
+            if (name.equals(m[1])) {
                 return true;
             }
         }
@@ -168,7 +194,6 @@ public class Macros {
         print(macrosDef, "|macro\tname\tstart\tend\tlevel\ttype\t|");
 
         //expande as macros
-        expandMacros();
         System.out.println("> codigo expandido");
         print(codeTable, "|label\tcomando\targ1\targ2\targ3\targ4\t|");
 
