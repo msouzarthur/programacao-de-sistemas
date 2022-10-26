@@ -19,72 +19,18 @@ public class Macro {
         this.arg4 = definition[5];
     }
 
-    public List<String[]> changeVar(String[] call) {
-        newContent = this.orgContent;
+    public void changeVar(String[] call) {
+        List<String[]> newContent = this.orgContent;
+        String nLabel = call[0];
+        String nArg1 = call[2];
+        String nArg2 = call[3];
+        String nArg3 = call[4];
+        String nArg4 = call[5];
+
         for (int r = 0; r < newContent.size(); r++) {
-            for (int i = 0; i < newContent.get(r).length; i++) {
-                if (newContent.get(r)[i] != null) {
-                    if (newContent.get(r)[i].equals(arg1)) {
-                        newContent.get(r)[i] = call[2];
-                    }
-                    if (newContent.get(r)[i].equals(arg2)) {
-                        newContent.get(r)[i] = call[3];
-                    }
-                    if (newContent.get(r)[i].equals(arg3)) {
-                        newContent.get(r)[i] = call[4];
-                    }
-                    if (newContent.get(r)[i].equals(arg4)) {
-                        newContent.get(r)[i] = call[5];
-                    }
-                }
-            }
-
-            /*String[] row;
-        for (int r = 1; r < orgContent.size() - 1; r++) {
-            row = orgContent.get(r);
-            if (orgContent.get(r)[2].equals(arg1)) {
-                row[2] = call[2];
-            }
-            if (orgContent.get(r)[3].equals(arg1)) {
-                row[3] = call[2];
-            }
-            if (orgContent.get(r)[4].equals(arg1)) {
-                row[4] = call[2];
-            }
-            if (orgContent.get(r)[5].equals(arg1)) {
-                row[5] = call[2];
-            }
-            for (int w = 0; w < orgContent.get(r).length; w++) {
-                if (orgContent.get(r)[w].equals(arg1)) {
-                    row[w] = call[2];
-                }
-                if (orgContent.get(r)[w].equals(arg2)) {
-                    row[w] = call[3];
-                }
-                if (orgContent.get(r)[w].equals(arg3)) {
-                    row[w] = call[4];
-                }
-                if (orgContent.get(r)[w].equals(arg4)) {
-                    row[w] = call[5];
-                }
-            }
-
-            newContent.add(row);
-        }*/
+            
         }
-        return newContent;
-    }
-
-    public ArrayList<String[]> expand(String[] call) {
-        ArrayList<String[]> exp = new ArrayList<>();
-        int nivel = 0;
-        newContent = changeVar(call);
-        for (String[] r : newContent) {
-            if (r[1].equals("macro")) {
-                nivel += 1;
-            }
-        }
-        return exp;
+        setNewContent(newContent);
     }
 
     public void setStart(int start) {

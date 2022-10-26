@@ -31,7 +31,7 @@
  read b
  read c
  scale 3
- discr a,b,c,d
+ discr a,b,c,x
  write d
  stop
 *

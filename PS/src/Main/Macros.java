@@ -52,6 +52,7 @@ public class Macros {
         int nivel = 0;
         int call = 0;
         String[] mRow, row;
+        Macro macro;
         List<String[]> macroRow = new ArrayList<>();
         //percorre o codigo
         for (int r = 0; r < contentTable.size(); r++) {
@@ -64,7 +65,7 @@ public class Macros {
                     mRow = saveMacro(contentTable.get(r + 1), r);
                     macrosTable.add(mRow);
 
-                    Macro macro = new Macro(contentTable.get(r + 1));
+                    macro = new Macro(contentTable.get(r + 1));
                     macro.setStart(r);
                     macro.setEnd(Integer.parseInt(getFinal(r)));
                     macro.setOrgContent(contentTable.subList(macro.getStart() + 2, macro.getEnd()));
@@ -85,29 +86,34 @@ public class Macros {
                         macroRow = m.getNewContent();
                         for (int mr = 0; mr < macroRow.size(); mr++) {
                             if (macroRow.get(mr)[1].equals("macro")) {
+                                int index = 0;
                                 subNivel += 1;
                                 macrosCount += 1;
+                                index = contentTable.indexOf(macroRow.get(mr));
 
-                                mRow = saveMacro(macroRow.get(mr + 1), contentTable.indexOf(macroRow.get(mr)));
+                                mRow = saveMacro(macroRow.get(mr + 1), index);
                                 macrosTable.add(mRow);
+
+                                macro = new Macro(contentTable.get(index + 1));
+                                macro.setStart(index);
+                                macro.setEnd(Integer.parseInt(getFinal(index)));
+                                macro.setOrgContent(contentTable.subList(macro.getStart() + 2, macro.getEnd()));
+                                macros.add(macro);
                             }
                             if (macroRow.get(mr)[1].equals("mend")) {
                                 subNivel -= 1;
                             }
                             if (subNivel == 0 && !macroRow.get(mr)[1].equals("mend")) {
-                                System.out.println("aaa " + macroRow.get(mr)[1]);
                                 if (isMacro(macroRow.get(mr)[1])) {
-                                    System.out.println("sim " + macroRow.get(mr)[1]);
-                                    //expandir a macro do macroRow.get(mr)[1]
+                                    //segundo dar um changevar nela
+                                    //terceiro add do newContent
+                                    macro = getMacro(macroRow.get(mr)[1]);
                                     
-                                    
-                                    //Macro macroCall = getMacro(macroRow.get(mr)[1]);
-                                    //System.out.println("voltou "+macroCall.getName());
-                                    //mm.changeVar(macroRow.get(mr));
-                                    //List<String[]> mmr = mm.getNewContent();
-                                    //for(String[] mmmr : mmr){
-                                    //    codeTable.add(mmmr);
-                                    //}
+                                    macro.changeVar(macroRow.get(mr));
+                                    print(macro.getNewContent(),"new content");
+                                    for(String[] mmRow: macro.getNewContent()){
+                                        codeTable.add(mmRow);
+                                    }
                                 } else {
                                     codeTable.add(macroRow.get(mr));
                                 }
@@ -139,7 +145,6 @@ public class Macros {
         return null;
     }
 
-    
     public static void print(List<String[]> target, String header) {
         System.out.println(header);
         System.out.println(" -----------------------------------------------");
@@ -156,55 +161,14 @@ public class Macros {
     public static void process(String path) {
         //estrutura o programa lido
         readContent(path);
-        print(contentTable, "> code");
+        System.out.println("> code");
+        print(contentTable, "|label\tcommand\topd1\topd2\topd3\topd4\t|");
         processMacros();
-        print(codeTable, "> expanded code");
+        System.out.println("> expanded code");
+        print(codeTable, "|label\tcommand\topd1\topd2\topd3\topd4\t|");
         //processa as macros
-        print(macrosTable, "> macros");
+        System.out.println("> macros "+macrosCount);
+        print(macrosTable, "|id\tname\tstart\tend\t|");
+        System.out.println("changeVar não ta funcionando");
     }
-}/*
-if (nivel == 0) {
-                if (!row[1].equals("mend")) {
-                    if (isMacro(row[1])) {
-                        Macro m = getMacro(row[1]);
-                        m.changeVar(row);
-                        for (String[] rr : m.getNewContent()) {
-                            if (rr[1].equals("macro")) {
-                                if (nivel == 0) {
-                                    macrosCount += 1;
-
-                                    mRow = saveMacro(contentTable.get(r + 1), r);
-                                    macrosTable.add(mRow);
-
-                                    Macro macro = new Macro(contentTable.get(r + 1));
-                                    macro.setStart(r);
-                                    macro.setEnd(Integer.parseInt(getFinal(r)));
-                                    System.out.println(macro.getName());
-                                    System.out.println(macro.getStart());
-                                    System.out.println(macro.getEnd());
-                                    macro.setOrgContent(contentTable.subList(macro.getStart(), macro.getEnd()));
-                                    macros.add(macro);
-                                }
-                                nivel += 1;
-                            }
-                            if (rr[1].equals("mend")) {
-                                nivel -= 1;
-                            } else {
-                                codeTable.add(rr);
-                            }
-                        }
-                    }
-                }
-            } else {
-                codeTable.add(row);
-subNivel += 1;
-                                
-                                mRow = saveMacro(contentTable.get(r + 1), r);
-                                macrosTable.add(mRow);
-                                
-                                Macro nm = new Macro(macroRow.get(mr + 1));
-                                m.setStart(mr);
-                                m.setEnd(Integer.parseInt(getFinal(mr+1)));
-                                m.setOrgContent(contentTable.subList(m.getStart() + 2, m.getEnd()));
-                                macros.add(m);
-            }*/
+}
