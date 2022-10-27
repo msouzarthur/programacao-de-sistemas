@@ -1,5 +1,9 @@
 package Main;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -148,6 +152,19 @@ public class Macros {
             System.out.println("|");
         }
         System.out.println(" -----------------------------------------------");
+    }
+
+    public static void toASM() {
+        try (FileWriter writer = new FileWriter("MASMAPRG.asm")) {
+            for (String[] str : codeTable) {
+                for (String s : str) {
+                    writer.write(s + " ");
+                }
+                writer.write(System.lineSeparator());
+            }
+        } catch (IOException ex) {
+            Error.showError("> erro ao salvar .asm");
+        }
     }
 
     public static void process(String path) {
