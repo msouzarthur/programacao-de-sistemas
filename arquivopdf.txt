@@ -21,7 +21,7 @@
  macro
 &lab discr &a,&b,&c,&d
 &lab multsc &a,&c,temp1
- multsc temp1,@4,temp1
+ multsc temp1,@4,tempZ
  multsc &a,&b,temp2
  sub temp1
  store &d

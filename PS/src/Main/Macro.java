@@ -20,17 +20,55 @@ public class Macro {
     }
 
     public void changeVar(String[] call) {
-        List<String[]> newContent = this.orgContent;
-        String nLabel = call[0];
-        String nArg1 = call[2];
-        String nArg2 = call[3];
-        String nArg3 = call[4];
-        String nArg4 = call[5];
-
+        newContent = orgContent;
         for (int r = 0; r < newContent.size(); r++) {
-            
+            for (int i = 0; i < newContent.get(r).length; i++) {
+                if (newContent.get(r)[i] != null) {
+                    if (newContent.get(r)[i].equals(arg1)) {
+                        newContent.get(r)[i] = call[2];
+                    }
+                    if (newContent.get(r)[i].equals(arg2)) {
+                        newContent.get(r)[i] = call[3];
+                    }
+                    if (newContent.get(r)[i].equals(arg3)) {
+                        newContent.get(r)[i] = call[4];
+                    }
+                    if (newContent.get(r)[i].equals(arg4)) {
+                        newContent.get(r)[i] = call[5];
+                    }
+                }
+            }
         }
-        setNewContent(newContent);
+    }
+
+    public void expand(String[] call) {
+        this.newContent = new ArrayList<>();
+
+        //faz um deepcopy
+        for (String[] r : orgContent) {
+            String[] clone = new String[r.length];
+            System.arraycopy(r, 0, clone, 0, r.length);
+            this.newContent.add(clone);
+        }
+
+        for (int r = 0; r < orgContent.size(); r++) {
+            for (int i = 0; i < orgContent.get(r).length; i++) {
+                if (orgContent.get(r)[i] != null) {
+                    if (orgContent.get(r)[i].equals(arg1)) {
+                        newContent.get(r)[i] = call[2];
+                    }
+                    if (orgContent.get(r)[i].equals(arg2)) {
+                        newContent.get(r)[i] = call[3];
+                    }
+                    if (orgContent.get(r)[i].equals(arg3)) {
+                        newContent.get(r)[i] = call[4];
+                    }
+                    if (orgContent.get(r)[i].equals(arg4)) {
+                        newContent.get(r)[i] = call[5];
+                    }
+                }
+            }
+        }
     }
 
     public void setStart(int start) {

@@ -50,14 +50,11 @@ public class Macros {
 
     public static void processMacros() {
         int nivel = 0;
-        int call = 0;
         String[] mRow, row;
         Macro macro;
         List<String[]> macroRow = new ArrayList<>();
-        //percorre o codigo
         for (int r = 0; r < contentTable.size(); r++) {
             row = contentTable.get(r);
-            //achou definicao de macro
             if (row[1].equals("macro")) {
                 if (nivel == 0) {
                     macrosCount += 1;
@@ -80,7 +77,6 @@ public class Macros {
                 if (!row[1].equals("mend")) {
                     int subNivel = 0;
                     if (isMacro(row[1])) {
-                        //preciso expandir ela
                         Macro m = getMacro(row[1]);
                         m.changeVar(row);
                         macroRow = m.getNewContent();
@@ -105,13 +101,9 @@ public class Macros {
                             }
                             if (subNivel == 0 && !macroRow.get(mr)[1].equals("mend")) {
                                 if (isMacro(macroRow.get(mr)[1])) {
-                                    //segundo dar um changevar nela
-                                    //terceiro add do newContent
                                     macro = getMacro(macroRow.get(mr)[1]);
-                                    
-                                    macro.changeVar(macroRow.get(mr));
-                                    print(macro.getNewContent(),"new content");
-                                    for(String[] mmRow: macro.getNewContent()){
+                                    macro.expand(macroRow.get(mr));
+                                    for (String[] mmRow : macro.getNewContent()) {
                                         codeTable.add(mmRow);
                                     }
                                 } else {
@@ -167,8 +159,7 @@ public class Macros {
         System.out.println("> expanded code");
         print(codeTable, "|label\tcommand\topd1\topd2\topd3\topd4\t|");
         //processa as macros
-        System.out.println("> macros "+macrosCount);
+        System.out.println("> macros " + macrosCount);
         print(macrosTable, "|id\tname\tstart\tend\t|");
-        System.out.println("changeVar não ta funcionando");
     }
 }
