@@ -2,8 +2,6 @@ package Main;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.System.Logger;
-import java.lang.System.Logger.Level;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -168,15 +166,20 @@ public class Macros {
     }
 
     public static void process(String path) {
-        //estrutura o programa lido
+
         readContent(path);
+        
         System.out.println("> code");
         print(contentTable, "|label\tcommand\topd1\topd2\topd3\topd4\t|");
+        
         processMacros();
-        System.out.println("> expanded code");
-        print(codeTable, "|label\tcommand\topd1\topd2\topd3\topd4\t|");
-        //processa as macros
+        
         System.out.println("> macros " + macrosCount);
         print(macrosTable, "|id\tname\tstart\tend\t|");
+        
+        System.out.println("> expanded code");
+        print(codeTable, "|label\tcommand\topd1\topd2\topd3\topd4\t|");
+
+        toASM();
     }
 }
