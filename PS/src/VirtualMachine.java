@@ -5,6 +5,7 @@
  * @author willian do espirito santo
  * @author matheus cardoso
  * @author leonardo marotta
+ * @author Lucas Dias
  */
 public class VirtualMachine extends javax.swing.JFrame {
 
@@ -450,7 +451,7 @@ public class VirtualMachine extends javax.swing.JFrame {
                 default:
             }
             if(opcode.length()!=16){
-                   error.setError("operação não identificada");
+                error.setError("operação não identificada");
             }
             else{
                 Instruction instruction = new Instruction(opcode, opd1, opd2);
