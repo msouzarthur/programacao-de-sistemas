@@ -4,6 +4,7 @@ import Instructions.*;
 import Main.Instruction.EndType;
 import Registers.*;
 import static Main.Memory.*;
+import java.io.File;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,11 +18,11 @@ import javax.swing.table.DefaultTableModel;
 public class VirtualMachine extends javax.swing.JFrame {
 
     public VirtualMachine() {
-        Macros.process("");
+        //Macros.process("");
 
-        //initComponents();
-        //setInitValues();
-        //attScreen();
+        initComponents();
+        setInitValues();
+        attScreen();
     }
     
 
@@ -398,23 +399,21 @@ public class VirtualMachine extends javax.swing.JFrame {
         Instruction instruction;
         attScreen();
 
-        //String path = inCod.getText();
-        //File f = new File(path);
-        /*if(inCod.getText().length() == 0 ){
+        String path = inCod.getText();
+        File f = new File(path);
+        if(inCod.getText().length() == 0 ){
             Error.showError("não há entrada de dados");
             return;
         }
-        else if(f.exists() && !f.isDirectory()) { */
-        assembler.assemble("");
-        //inCod.setText("");
-
-        /*} 
-        else{
-            Error.showError("arquivo não encontrado");
-            return;
-        }*/
-        //String[] cod = inCod.getText().split("\n");;;
-        //readContent(cod, position);
+        else if(f.exists() && !f.isDirectory()) { 
+            Macros.process(path);
+            assembler.assemble("./MASMAPRG.asm");
+            //ligador
+            //Linker.link();
+            //carregador
+            //Loader.load();
+        } 
+        
         do {
             attScreen();
             instruction = decodeInstruction(Memory.memoryGet(PC.getValue()));
@@ -519,7 +518,7 @@ public class VirtualMachine extends javax.swing.JFrame {
             return;
         }
         else if(f.exists() && !f.isDirectory()) { */
-        assembler.assemble("ar");
+        assembler.assemble("");
         //inCod.setText("");
 
         /*} 

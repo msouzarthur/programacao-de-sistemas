@@ -42,4 +42,43 @@ public class Reader {
         }
         return contentTable;
     }
+    
+    public static void print(List<String[]> target, String header) {
+        System.out.println(header + " "+header.length());
+        System.out.println(" -------------------------------");
+        for (String[] r : target) {
+            System.out.print("|");
+            for (String r1 : r) {
+                System.out.print(r1 + "\t");
+            }
+            System.out.println("|");
+        }
+        System.out.println(" -------------------------------");
+    }
+    
+    public static List<String[]> readASM(String path, int wordCount) {
+        contentTable = new ArrayList<>();
+        File file = new File(path);
+        Scanner reader;
+        try {
+            reader = new Scanner(file);
+            while (reader.hasNextLine()) {
+                String l = reader.nextLine();
+                String[] words = l.split(" ");
+                String[] row = new String[wordCount];
+                if (l.length() > 80) {
+                    Error.showError("> linha de código com comprimento maior que o suportado");
+                }
+                for(int w = 0; w < wordCount; w++){
+                    row[w] = words[w];
+                }
+                contentTable.add(row);
+                
+            }
+            reader.close();
+        } catch (FileNotFoundException e) {
+            Error.showError("> erro ao ler arquivo");
+        }
+        return contentTable;
+    }
 }
