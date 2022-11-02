@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Reader {
 
     private static List<String[]> contentTable = new ArrayList<>();
-
+ 
     public static List<String[]> read(String path, int wordCount) {
         File file = new File(path);
         Scanner reader;
@@ -20,8 +20,8 @@ public class Reader {
                 if (l.length() > 80) {
                     Error.showError("> linha de código com comprimento maior que o suportado");
                 }
-                l = l.replaceAll(",", " ");
-                l = l.replaceAll("&", "");
+                l = l.replaceAll(","," ");
+                l = l.replaceAll("&","");
                 String[] words = l.split(" ");
                 String[] row = new String[wordCount];
                 if (!words[0].equals("*")) {
