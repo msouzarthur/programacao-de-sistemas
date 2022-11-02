@@ -139,24 +139,11 @@ public class Macros {
         return null;
     }
 
-    public static void print(List<String[]> target, String header) {
-        System.out.println(header);
-        System.out.println(" -----------------------------------------------");
-        for (String[] r : target) {
-            System.out.print("|");
-            for (String w : r) {
-                System.out.print(w + "\t");
-            }
-            System.out.println("|");
-        }
-        System.out.println(" -----------------------------------------------");
-    }
-
     public static void toASM() {
         try (FileWriter writer = new FileWriter("MASMAPRG.asm")) {
-            for (String[] str : codeTable) {
-                for (String s : str) {
-                    writer.write(s + " ");
+            for (int r=0; r<codeTable.size();r++) {
+                for (int w=0; w<codeTable.get(r).length-2;w++) {
+                    writer.write(codeTable.get(r)[w] + " ");
                 }
                 writer.write(System.lineSeparator());
             }
@@ -168,17 +155,17 @@ public class Macros {
     public static void process(String path) {
 
         readContent(path);
-        
+
         System.out.println("> code");
-        print(contentTable, "|label\tcommand\topd1\topd2\topd3\topd4\t|");
-        
+        Reader.print(contentTable, "|label\tcommand\topd1\topd2\topd3\topd4\t|");
+
         processMacros();
-        
+
         System.out.println("> macros " + macrosCount);
-        print(macrosTable, "|id\tname\tstart\tend\t|");
-        
+        Reader.print(macrosTable, "|id\tname\tstart\tend\t|");
+
         System.out.println("> expanded code");
-        print(codeTable, "|label\tcommand\topd1\topd2\topd3\topd4\t|");
+        Reader.print(codeTable, "|label\tcommand\topd1\topd2\topd3\topd4\t|");
 
         toASM();
     }
