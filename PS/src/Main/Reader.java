@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Reader {
 
     private static List<String[]> contentTable = new ArrayList<>();
- 
+
     public static List<String[]> read(String path, int wordCount) {
         File file = new File(path);
         Scanner reader;
@@ -20,8 +20,8 @@ public class Reader {
                 if (l.length() > 80) {
                     Error.showError("> linha de código com comprimento maior que o suportado");
                 }
-                l = l.replaceAll(","," ");
-                l = l.replaceAll("&","");
+                l = l.replaceAll(",", " ");
+                l = l.replaceAll("&", "");
                 String[] words = l.split(" ");
                 String[] row = new String[wordCount];
                 if (!words[0].equals("*")) {
@@ -42,10 +42,14 @@ public class Reader {
         }
         return contentTable;
     }
-    
+
     public static void print(List<String[]> target, String header) {
-        System.out.println(header + " "+header.length());
-        System.out.println(" -------------------------------");
+        System.out.println(header);
+        System.out.print(" -");
+        for (char h : header.toCharArray()) {
+            System.out.print("-");
+        }
+        System.out.println("-----");
         for (String[] r : target) {
             System.out.print("|");
             for (String r1 : r) {
@@ -53,9 +57,13 @@ public class Reader {
             }
             System.out.println("|");
         }
-        System.out.println(" -------------------------------");
+        System.out.print(" -");
+        for (char h : header.toCharArray()) {
+            System.out.print("-");
+        }
+        System.out.println("-----");
     }
-    
+
     public static List<String[]> readASM(String path, int wordCount) {
         contentTable = new ArrayList<>();
         File file = new File(path);
@@ -69,11 +77,11 @@ public class Reader {
                 if (l.length() > 80) {
                     Error.showError("> linha de código com comprimento maior que o suportado");
                 }
-                for(int w = 0; w < wordCount; w++){
+                for (int w = 0; w < wordCount; w++) {
                     row[w] = words[w];
                 }
                 contentTable.add(row);
-                
+
             }
             reader.close();
         } catch (FileNotFoundException e) {

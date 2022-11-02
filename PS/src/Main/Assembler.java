@@ -82,33 +82,37 @@ public class Assembler {
                 assembledTable.add(r);
             }
             if (start == 1) {
-                if (r[2] != null && r[2].contains(",I")) {
-                    r[2] = r[2].replace(",I", "");
-                    address += 32;
+                if (!r[2].equals("null")) {
+                    if (r[2].contains(",I")) {
+                        r[2] = r[2].replace(",I", "");
+                        address += 32;
+                    }
+                    if (r[2].contains("#")) {
+                        r[2] = r[2].replace("#", "");
+                        address += 128;
+                    }
+                    /*if (r[2].contains("@")) {
+                        r[2] = r[2].replace("@", "");
+                    }*/
                 }
-                if (r[3] != null && r[3].contains(",I")) {
-                    r[3] = r[3].replace(",I", "");
-                    address += 64;
-                }
-                if (r[2] != null && r[2].contains("#")) {
-                    r[2] = r[2].replace("#", "");
-                    address += 128;
-                }
-                if (r[2] != null && r[2].contains("@")) {
-                    r[2] = r[2].replace("@", "");
-                }
-                if (r[3] != null && r[3].contains("@")) {
-                    r[3] = r[3].replace("@", "");
+                if (!r[3].equals("null")) {
+                    if (r[3].contains(",I")) {
+                        r[3] = r[3].replace(",I", "");
+                        address += 64;
+                    }
+                    /*if (r[3].contains("@")) {
+                        r[3] = r[3].replace("@", "");
+                    }*/
                 }
 
-                r[1] = Integer.toString(getOpcode(r[1]) + address);
+                r[1] = Integer.toString(getOpcode(r[1].trim()) + address);
 
                 //simbolos -> codigo
                 for (int i = 2; i < 4; i++) {
                     int position = getAddress(r[i]);
-                    if (r[i] != null && position != -1) {
+                    if (!r[i].equals("null") && position != -1) {
                         r[i] = Integer.toString(position);
-                    } else if (r[i] != null) {
+                    } else if (!r[i].equals("null") && !r[i].contains("@")) {
                         Error.showError("> simbolo não definido " + r[i]);
                         return;
                     }
@@ -177,21 +181,21 @@ public class Assembler {
 
     void toLst() throws IOException {
         try (FileWriter writer = new FileWriter(fileName + ".lst")) {
-            writer.write("conteudo do programa" + System.lineSeparator());
+            writer.write("> conteudo do programa" + System.lineSeparator());
             for (String[] str : contentTable) {
                 for (String s : str) {
                     writer.write(s + " ");
                 }
                 writer.write(System.lineSeparator());
             }
-            writer.write("tabela de simbolos" + System.lineSeparator());
+            writer.write("> tabela de simbolos" + System.lineSeparator());
             for (String[] str : symbolTable) {
                 for (String s : str) {
                     writer.write(s + " ");
                 }
                 writer.write(System.lineSeparator());
             }
-            writer.write("programa montado" + System.lineSeparator());
+            writer.write("> programa montado" + System.lineSeparator());
             for (String[] str : assembledTable) {
                 for (String s : str) {
                     writer.write(s + " ");
@@ -202,11 +206,13 @@ public class Assembler {
     }
 
     void assemble(String path) {
+        System.out.println("> montando programa");
         System.out.println("> lendo código .asm");
         readContent(path);
+
         //fim do primeiro passo
-        System.out.println("> montando programa");
         assembleProgram();
+
         //fim do segundo passo
         System.out.println("> salvando arquivo obj");
         try {
@@ -222,9 +228,6 @@ public class Assembler {
         } catch (IOException ex) {
             Error.showError("> problema ao salvar arquivo lst");
         }
-
-        System.out.println();
-        System.out.println();
-        System.out.println();
+        System.out.println("> programa montado");
     }
 }

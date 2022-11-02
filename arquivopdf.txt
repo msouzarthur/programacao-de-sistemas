@@ -21,7 +21,7 @@
  macro
 &lab discr &a,&b,&c,&d
 &lab multsc &a,&c,temp1
- multsc temp1,@4,tempZ
+ multsc temp1,@4,temp2
  multsc &a,&b,temp2
  sub temp1
  store &d
@@ -31,7 +31,7 @@
  read b
  read c
  scale 3
- discr a,b,c,x
+ discr a,b,c,d
  write d
  stop
 *

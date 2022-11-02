@@ -7,12 +7,12 @@ null mult c null
 null store temp1 null 
 null load temp1 null 
 null mult @4 null 
-null store tempZ null 
+null store temp2 null 
 null load a null 
 null mult b null 
 null store temp2 null 
 null sub temp1 null 
-null store x null 
+null store d null 
 null write d null 
 null stop null null 
 a space null null 

@@ -153,20 +153,21 @@ public class Macros {
     }
 
     public static void process(String path) {
-
+        System.out.println("> processando macros");
         readContent(path);
 
-        System.out.println("> code");
+        System.out.println("> código lido");
         Reader.print(contentTable, "|label\tcommand\topd1\topd2\topd3\topd4\t|");
 
         processMacros();
 
-        System.out.println("> macros " + macrosCount);
+        System.out.println("> informacao das macros " + macrosCount);
         Reader.print(macrosTable, "|id\tname\tstart\tend\t|");
 
-        System.out.println("> expanded code");
+        System.out.println("> código expandido");
         Reader.print(codeTable, "|label\tcommand\topd1\topd2\topd3\topd4\t|");
 
         toASM();
+        System.out.println("> macros processadas");
     }
 }

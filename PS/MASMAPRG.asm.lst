@@ -1,33 +1,49 @@
-conteudo do programa
+> conteudo do programa
 null start teste null 
 null 12 31 null 
-null read b null 
-null read c null 
-null load a null 
-null mult c null 
-null store temp1 null 
-null load temp1 null 
-null mult @4 null 
-null store tempZ null 
-null load a null 
-null mult b null 
-null store temp2 null 
-null sub temp1 null 
-null store x null 
-null write d null 
-null stop null null 
-a space null null 
-b space null null 
-c space null null 
-d space null null 
-temp1 space null null 
-temp2 space null null 
+null 12 32 null 
+null 12 33 null 
+null 3 31 null 
+null 14 33 null 
+null 7 35 null 
+null 3 35 null 
+null 14 @4 null 
+null 7 36 null 
+null 3 31 null 
+null 14 32 null 
+null 7 36 null 
+null 6 35 null 
+null 7 34 null 
+null 8 34 null 
+null 11 null null 
+null space null null 
+null space null null 
+null space null null 
+null space null null 
+null space null null 
+null space null null 
 null end null null 
-tabela de simbolos
+> tabela de simbolos
 a null 31 
 b null 32 
 c null 33 
 d null 34 
 temp1 null 35 
 temp2 null 36 
-programa montado
+> programa montado
+null 12 31 null 
+null 12 32 null 
+null 12 33 null 
+null 3 31 null 
+null 14 33 null 
+null 7 35 null 
+null 3 35 null 
+null 14 @4 null 
+null 7 36 null 
+null 3 31 null 
+null 14 32 null 
+null 7 36 null 
+null 6 35 null 
+null 7 34 null 
+null 8 34 null 
+null 11 null null 
