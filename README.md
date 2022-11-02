@@ -1,7 +1,7 @@
 <img src ="https://portal.ufpel.edu.br/wp-content/themes/Portal/imagens/header.svg">
 <h2> Trabalho final da disciplina de Programação de Sistemas </h2>
 <h2> Desenvolvido por Arthur Souza, Hector Fernandes, Rafael Rocha, Matheus Cardoso, Willian do Espirito Santo, Leonardo Marotta, Patrick Rosa</h2>
-<h2>O emulador de Computador Hipotético possui</h2>
+<h2>Emulador de Computador Hipotético</h2>
 <ul>
 <li>Memória</li>
 <p>Memória do computador onde todas informações e dados são armazenados de modo sequencial, com exceção da pilha</p>
