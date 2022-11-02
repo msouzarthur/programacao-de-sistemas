@@ -17,10 +17,23 @@ public class Linker {
     private static List<String[]> symbolTable = new ArrayList<>();
     
     public static void link(){
+        String contentHeader = Reader.header("./MASMAPRG.lst", 4);
+        //me diz a posição de onde acaba a seção de instruções
+        //usando esse valor, já posso inserir dados de memória
+        int contentAddresses = Integer.parseInt(contentHeader.split(" ")[2]);
+        String symbolHeader =  Reader.header("./simbolos.lst", 3);
+        int symbolAddresses = Integer.parseInt(symbolHeader.split(" ")[2]);
+        
+        System.out.println(contentAddresses);
         contentTable = Reader.read("./MASMAPRG.lst", 4);
         symbolTable = Reader.read("./simbolos.lst",3);
         System.out.println("linker");
         Reader.print(contentTable,"conteudo");
         Reader.print(symbolTable, "simbolos");
+        for(int r=0;r<contentTable.size();r++){
+            //for(int w=0;w<contentTable.get(r).length();w++{
+                
+            //}
+        }
     }
 }

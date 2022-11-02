@@ -14,7 +14,7 @@ public class Assembler {
 
     public void readContent(String path) {
         fileName = path.substring(path.lastIndexOf('/') + 1);
-        fileName = fileName.replace(".asm","").trim();
+        fileName = fileName.replace(".asm", "").trim();
 
         contentTable = Reader.readASM(path, 4);
         programName = contentTable.get(0)[2];
@@ -118,7 +118,7 @@ public class Assembler {
                         Error.showError("> simbolo não definido " + r[i]);
                         return;
                     }
-                    if(r[i].contains("@")){
+                    if (r[i].contains("@")) {
                         r[i] = r[i].replace("@", "");
                     }
                 }
@@ -186,6 +186,7 @@ public class Assembler {
 
     void toLst(List<String[]> list, String name) throws IOException {
         try (FileWriter writer = new FileWriter(name + ".lst")) {
+            writer.write(setHeader(list));
             for (String[] str : list) {
                 for (String s : str) {
                     writer.write(s + " ");
@@ -193,6 +194,21 @@ public class Assembler {
                 writer.write(System.lineSeparator());
             }
         }
+    }
+
+    String setHeader(List<String[]> list) {
+        int lines = list.size();
+        int addresses = 1;
+        for (String[] r : list) {
+            for (String w : r) {
+                if (w != null) {
+                    if(!w.equals("null")){
+                        addresses += 1;
+                    }
+                }
+            }
+        }
+        return "* " + lines + " " + addresses + "\n";
     }
 
     void assemble(String path) {
@@ -214,8 +230,8 @@ public class Assembler {
         System.out.println("> salvando arquivo lst");
         try {
             toLst(contentTable, "conteudo");
-            toLst(symbolTable,"simbolos");
-            toLst(assembledTable,"MASMAPRG");
+            toLst(symbolTable, "simbolos");
+            toLst(assembledTable, "MASMAPRG");
             System.out.println("> arquivo lst salvo");
         } catch (IOException ex) {
             Error.showError("> problema ao salvar arquivo lst");

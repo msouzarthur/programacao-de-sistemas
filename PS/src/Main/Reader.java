@@ -43,14 +43,22 @@ public class Reader {
                 }
             }
         }
-        /*for (String[] r : contentTable) {
-            if (r[0].equals("null") || r[0].length() == 0) {
-                r[0] = null;
-            }
-        }*/
         return contentTable;
     }
-
+    
+    public static String header(String path, int wordCount){
+        String head = new String();
+        File file = new File(path);
+        Scanner reader;
+        try{
+            reader = new Scanner(file);
+            head = reader.nextLine();
+        }catch (FileNotFoundException e) {
+            Error.showError("> erro ao ler arquivo");
+        }
+        return head;
+    }
+    
     public static void print(List<String[]> target, String header) {
         System.out.println(header);
         System.out.print(" -");
