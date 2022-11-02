@@ -11,6 +11,7 @@ public class Reader {
     private static List<String[]> contentTable = new ArrayList<>();
 
     public static List<String[]> read(String path, int wordCount) {
+        contentTable = new ArrayList<>();
         File file = new File(path);
         Scanner reader;
         try {
@@ -35,11 +36,18 @@ public class Reader {
         } catch (FileNotFoundException e) {
             Error.showError("> erro ao ler arquivo");
         }
-        for (String[] r : contentTable) {
-            if (r[0].length() == 0) {
-                r[0] = null;
+        for (int r = 0; r < contentTable.size(); r++) {
+            for (int w = 0; w < contentTable.get(r).length; w++) {
+                if (contentTable.get(r)[w] == null || contentTable.get(r)[w].equals("null") || contentTable.get(r)[w].length() == 0) {
+                    contentTable.get(r)[w] = null;
+                }
             }
         }
+        /*for (String[] r : contentTable) {
+            if (r[0].equals("null") || r[0].length() == 0) {
+                r[0] = null;
+            }
+        }*/
         return contentTable;
     }
 

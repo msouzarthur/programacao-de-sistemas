@@ -1,11 +1,12 @@
 package Main;
 
+import Registers.PC;
 import Registers.SP;
 import java.util.List;
 import java.util.ArrayList;
 
 public final class Memory {
-    
+
     private static List<Integer> memory = new ArrayList<>(500);
 
     public static Integer memoryGet(Integer address) {
@@ -39,10 +40,10 @@ public final class Memory {
     }
 
     public static void stackPush(Integer value) {
-        System.out.println(SP.getValue());
-        System.out.println("tamanho "+memory.size());
-        memory.set(SP.getValue(), value);
-        SP.nextValue();
+        if (Memory.memoryGet(SP.getValue() - 1) == null) {
+            memory.set(SP.getValue(), value);
+            SP.nextValue();
+        }
     }
 
     public static Integer stackPop() {
@@ -52,8 +53,7 @@ public final class Memory {
             value = Memory.memoryGet(SP.getValue());
             Memory.memorySet(SP.getValue(), null);
             return value;
-        }
-        else{
+        } else {
             Error.showError("> não há nada na pilha");
             return -1;
         }

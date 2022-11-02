@@ -8,7 +8,6 @@ import java.io.File;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
-
 /*
  * @author arthur souza
  * @author hector fernandes
@@ -18,13 +17,10 @@ import javax.swing.table.DefaultTableModel;
 public class VirtualMachine extends javax.swing.JFrame {
 
     public VirtualMachine() {
-        //Macros.process("");
-
         initComponents();
         setInitValues();
         attScreen();
     }
-    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -393,7 +389,6 @@ public class VirtualMachine extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunActionPerformed
-        //reset();
         Integer opd1 = null, opd2 = null;
         Assembler assembler = new Assembler();
         Instruction instruction;
@@ -401,19 +396,18 @@ public class VirtualMachine extends javax.swing.JFrame {
 
         String path = inCod.getText();
         File f = new File(path);
-        if(inCod.getText().length() == 0 ){
-            Error.showError("não há entrada de dados");
+        if (inCod.getText().length() == 0) {
+            Error.showError("> não há entrada de dados");
             return;
-        }
-        else if(f.exists() && !f.isDirectory()) { 
+        } else if (f.exists() && !f.isDirectory()) {
             Macros.process(path);
             assembler.assemble("./MASMAPRG.asm");
             //ligador
-            //Linker.link();
+            Linker.link();
             //carregador
-            //Loader.load();
-        } 
-        
+            Loader.load("./MASMAPRG.obj");
+        }
+
         do {
             attScreen();
             instruction = decodeInstruction(Memory.memoryGet(PC.getValue()));
@@ -427,18 +421,33 @@ public class VirtualMachine extends javax.swing.JFrame {
                 PC.setValue(null);
                 break;
             }
-
+            //imediato: é o valor que foi passado
             if (instruction.numberOpd() == 1) {
                 opd1 = Memory.memoryGet(PC.getValue() - 1);
             } else if (instruction.numberOpd() == 2) {
                 opd2 = Memory.memoryGet(PC.getValue() - 2);
             }
-
+            //direto: é o valor que tá no endereço
+            if (instruction.getEndType() == EndType.DIRECT) {
+                if (instruction.numberOpd() == 1) {
+                    opd1 = Memory.memoryGet(opd1);
+                } else if (instruction.numberOpd() == 2) {
+                    opd2 = Memory.memoryGet(opd2);
+                }
+            }
+            //indireto: é o valor que tá no endereço apontado pelo valor passado
+            if (instruction.getEndType() == EndType.INDIRECT1) {
+                opd1 = Memory.memoryGet(Memory.memoryGet(opd1));
+            }
+            if (instruction.getEndType() == EndType.INDIRECT2) {
+                opd2 = Memory.memoryGet(Memory.memoryGet(opd2));
+            }
+            
             instruction.runInstruction(outCod, opd1, opd2);
+            
         } while (Memory.memoryGet(PC.getValue()) != null);
         attScreen();
     }//GEN-LAST:event_btnRunActionPerformed
-
 
     private void btnHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpActionPerformed
         ViewAjuda viewAjuda = new ViewAjuda();
@@ -491,8 +500,8 @@ public class VirtualMachine extends javax.swing.JFrame {
 
                 attScreen();
             }
-        }while (Memory.memoryGet(PC.getValue()) != null);                                      
-            
+        } while (Memory.memoryGet(PC.getValue()) != null);
+
         if (instruction.numberOpd() == 1) {
             opd1 = Memory.memoryGet(PC.getValue() - 1);
         } else if (instruction.numberOpd() == 2) {
@@ -501,8 +510,6 @@ public class VirtualMachine extends javax.swing.JFrame {
 
         instruction.runInstruction(outCod, opd1, opd2);
     }
-
-
 
     private void btnRunCicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunCicleActionPerformed
         //reset();
@@ -566,16 +573,16 @@ public class VirtualMachine extends javax.swing.JFrame {
     private Instruction decodeInstruction(Integer insCod) {
         Instruction instruction = null;
         Integer opcode = insCod;
-        if(insCod>16){
-            if(insCod - 32 <= 15 && insCod - 32 >= 0){
+        if (insCod > 16) {
+            if (insCod - 32 <= 15 && insCod - 32 >= 0) {
                 opcode = insCod - 32;
                 insCod = 32;
             }
-            if(insCod - 64 <= 15 && insCod - 64 >= 0){
+            if (insCod - 64 <= 15 && insCod - 64 >= 0) {
                 opcode = insCod - 64;
                 insCod = 64;
             }
-            if(insCod - 128 <= 15 && insCod - 128 >= 0){
+            if (insCod - 128 <= 15 && insCod - 128 >= 0) {
                 opcode = insCod - 128;
                 insCod = 128;
             }
@@ -633,17 +640,14 @@ public class VirtualMachine extends javax.swing.JFrame {
                 default:
                     System.out.println("ERRO DE OPCODE");
             }
-            if(insCod == 32){
+            if (insCod == 32) {
                 instruction.setEndType(Instruction.EndType.INDIRECT1);
-            }
-            else if(insCod == 64){
+            } else if (insCod == 64) {
                 instruction.setEndType(Instruction.EndType.INDIRECT2);
 
-            }
-            else if(insCod == 128){             
+            } else if (insCod == 128) {
                 instruction.setEndType(Instruction.EndType.IMMEDIATE);
-            }
-            else {
+            } else {
                 instruction.setEndType(Instruction.EndType.DIRECT);
             }
         }
@@ -689,6 +693,8 @@ public class VirtualMachine extends javax.swing.JFrame {
         PC.setValue(2);
         SP.setValue(memory.size() - 1);
         MOP.setValue(0);
+        ACC.setValue(0);
+        RI.setValue(0);
     }
 
     public static void main(String args[]) {

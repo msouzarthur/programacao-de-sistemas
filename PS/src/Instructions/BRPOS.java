@@ -1,6 +1,8 @@
 package Instructions;
 
 import Main.Instruction;
+import Registers.ACC;
+import Registers.PC;
 import javax.swing.JTextPane;
 
 public class BRPOS implements Instruction {
@@ -15,9 +17,12 @@ public class BRPOS implements Instruction {
             Main.Error.showError("o brneg possui um argumento a mais");
             return;
         }
-        /*if(ACC>0){
+        if (ACC.getValue() > 0 && opd1 >= 12 && opd1 < 100) {
             PC.setValue(opd1);
-        }*/
+        } else {
+            Main.Error.showError("> endereco nao acessivel");
+            return;
+        }
     }
 
     @Override

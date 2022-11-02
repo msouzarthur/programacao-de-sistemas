@@ -14,7 +14,7 @@ public class Assembler {
 
     public void readContent(String path) {
         fileName = path.substring(path.lastIndexOf('/') + 1);
-        fileName = fileName.replace(".txt", "").trim();
+        fileName = fileName.replace(".asm","").trim();
 
         contentTable = Reader.readASM(path, 4);
         programName = contentTable.get(0)[2];
@@ -87,12 +87,14 @@ public class Assembler {
                         r[2] = r[2].replace(",I", "");
                         address += 32;
                     }
-                    if (r[2].contains("#")) {
+                    if (r[2].contains("#") || r[2].contains("@")) {
                         r[2] = r[2].replace("#", "");
+                        //r[2] = r[2].replace("@", "");
                         address += 128;
                     }
                     /*if (r[2].contains("@")) {
                         r[2] = r[2].replace("@", "");
+                        address += 128;
                     }*/
                 }
                 if (!r[3].equals("null")) {
@@ -115,6 +117,9 @@ public class Assembler {
                     } else if (!r[i].equals("null") && !r[i].contains("@")) {
                         Error.showError("> simbolo não definido " + r[i]);
                         return;
+                    }
+                    if(r[i].contains("@")){
+                        r[i] = r[i].replace("@", "");
                     }
                 }
                 assembledTable.add(r);
@@ -179,24 +184,9 @@ public class Assembler {
         }
     }
 
-    void toLst() throws IOException {
-        try (FileWriter writer = new FileWriter(fileName + ".lst")) {
-            writer.write("> conteudo do programa" + System.lineSeparator());
-            for (String[] str : contentTable) {
-                for (String s : str) {
-                    writer.write(s + " ");
-                }
-                writer.write(System.lineSeparator());
-            }
-            writer.write("> tabela de simbolos" + System.lineSeparator());
-            for (String[] str : symbolTable) {
-                for (String s : str) {
-                    writer.write(s + " ");
-                }
-                writer.write(System.lineSeparator());
-            }
-            writer.write("> programa montado" + System.lineSeparator());
-            for (String[] str : assembledTable) {
+    void toLst(List<String[]> list, String name) throws IOException {
+        try (FileWriter writer = new FileWriter(name + ".lst")) {
+            for (String[] str : list) {
                 for (String s : str) {
                     writer.write(s + " ");
                 }
@@ -223,7 +213,9 @@ public class Assembler {
         }
         System.out.println("> salvando arquivo lst");
         try {
-            toLst();
+            toLst(contentTable, "conteudo");
+            toLst(symbolTable,"simbolos");
+            toLst(assembledTable,"MASMAPRG");
             System.out.println("> arquivo lst salvo");
         } catch (IOException ex) {
             Error.showError("> problema ao salvar arquivo lst");

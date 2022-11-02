@@ -141,8 +141,8 @@ public class Macros {
 
     public static void toASM() {
         try (FileWriter writer = new FileWriter("MASMAPRG.asm")) {
-            for (int r=0; r<codeTable.size();r++) {
-                for (int w=0; w<codeTable.get(r).length-2;w++) {
+            for (int r = 0; r < codeTable.size(); r++) {
+                for (int w = 0; w < codeTable.get(r).length - 2; w++) {
                     writer.write(codeTable.get(r)[w] + " ");
                 }
                 writer.write(System.lineSeparator());
