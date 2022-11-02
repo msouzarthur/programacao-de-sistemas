@@ -1,67 +1,29 @@
 package Main;
 
 import Instructions.*;
-import Main.CompleteBinary.*;
+import Main.Instruction.EndType;
 import Registers.*;
 import static Main.Memory.*;
 import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 
 /*
  * @author arthur souza
  * @author hector fernandes
  * @author rafael grimmler
  * @author willian do espirito santo
- * @author matheus cardoso
- * @author leonardo marotta
- * @author lucas dias
  */
-
 public class VirtualMachine extends javax.swing.JFrame {
 
     public VirtualMachine() {
-    
-        //MONTADOR: opcode -> binário
-        // operando -> decimal
-        /*
-        String pos = Integer.toBinaryString(56);
-        String neg = Integer.toBinaryString(-56).substring(16,32); 
-        String teste = "1111111111001000";
-        System.out.println("teste: "+Integer.parseUnsignedInt(teste,2));
-        System.out.println("pos: "+pos);
-        System.out.println("neg: "+neg);
-        
-        long l = Long.parseLong(pos, 2);
-        int number = (int) l;
-        System.out.println("number+: "+number);
-        number = Integer.parseUnsignedInt(pos, 2);
-        System.out.println("number+: "+number);
-        
-        
-        l = Long.parseLong(neg, 2);
-        number = (int) l;
-        System.out.println("number-: "+number);
-        number = Integer.parseUnsignedInt(neg, 2);
-        System.out.println("number-: "+number);
-        //https://mkyong.com/java/java-convert-negative-binary-to-integer/
-        //binary = Integer.toBinaryString(-56);
-        //System.out.println("um: "+binary);
-        //int number = Integer.parseInt(binary, 2);
-        long n = 214;
-        System.out.println(Long.toUnsignedString(n,2));
-        System.out.println(Long.toString(n,2));
-        System.out.println(Long.toBinaryString(n));
-        long p = 23;
-        long g = ~p + 1;
-        System.out.println(p);
-        System.out.println(g);
-        byte x = -123;
-        byte y = 123;
-        System.out.println(Byte.toString(x));
-        System.out.println(Byte.toString(y));*/
-        initComponents();
-        setInitValues();
-        
+        Macros.process("");
+
+        //initComponents();
+        //setInitValues();
+        //attScreen();
     }
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -101,6 +63,9 @@ public class VirtualMachine extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        btnPlay = new javax.swing.JButton();
+        Fundo = new javax.swing.JLabel();
+        viewAjuda = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -116,30 +81,53 @@ public class VirtualMachine extends javax.swing.JFrame {
         jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Virtual Machine");
+        setBackground(new java.awt.Color(0, 0, 0));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        btnRun.setBackground(new java.awt.Color(102, 102, 102));
+        btnRun.setForeground(new java.awt.Color(255, 255, 255));
         btnRun.setText("Executar");
         btnRun.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRunActionPerformed(evt);
             }
         });
-        btnRun.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnRunKeyPressed(evt);
-            }
-        });
+        getContentPane().add(btnRun, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 520, -1, -1));
 
+        btnHelp.setBackground(new java.awt.Color(102, 102, 102));
+        btnHelp.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnHelp.setForeground(new java.awt.Color(255, 255, 255));
         btnHelp.setText("Ajuda");
         btnHelp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHelpActionPerformed(evt);
             }
         });
+        getContentPane().add(btnHelp, new org.netbeans.lib.awtextra.AbsoluteConstraints(918, 6, -1, -1));
 
+        btnDebug.setBackground(new java.awt.Color(102, 102, 102));
+        btnDebug.setForeground(new java.awt.Color(255, 255, 255));
         btnDebug.setText("Debug");
+        btnDebug.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDebugActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnDebug, new org.netbeans.lib.awtextra.AbsoluteConstraints(880, 520, -1, -1));
 
-        btnRunCicle.setText("Executar Passo");
+        btnRunCicle.setBackground(new java.awt.Color(102, 102, 102));
+        btnRunCicle.setForeground(new java.awt.Color(255, 255, 255));
+        btnRunCicle.setText("Executar Visual");
+        btnRunCicle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRunCicleActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnRunCicle, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 520, -1, -1));
 
+        tMemory.setBackground(new java.awt.Color(102, 102, 102));
+        tMemory.setForeground(new java.awt.Color(255, 255, 255));
         tMemory.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
@@ -246,415 +234,463 @@ public class VirtualMachine extends javax.swing.JFrame {
             new String [] {
                 "Address", "Content"
             }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        ));
         jScrollPane1.setViewportView(tMemory);
 
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 56, 313, 516));
+
+        outCod.setBackground(new java.awt.Color(102, 102, 102));
+        outCod.setForeground(new java.awt.Color(255, 255, 255));
         jScrollPane2.setViewportView(outCod);
 
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 215, 298, 245));
+
+        inCod.setBackground(new java.awt.Color(102, 102, 102));
+        inCod.setForeground(new java.awt.Color(255, 255, 255));
         jScrollPane3.setViewportView(inCod);
 
+        getContentPane().add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(354, 215, 298, 245));
+
+        label1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        label1.setForeground(new java.awt.Color(255, 255, 255));
         label1.setText("Entrada de código");
+        getContentPane().add(label1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 190, -1, -1));
 
+        label2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        label2.setForeground(new java.awt.Color(255, 255, 255));
         label2.setText("Saída de código");
+        getContentPane().add(label2, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 190, -1, -1));
 
+        label3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        label3.setForeground(new java.awt.Color(255, 255, 255));
         label3.setText("Memória");
+        getContentPane().add(label3, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 20, -1, -1));
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Registradores");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 20, -1, -1));
 
         jScrollPane5.setAutoscrolls(true);
         jScrollPane5.setWheelScrollingEnabled(false);
 
+        accValue.setBackground(new java.awt.Color(204, 204, 204));
         accValue.setColumns(20);
+        accValue.setForeground(new java.awt.Color(0, 0, 0));
         accValue.setRows(1);
         accValue.setTabSize(1);
         accValue.setAutoscrolls(false);
         jScrollPane5.setViewportView(accValue);
 
+        getContentPane().add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(418, 56, -1, -1));
+
         jScrollPane6.setAutoscrolls(true);
         jScrollPane6.setWheelScrollingEnabled(false);
 
+        pcValue.setBackground(new java.awt.Color(204, 204, 204));
         pcValue.setColumns(20);
+        pcValue.setForeground(new java.awt.Color(0, 0, 0));
         pcValue.setRows(1);
         pcValue.setTabSize(1);
         pcValue.setAutoscrolls(false);
         jScrollPane6.setViewportView(pcValue);
 
+        getContentPane().add(jScrollPane6, new org.netbeans.lib.awtextra.AbsoluteConstraints(418, 90, -1, -1));
+
         jScrollPane7.setAutoscrolls(true);
         jScrollPane7.setWheelScrollingEnabled(false);
 
+        spValue.setBackground(new java.awt.Color(204, 204, 204));
         spValue.setColumns(20);
+        spValue.setForeground(new java.awt.Color(0, 0, 0));
         spValue.setRows(1);
         spValue.setTabSize(1);
         spValue.setAutoscrolls(false);
         jScrollPane7.setViewportView(spValue);
 
+        getContentPane().add(jScrollPane7, new org.netbeans.lib.awtextra.AbsoluteConstraints(418, 124, -1, -1));
+
         jScrollPane8.setAutoscrolls(true);
         jScrollPane8.setWheelScrollingEnabled(false);
 
+        mopValue.setBackground(new java.awt.Color(204, 204, 204));
         mopValue.setColumns(20);
+        mopValue.setForeground(new java.awt.Color(0, 0, 0));
         mopValue.setRows(1);
         mopValue.setTabSize(1);
         mopValue.setAutoscrolls(false);
         jScrollPane8.setViewportView(mopValue);
 
+        getContentPane().add(jScrollPane8, new org.netbeans.lib.awtextra.AbsoluteConstraints(736, 56, -1, -1));
+
         jScrollPane9.setAutoscrolls(true);
         jScrollPane9.setWheelScrollingEnabled(false);
 
+        reValue.setBackground(new java.awt.Color(204, 204, 204));
         reValue.setColumns(20);
+        reValue.setForeground(new java.awt.Color(0, 0, 0));
         reValue.setRows(1);
         reValue.setTabSize(1);
         reValue.setAutoscrolls(false);
         jScrollPane9.setViewportView(reValue);
 
+        getContentPane().add(jScrollPane9, new org.netbeans.lib.awtextra.AbsoluteConstraints(736, 124, -1, -1));
+
         jScrollPane10.setAutoscrolls(true);
         jScrollPane10.setWheelScrollingEnabled(false);
 
+        riValue.setBackground(new java.awt.Color(204, 204, 204));
         riValue.setColumns(20);
+        riValue.setForeground(new java.awt.Color(0, 0, 0));
         riValue.setRows(1);
         riValue.setTabSize(1);
         riValue.setAutoscrolls(false);
         jScrollPane10.setViewportView(riValue);
 
+        getContentPane().add(jScrollPane10, new org.netbeans.lib.awtextra.AbsoluteConstraints(736, 90, -1, -1));
+
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("ACC");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(378, 62, -1, -1));
 
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("PC");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(386, 96, -1, -1));
 
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("SP");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(387, 130, -1, -1));
 
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("MOP");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(692, 62, -1, -1));
 
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("RI");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(708, 96, -1, -1));
 
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("RE");
+        getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(704, 130, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnHelp)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(label3)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(label1))
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(label2))
-                                .addGap(0, 28, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(33, 33, 33)
-                                                .addComponent(jLabel4)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(24, 24, 24)
-                                                .addComponent(jLabel2)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addComponent(jLabel3)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel7)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(40, 40, 40)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(jLabel5)
-                                                        .addGap(18, 18, 18)
-                                                        .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                        .addComponent(jLabel6)
-                                                        .addGap(18, 18, 18)
-                                                        .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btnRun)
-                                .addGap(295, 295, 295))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btnRunCicle)
-                                .addGap(282, 282, 282))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btnDebug)
-                                .addGap(300, 300, 300))))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnHelp)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(label3)
-                    .addComponent(jLabel1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel5)
-                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7)))
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGap(41, 41, 41)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(label1)
-                            .addComponent(label2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(37, 37, 37)
-                        .addComponent(btnRun)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnRunCicle)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnDebug)))
-                .addGap(109, 109, 109))
-        );
+        btnPlay.setBackground(new java.awt.Color(102, 102, 102));
+        btnPlay.setForeground(new java.awt.Color(255, 255, 255));
+        btnPlay.setText("Play");
+        getContentPane().add(btnPlay, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 520, 57, -1));
+
+        Fundo.setBackground(new java.awt.Color(51, 51, 51));
+        Fundo.setForeground(new java.awt.Color(51, 51, 51));
+        Fundo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icons/fundo1.png"))); // NOI18N
+        Fundo.setText("jLabel8");
+        getContentPane().add(Fundo, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, -20, 1040, 760));
+
+        viewAjuda.setVisible(false);
+        viewAjuda.setPreferredSize(new java.awt.Dimension(600, 400));
+        getContentPane().add(viewAjuda, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 30, 790, 540));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunActionPerformed
-        //EXECUTAR A INSTRUÇÃO OLHANDO O ENDEREÇAMENTO
-        //VER A FUNÇÃO DO REGISTRADOR RE
-        //RESOLVER OS NEGATIVOS
-        reset();
+        //reset();
+        Integer opd1 = null, opd2 = null;
+        Assembler assembler = new Assembler();
         Instruction instruction;
-        Integer position = 12;
-        
-        //RE.setValue(toBin(12));
-        PC.setValue(CompleteBinary.toBin(position));
-        SP.setValue(CompleteBinary.toBin(2));
-        MOP.setValue(CompleteBinary.toBin(0));
-        
-        String opcode = null, opd1 = null, opd2 = null;
-        String cod = inCod.getText();
-        
-        readContent(cod, position);
+        attScreen();
 
-        while(PC.getValue()!= null){
+        //String path = inCod.getText();
+        //File f = new File(path);
+        /*if(inCod.getText().length() == 0 ){
+            Error.showError("não há entrada de dados");
+            return;
+        }
+        else if(f.exists() && !f.isDirectory()) { */
+        assembler.assemble("");
+        //inCod.setText("");
+
+        /*} 
+        else{
+            Error.showError("arquivo não encontrado");
+            return;
+        }*/
+        //String[] cod = inCod.getText().split("\n");;;
+        //readContent(cod, position);
+        do {
             attScreen();
-            instruction = decodeInstruction(Memory.memoryGet(CompleteBinary.toInt(PC.getValue())));
-            
-            if(Memory.memoryGet(CompleteBinary.toInt(PC.getValue()))!=null){
-                RI.setValue(Memory.memoryGet(CompleteBinary.toInt(PC.getValue())));
-                RE.setValue(CompleteBinary.toBin(CompleteBinary.toInt(PC.getValue())+1));
-                PC.setValue(CompleteBinary.toBin(CompleteBinary.toInt(PC.getValue())+instruction.numberOpd()+1));
+            instruction = decodeInstruction(Memory.memoryGet(PC.getValue()));
+
+            if (PC.getValue() != null) {
+                RI.setValue(Memory.memoryGet(PC.getValue()));
             }
-            else{
-                PC.setValue(null);
-            }
-            if(instruction instanceof STOP){
+            PC.setValue(PC.getValue() + instruction.numberOpd() + 1);
+
+            if (instruction instanceof STOP || PC.getValue() == null) {
                 PC.setValue(null);
                 break;
             }
-            else if(instruction instanceof RET  || instruction instanceof BR    || 
-               instruction instanceof BRNEG|| instruction instanceof BRPOS || 
-               instruction instanceof BRZERO){
-                opd1 = Memory.memoryGet(CompleteBinary.toInt(RE.getValue()));
-                instruction.runInstruction(outCod, opd1, null);
-            }
-            else if(instruction instanceof ADD || instruction instanceof DIV  ||
-                    instruction instanceof LOAD|| instruction instanceof MULT ||
-                    instruction instanceof SUB){
-                opd1 = Memory.memoryGet(CompleteBinary.toInt(RE.getValue()));
-                instruction.runInstruction(outCod, opd1, null);
 
+            if (instruction.numberOpd() == 1) {
+                opd1 = Memory.memoryGet(PC.getValue() - 1);
+            } else if (instruction.numberOpd() == 2) {
+                opd2 = Memory.memoryGet(PC.getValue() - 2);
             }
-            else if (instruction instanceof COPY){
-                opd1 = Memory.memoryGet(CompleteBinary.toInt(RE.getValue()));
-                opd2 = Memory.memoryGet(CompleteBinary.toInt(RE.getValue())+1);
-                instruction.runInstruction(outCod, opd1, opd2);
-            }
-        }
+
+            instruction.runInstruction(outCod, opd1, opd2);
+        } while (Memory.memoryGet(PC.getValue()) != null);
+        attScreen();
     }//GEN-LAST:event_btnRunActionPerformed
 
-    private void reset(){
+
+    private void btnHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpActionPerformed
+        ViewAjuda viewAjuda = new ViewAjuda();
+        viewAjuda.setVisible(true);
+        //ViewAjuda.setVisible(true);
+    }//GEN-LAST:event_btnHelpActionPerformed
+
+    private void btnDebugActionPerformed(java.awt.event.ActionEvent evt) {
+        Integer opd1 = null, opd2 = null;
+        Assembler assembler = new Assembler();
+        Instruction instruction;
+        attScreen();
+        assembler.assemble("ar");
+
+        do {
+            attScreen();
+            instruction = decodeInstruction(Memory.memoryGet(PC.getValue()));
+
+            if (PC.getValue() != null) {
+                RI.setValue(Memory.memoryGet(PC.getValue()));
+                PC.setValue(PC.getValue() + instruction.numberOpd() + 1);
+
+                if (instruction instanceof STOP || PC.getValue() == null) {
+                    PC.setValue(null);
+                    break;
+                }
+                //imediato: é o valor que foi passado
+                if (instruction.numberOpd() == 1) {
+                    opd1 = Memory.memoryGet(PC.getValue() - 1);
+                } else if (instruction.numberOpd() == 2) {
+                    opd2 = Memory.memoryGet(PC.getValue() - 2);
+                }
+                //direto: é o valor que tá no endereço
+                if (instruction.getEndType() == EndType.DIRECT) {
+                    if (instruction.numberOpd() == 1) {
+                        opd1 = Memory.memoryGet(opd1);
+                    } else if (instruction.numberOpd() == 2) {
+                        opd2 = Memory.memoryGet(opd2);
+                    }
+                }
+                //indireto: é o valor que tá no endereço apontado pelo valor passado
+                if (instruction.getEndType() == EndType.INDIRECT1) {
+                    opd1 = Memory.memoryGet(Memory.memoryGet(opd1));
+                }
+                if (instruction.getEndType() == EndType.INDIRECT2) {
+                    opd2 = Memory.memoryGet(Memory.memoryGet(opd2));
+                }
+
+                instruction.runInstruction(outCod, opd1, opd2);
+
+                attScreen();
+            }
+        }while (Memory.memoryGet(PC.getValue()) != null);                                      
+            
+        if (instruction.numberOpd() == 1) {
+            opd1 = Memory.memoryGet(PC.getValue() - 1);
+        } else if (instruction.numberOpd() == 2) {
+            opd2 = Memory.memoryGet(PC.getValue() - 2);
+        }
+
+        instruction.runInstruction(outCod, opd1, opd2);
+    }
+
+
+
+    private void btnRunCicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunCicleActionPerformed
+        //reset();
+        Integer opd1 = null, opd2 = null;
+        Assembler assembler = new Assembler();
+        Instruction instruction;
+        attScreen();
+
+        //String path = inCod.getText();
+        //File f = new File(path);
+        /*if(inCod.getText().length() == 0 ){
+            Error.showError("não há entrada de dados");
+            return;
+        }
+        else if(f.exists() && !f.isDirectory()) { */
+        assembler.assemble("ar");
+        //inCod.setText("");
+
+        /*} 
+        else{
+            Error.showError("arquivo não encontrado");
+            return;
+        }*/
+        //String[] cod = inCod.getText().split("\n");;;
+        //readContent(cod, position);
+        do {
+            attScreen();
+            instruction = decodeInstruction(Memory.memoryGet(PC.getValue()));
+
+            if (PC.getValue() != null) {
+                RI.setValue(Memory.memoryGet(PC.getValue()));
+            }
+            PC.setValue(PC.getValue() + instruction.numberOpd() + 1);
+
+            if (instruction instanceof STOP || PC.getValue() == null) {
+                PC.setValue(null);
+                break;
+            }
+
+            if (instruction.numberOpd() == 1) {
+                opd1 = Memory.memoryGet(PC.getValue() - 1);
+            } else if (instruction.numberOpd() == 2) {
+                opd2 = Memory.memoryGet(PC.getValue() - 2);
+            }
+            instruction.runInstruction(outCod, opd1, opd2);
+            attScreen();
+        } while (Memory.memoryGet(PC.getValue()) != null);
+    }//GEN-LAST:event_btnRunCicleActionPerformed
+
+    private void reset() {
+        RE.setValue(2);
+        PC.setValue(2);
+        SP.setValue(Memory.memorySize() - 1);
+        MOP.setValue(0);
         ACC.reset();
-        MOP.reset();
-        PC.reset();
-        RE.reset();
         RI.reset();
-        SP.reset();
         Memory.memoryReset();
         attScreen();
     }
-    
-    private void readContent(String cod, Integer position) {
-        if(cod.length()>0 && cod.length()%16==0){
-            for(int i=0;i<cod.length();i+=16){
-                Memory.memorySet(position, cod.substring(i,i+16));
-                position++;
+
+    private Instruction decodeInstruction(Integer insCod) {
+        Instruction instruction = null;
+        Integer opcode = insCod;
+        if(insCod>16){
+            if(insCod - 32 <= 15 && insCod - 32 >= 0){
+                opcode = insCod - 32;
+                insCod = 32;
+            }
+            if(insCod - 64 <= 15 && insCod - 64 >= 0){
+                opcode = insCod - 64;
+                insCod = 64;
+            }
+            if(insCod - 128 <= 15 && insCod - 128 >= 0){
+                opcode = insCod - 128;
+                insCod = 128;
             }
         }
-    }
-    
-    private Instruction decodeInstruction(String command) {
-        Instruction instruction = null;
-        String end, opcode;
-        if(command!=null){
-            end = command.substring(9, 12);
-            opcode = command.substring(12, 16);
-        }
-        else 
-            return instruction;
-        switch(opcode){
-            case "0000": //BR: PC <- opd1
-                instruction = new BR();
-                break;
-            case "0001": //BRPOS: PC <- opd1, se ACC > 0
-                instruction = new BRPOS();
-                break;
-            case "0010": //ADD: ACC <- ACC + opd1
-                instruction = new ADD();
-                break;
-            case "0011": //LOAD: ACC <- opd1
-                instruction = new LOAD();
-                break;
-            case "0100": //BRZERO: PC <- opd1, se ACC = 0
-                instruction = new BRZERO();
-                break;
-            case "0101": //BRNEG: PC <- opd1, se ACC < 0
-                instruction = new BRNEG();
-                break;
-            case "0110": //SUB: ACC <- ACC - opd1
-                instruction = new SUB();
-                break;
-            case "0111": //STORE: opd1 <- ACC
-                instruction = new STORE();
-                break;
-            case "1000": //WRITE: output <- opd1
-                instruction = new WRITE();
-                break;
-            case "1001": //RET: PC <- [SP]
-                instruction = new RET();
-                break;
-            case "1010": //DIV: ACC <- ACC / opd1
-                instruction = new DIV();
-                break;
-            case "1011": //STOP: fim do programa
-                instruction = new STOP();
-                break;
-            case "1100": //READ: opd1 <- input stream
-                instruction = new READ();
-                break;
-            case "1101": //COPY: opd1 <- opd2
-                instruction = new COPY();
-                break;
-            case "1110": //MULT: ACC <- ACC * opd1
-                instruction = new MULT();
-                break;
-            case "1111": //CALL: [SP] <- PC; PC <- opd1
-                instruction = new CALL();
-                break;
-            default:
-                System.out.println("ERRO DE OPCODE");
-        }
-        
-        /*if(end != null)
-            switch (end) {
-                case "000":
-                    instruction.setEndType(EndType.D);
+        if (opcode != null) {
+            switch (opcode) {
+                case 0: //BR: PC <- opd1
+                    instruction = new BR();
                     break;
-                case "001":
-                    instruction.setEndType(EndType.IN1);
+                case 1: //BRPOS: PC <- opd1, se ACC > 0
+                    instruction = new BRPOS();
                     break;
-                case "010":
-                    instruction.setEndType(EndType.IN2);
+                case 2: //ADD: ACC <- ACC + opd1
+                    instruction = new ADD();
                     break;
-                case "100":
-                    instruction.setEndType(EndType.IM);
+                case 3: //LOAD: ACC <- opd1
+                    instruction = new LOAD();
+                    break;
+                case 4: //BRZERO: PC <- opd1, se ACC = 0
+                    instruction = new BRZERO();
+                    break;
+                case 5: //BRNEG: PC <- opd1, se ACC < 0
+                    instruction = new BRNEG();
+                    break;
+                case 6: //SUB: ACC <- ACC - opd1
+                    instruction = new SUB();
+                    break;
+                case 7: //STORE: opd1 <- ACC
+                    instruction = new STORE();
+                    break;
+                case 8: //WRITE: output <- opd1
+                    instruction = new WRITE();
+                    break;
+                case 9: //RET: PC <- [SP]
+                    instruction = new RET();
+                    break;
+                case 10: //DIV: ACC <- ACC / opd1
+                    instruction = new DIV();
+                    break;
+                case 11: //STOP: fim do programa
+                    instruction = new STOP();
+                    break;
+                case 12: //READ: opd1 <- input stream
+                    instruction = new READ();
+                    break;
+                case 13: //COPY: opd1 <- opd2
+                    instruction = new COPY();
+                    break;
+                case 14: //MULT: ACC <- ACC * opd1
+                    instruction = new MULT();
+                    break;
+                case 15: //CALL: [SP] <- PC; PC <- opd1
+                    instruction = new CALL();
                     break;
                 default:
-                    System.out.println("ERRO DE ENDEREÇAMENTO");
-                    break;
+                    System.out.println("ERRO DE OPCODE");
             }
-        */
+            if(insCod == 32){
+                instruction.setEndType(Instruction.EndType.INDIRECT1);
+            }
+            else if(insCod == 64){
+                instruction.setEndType(Instruction.EndType.INDIRECT2);
+
+            }
+            else if(insCod == 128){             
+                instruction.setEndType(Instruction.EndType.IMMEDIATE);
+            }
+            else {
+                instruction.setEndType(Instruction.EndType.DIRECT);
+            }
+        }
         return instruction;
     }
-    
-    public void attScreen(){
-        for(int i=0;i<100;i++){
-            tMemory.setValueAt(Memory.memoryGet(i), i, 1);
+
+    public void attScreen() {
+        String bin;
+        for (int i = 0; i < Memory.memorySize(); i++) {
+            if (Memory.memoryGet(i) != null) {
+                bin = CompleteBinary.toBin(Memory.memoryGet(i));
+                tMemory.setValueAt(bin, i, 1);
+            } else {
+                tMemory.setValueAt(Memory.memoryGet(i), i, 1);
+            }
         }
-        accValue.setText(ACC.getValue());
-        pcValue.setText(PC.getValue());
-        spValue.setText(SP.getValue());
-        mopValue.setText(MOP.getValue());
-        riValue.setText(RI.getValue());
-        reValue.setText(RE.getValue());
+        accValue.setText(ACC.getText());
+        pcValue.setText(PC.getText());
+        spValue.setText(SP.getText());
+        mopValue.setText(MOP.getText());
+        riValue.setText(RI.getText());
+        reValue.setText(RE.getText());
     }
-    
-    public void outMessage(String message){
+
+    public void outMessage(String message) {
         outCod.setText(message);
     }
-    
-    public void setInitValues(){
+
+    public void setInitValues() {
         memoryInit();
-        List<String> memory = Memory.memoryGetAll();
-        for(int i=0;i<memory.size();i++){
+        List<Integer> memory = Memory.memoryGetAll();
+
+        DefaultTableModel table = (DefaultTableModel) tMemory.getModel();
+        table.setRowCount(500);
+        tMemory.setModel(table);
+
+        for (int i = 0; i < memory.size(); i++) {
             tMemory.setValueAt(i, i, 0);
             tMemory.setValueAt(memory.get(i), i, 1);
         }
+
+        RE.setValue(2);
+        PC.setValue(2);
+        SP.setValue(memory.size() - 1);
+        MOP.setValue(0);
     }
-    
-    private void btnHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpActionPerformed
-        // abrir pop up com infos das instruções
-    }//GEN-LAST:event_btnHelpActionPerformed
-
-    private void btnRunKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnRunKeyPressed
-
-    }//GEN-LAST:event_btnRunKeyPressed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -665,9 +701,11 @@ public class VirtualMachine extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Fundo;
     private javax.swing.JTextArea accValue;
     private javax.swing.JButton btnDebug;
     private javax.swing.JButton btnHelp;
+    private javax.swing.JButton btnPlay;
     private javax.swing.JButton btnRun;
     private javax.swing.JButton btnRunCicle;
     private javax.swing.JTextPane inCod;
@@ -699,5 +737,6 @@ public class VirtualMachine extends javax.swing.JFrame {
     private javax.swing.JTextArea riValue;
     private javax.swing.JTextArea spValue;
     private javax.swing.JTable tMemory;
+    private javax.swing.JLabel viewAjuda;
     // End of variables declaration//GEN-END:variables
 }

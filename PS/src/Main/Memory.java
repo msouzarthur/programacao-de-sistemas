@@ -1,38 +1,61 @@
 package Main;
 
+import Registers.SP;
 import java.util.List;
 import java.util.ArrayList;
 
-
 public final class Memory {
-    //2 - 10 de pilha
-    //11 - 69 de instruções
-    //70 - 99 de dados
-    private static List<String> memory = new ArrayList<>();
-   
-    public static String memoryGet(Integer address){
+    
+    private static List<Integer> memory = new ArrayList<>(500);
+
+    public static Integer memoryGet(Integer address) {
         return memory.get(address);
     }
-    
-    public static List<String> memoryGetAll(){
+
+    public static List<Integer> memoryGetAll() {
         return memory;
     }
-    
-    public static void memorySet(Integer address, String content){
-        if(address<100){
-            memory.add(address, content);
+
+    public static void memorySet(Integer address, Integer content) {
+        if (address < memory.size()) {
+            memory.set(address, content);
         }
     }
-    
-    public static void memoryInit(){
-        for(int i = 0; i<100; i++){
+
+    public static Integer memorySize() {
+        return memory.size();
+    }
+
+    public static void memoryInit() {
+        for (int i = 0; i < 500; i++) {
             memory.add(null);
         }
     }
-    public static void memoryReset(){
-        for(int i=0;i<memory.size();i++){
+
+    public static void memoryReset() {
+        for (int i = 0; i < memory.size(); i++) {
             memory.set(i, null);
         }
     }
-    
+
+    public static void stackPush(Integer value) {
+        System.out.println(SP.getValue());
+        System.out.println("tamanho "+memory.size());
+        memory.set(SP.getValue(), value);
+        SP.nextValue();
+    }
+
+    public static Integer stackPop() {
+        SP.previousValue();
+        if (SP.getValue() < memory.size()) {
+            Integer value;
+            value = Memory.memoryGet(SP.getValue());
+            Memory.memorySet(SP.getValue(), null);
+            return value;
+        }
+        else{
+            Error.showError("> não há nada na pilha");
+            return -1;
+        }
+    }
 }

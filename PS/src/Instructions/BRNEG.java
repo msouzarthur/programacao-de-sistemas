@@ -1,23 +1,25 @@
 package Instructions;
-import Main.CompleteBinary;
+
 import Main.Instruction;
 import Registers.PC;
 import javax.swing.JTextPane;
 
-public class BRNEG implements Instruction{
+public class BRNEG implements Instruction {
+
+    Integer op = 5, numberOpd = 1;
+    String opcode = "0000000000000101";
+    EndType end;
 
     @Override
-    public void runInstruction(JTextPane outCode, String opd1, String opd2) {
-        if(opd2!=null){
+    public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
+        if (opd2 != null) {
             Main.Error.showError("o brneg possui um argumento a mais");
             return;
         }
         //PEGAR ACC EM QUALQUER LUGAR
-        if(CompleteBinary.toInt(opd1)>=12 && CompleteBinary.toInt(opd1)<100){
-            System.out.println(CompleteBinary.toInt(opd1));
+        if (opd1 >= 12 && opd1 < 100) {
             PC.setValue(opd1);
-        }
-        else{
+        } else {
             Main.Error.showError("endereco nao acessivel");
             return;
         }
@@ -25,21 +27,19 @@ public class BRNEG implements Instruction{
             target.setValue(opd1);
         }*/
     }
-    
-    Integer numberOpd = 1;
+
     @Override
-    public Integer numberOpd() {
+    public int numberOpd() {
         return numberOpd;
     }
-    
-    EndType end;
+
     @Override
     public void setEndType(EndType end) {
         this.end = end;
     }
 
     @Override
-    public String getEndType() {
-        return this.end.toString();
+    public EndType getEndType() {
+        return this.end;
     }
 }

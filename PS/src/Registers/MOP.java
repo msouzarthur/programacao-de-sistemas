@@ -1,17 +1,25 @@
 package Registers;
 
-public final class MOP{
+public final class MOP {
 
-    static String value="00000000";
+    static Integer value = 0;
 
-    public static String getValue() {
+    public static Integer getValue() {
         return value;
     }
 
-    public static void setValue(String value) {
-        MOP.value = value.substring(8, 16);
+    public static String getText() {
+        if (MOP.getValue() >= 0) {
+            return String.format("%016d", Integer.parseInt(Integer.toBinaryString(MOP.getValue())));
+        }
+        return Integer.toBinaryString(MOP.getValue()).substring(16, 32);
     }
-    public static void reset(){
-        MOP.value = "00000000";
+
+    public static void setValue(Integer value) {
+        MOP.value = value;
+    }
+
+    public static void reset() {
+        MOP.value = 0;
     }
 }

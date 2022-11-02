@@ -1,41 +1,46 @@
 package Registers;
 
-import Main.*;
-import static Main.CompleteBinary.*;
+import Main.Memory;
 
 public final class SP {
 
-    static String value="0000000000000000";
-    
-    public static String getValue() {
+    static Integer value = Memory.memorySize() - 1;
+
+    public static Integer getValue() {
         return value;
     }
-    
-    public static void setValue(String value) {
+
+    public static void setValue(Integer value) {
         SP.value = value;
     }
-    
-    public static void nextValue(){
-        if(CompleteBinary.toInt(SP.value)<=12)
-            SP.value = CompleteBinary.toBin(CompleteBinary.toInt(value)+1);
-        else{
+
+    public static void nextValue() {
+        if (SP.getValue() > 2 && SP.getValue() < Memory.memorySize() && Memory.memoryGet(SP.getValue() - 1) == null) {
+            SP.value -= 1;
+        } else {
+            Memory.memorySet(1, 1);
             Main.Error.showError("stackoverflow");
             reset();
         }
     }
-    
-    public static void push(String value){
-        setValue(value);
-        nextValue();
+
+    public static String getText() {
+        if (SP.getValue() >= 0) {
+            return String.format("%016d", Integer.parseInt(Integer.toBinaryString(SP.getValue())));
+        }
+        return Integer.toBinaryString(SP.getValue()).substring(16, 32);
     }
-    
-    public static String pop(){
-        String aux = SP.value;
-        setValue(toBin(toInt(SP.value)-1));
-        return aux;
+
+    public static void previousValue() {
+        if (SP.getValue() > 2 && SP.getValue() < Memory.memorySize()) {
+            SP.value += 1;
+        } else {
+            Main.Error.showError("> posicao de pilha inacessivel");
+            reset();
+        }
     }
-    
-    public static void reset(){
-        SP.value = "0000000000000000"; 
+
+    public static void reset() {
+        SP.value = 0;
     }
 }

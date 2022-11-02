@@ -1,40 +1,38 @@
 package Instructions;
-import Main.CompleteBinary;
-import Main.Instruction;
+
+import Main.*;
 import Registers.PC;
 import Registers.SP;
 import javax.swing.JTextPane;
 
-public class RET implements Instruction{
-    Integer numberOpd = 0;
+public class RET implements Instruction {
+
+    Integer op = 9, numberOpd = 0;
     EndType end;
-    String opcode;
-    
-    public void RET(){
-        this.opcode="0000000000001001";
-    }
-    
+    String opcode = "0000000000001001";
+
     @Override
-    public void runInstruction(JTextPane outCode, String opd1, String opd2) {
-        if(opd1!= null || opd2!=null){
+    public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
+        if (opd1 != null || opd2 != null) {
             Main.Error.showError("o ret possui argumentos a mais");
             return;
         }
-        PC.setValue(SP.pop());
+        PC.setValue(Memory.stackPop());
+        SP.previousValue();
     }
-    
+
     @Override
-    public Integer numberOpd() {
+    public int numberOpd() {
         return numberOpd;
     }
-    
+
     @Override
     public void setEndType(EndType end) {
         this.end = end;
     }
 
     @Override
-    public String getEndType() {
-        return this.end.toString();
+    public EndType getEndType() {
+        return this.end;
     }
 }

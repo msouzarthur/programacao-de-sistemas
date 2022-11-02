@@ -1,40 +1,36 @@
 package Instructions;
-import Main.CompleteBinary;
+
 import Main.Instruction;
 import Registers.ACC;
 import javax.swing.JTextPane;
 
-public class LOAD implements Instruction{
-    Integer numberOpd = 1;
+public class LOAD implements Instruction {
+
+    Integer op = 03, numberOpd = 1;
     EndType end;
-    String opcode;
-    
-    public void LOAD(){
-        this.opcode="0000000000000011";
-    }
-    
+    String opcode = "0000000000000011";
+
     @Override
-    public void runInstruction(JTextPane outCode, String opd1, String opd2) {
-        if(opd2!=null){
+    public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
+        if (opd2 != null) {
             Main.Error.showError("o div possui um argumento a mais");
             return;
         }
-        String aux = Integer.toBinaryString(Integer.parseInt(ACC.getValue(),2) / Integer.parseInt(opd1,2));
-        ACC.setValue(CompleteBinary.completeBinary(aux));
+        ACC.setValue(opd1);
     }
-    
+
     @Override
-    public Integer numberOpd() {
+    public int numberOpd() {
         return numberOpd;
     }
-    
+
     @Override
     public void setEndType(EndType end) {
         this.end = end;
     }
 
     @Override
-    public String getEndType() {
-        return this.end.toString();
+    public EndType getEndType() {
+        return this.end;
     }
 }

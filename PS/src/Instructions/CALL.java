@@ -1,43 +1,46 @@
 package Instructions;
-import Main.CompleteBinary;
+
+import Main.Memory;
 import Main.Instruction;
 import Registers.PC;
-import Registers.SP;
 import javax.swing.JTextPane;
 
-public class CALL implements Instruction{
-    Integer numberOpd = 1;
-    Instruction end;
+public class CALL implements Instruction {
+
+    Integer op = 15, numberOpd = 1;
+    EndType end;
     String opcode;
-    
-    public void CALL(){
-        this.opcode="0000000000001111";
+
+    public void CALL() {
+        this.opcode = "0000000000001111";
     }
-    
+
     @Override
-    public void runInstruction(JTextPane outCode, String opd1, String opd2) {
-        if(opd2!=null){
+    public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
+        if (opd1 == null) {
+            Main.Error.showError("o call possui um argumento a menos");
+            return;
+        }
+        if (opd2 != null) {
             Main.Error.showError("o call possui um argumento a mais");
             return;
         }
-        SP.push(PC.getValue());
+        Memory.stackPush(PC.getValue());
         PC.setValue(opd1);
     }
 
     @Override
-    public Integer numberOpd() {
+    public int numberOpd() {
         return numberOpd;
     }
 
     @Override
-    public String getEndType() {
-        return this.end.toString();
+    public EndType getEndType() {
+        return this.end;
     }
 
     @Override
     public void setEndType(EndType end) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.end = end;
     }
-    
-
 }

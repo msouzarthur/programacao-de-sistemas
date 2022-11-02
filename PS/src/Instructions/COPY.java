@@ -1,38 +1,35 @@
 package Instructions;
-import Main.CompleteBinary;
+
 import Main.Instruction;
 import javax.swing.JTextPane;
 
-public class COPY implements Instruction{
-    Integer numberOpd = 2;
+public class COPY implements Instruction {
+
+    Integer op = 13, numberOpd = 2;
     EndType end;
-    String opcode;
-    
-    public void COPY(){
-        this.opcode="0000000000001101";
-    }
-    
+    String opcode = "0000000000001101";
+
     @Override
-    public void runInstruction(JTextPane outCode, String opd1, String opd2) {
-        if(opd1==null || opd2==null){
+    public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
+        if (opd1 == null || opd2 == null) {
             Main.Error.showError("o copy está sem argumentos");
             return;
         }
         opd1 = opd2;
     }
-    
+
     @Override
-    public Integer numberOpd() {
+    public int numberOpd() {
         return numberOpd;
     }
-    
+
     @Override
     public void setEndType(EndType end) {
         this.end = end;
     }
 
     @Override
-    public String getEndType() {
-        return this.end.toString();
+    public EndType getEndType() {
+        return this.end;
     }
 }
