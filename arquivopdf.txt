@@ -6,7 +6,7 @@
  multsc &a,&b,&c
  load &a
  mult &b
- shiftr &rp
+* shiftr &rp
  store &c
  mend
  macro
@@ -35,11 +35,11 @@
  write d
  stop
 *
- a space
- b space
- c space
- d space
- temp1 space
- temp2 space
+a space
+b space
+c space
+d space
+temp1 space
+temp2 space
 *
  end

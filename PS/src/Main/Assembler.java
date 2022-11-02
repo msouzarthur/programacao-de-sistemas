@@ -13,32 +13,18 @@ public class Assembler {
     private static String programName, fileName;
 
     public void readContent(String path) {
-        path = "../arquivo.txt";
         fileName = path.substring(path.lastIndexOf('/') + 1);
         fileName = fileName.replace(".txt", "").trim();
-        
-        contentTable = Reader.read(path, 4);
+
+        contentTable = Reader.readASM(path, 4);
         programName = contentTable.get(0)[2];
-        
+
         if (!contentTable.get(contentTable.size() - 1)[1].equals("end")) {
             Error.showError("> diretiva end não encontrada");
         }
         System.out.println("> estrutura do programa " + programName);
-        print(contentTable, "|label\tcomando\topd1\topd2\t|");
+        Reader.print(contentTable, "|label\tcomando\topd1\topd2\t|");
         symbolTable();
-    }
-
-    void print(List<String[]> target, String header) {
-        System.out.println(header);
-        System.out.println(" -------------------------------");
-        for (String[] r : target) {
-            System.out.print("|");
-            for (String r1 : r) {
-                System.out.print(r1 + "\t");
-            }
-            System.out.println("|");
-        }
-        System.out.println(" -------------------------------");
     }
 
     void symbolTable() {
@@ -48,14 +34,14 @@ public class Assembler {
         for (String[] line : contentTable) {
             if (!line[1].equals("start") && !line[1].equals("end")) {
                 for (int j = 0; j < line.length; j++) {
-                    if (line[0] != null && j == 0) {
+                    if (!line[0].equals("null") && j == 0) {
                         String[] row = new String[3];
                         row[0] = line[0];
                         row[1] = null;
                         row[2] = Integer.toString(i);
                         symbolTable.add(row);
                     }
-                    if (line[j] != null && !isData) {
+                    if (!line[j].equals("null") && !isData) {
                         i += 1;
                     } else if (isData && j == 1) {
                         i += 1;
@@ -67,7 +53,7 @@ public class Assembler {
             }
         }
         System.out.println("> tabela de simbolos");
-        print(symbolTable, "|symbol\tvalor\tend\t|");
+        Reader.print(symbolTable, "|symbol\tvalor\tend\t|");
     }
 
     int getAddress(String target) {
@@ -134,7 +120,7 @@ public class Assembler {
             }
         }
         System.out.println("> programa " + programName + " montado");
-        print(assembledTable, "|label\tcomando\topd1\topd2\t|");
+        Reader.print(assembledTable, "|label\tcomando\topd1\topd2\t|");
     }
 
     int getOpcode(String opd) {

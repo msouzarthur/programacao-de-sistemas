@@ -1,5 +1,6 @@
+conteudo do programa
 null start teste null 
-null read a null 
+null 12 31 null 
 null read b null 
 null read c null 
 null load a null 
@@ -22,3 +23,11 @@ d space null null
 temp1 space null null 
 temp2 space null null 
 null end null null 
+tabela de simbolos
+a null 31 
+b null 32 
+c null 33 
+d null 34 
+temp1 null 35 
+temp2 null 36 
+programa montado
