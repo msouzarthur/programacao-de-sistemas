@@ -15,7 +15,7 @@ public class Macros {
     private static ArrayList<Macro> macros = new ArrayList<>();
 
     public static void readContent(String path) {
-        path = "../arquivopdf.txt";
+       
         fileName = path.substring(path.lastIndexOf('/') + 1);
         fileName = fileName.replace(".txt", "").trim();
         contentTable = Reader.read(path, 6);
@@ -153,7 +153,7 @@ public class Macros {
     }
 
     public static void process(String path) {
-        System.out.println("> processando macros");
+        System.out.println("> processando macros "+path);
         readContent(path);
 
         System.out.println("> código lido");

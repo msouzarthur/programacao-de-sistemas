@@ -23,6 +23,15 @@ public final class Memory {
         }
     }
 
+    public static Integer memoryGetPos() {
+        for (int i = 2; i < 500; i++) {
+            if (memory.get(i) != null) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public static Integer memorySize() {
         return memory.size();
     }

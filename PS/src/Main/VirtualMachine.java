@@ -405,7 +405,7 @@ public class VirtualMachine extends javax.swing.JFrame {
             //ligador
             Linker.link();
             //carregador
-            Loader.load("./MASMAPRG.obj");
+            Loader.load("./linkedCode.hpx");
         }
 
         do {
@@ -445,7 +445,7 @@ public class VirtualMachine extends javax.swing.JFrame {
             
             instruction.runInstruction(outCod, opd1, opd2);
             
-        } while (Memory.memoryGet(PC.getValue()) != null);
+        } while (Memory.memoryGet(PC.getValue()) != null && PC.getValue() < RE.getValue());
         attScreen();
     }//GEN-LAST:event_btnRunActionPerformed
 
