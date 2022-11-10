@@ -148,7 +148,7 @@ public class Macros {
                 writer.write(System.lineSeparator());
             }
         } catch (IOException ex) {
-            Error.showError("> erro ao salvar .asm");
+            IO.showError("> erro ao salvar .asm");
         }
     }
 

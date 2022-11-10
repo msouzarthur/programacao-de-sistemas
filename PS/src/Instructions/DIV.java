@@ -13,10 +13,10 @@ public class DIV implements Instruction {
     @Override
     public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
         if (opd1 == null) {
-            Main.Error.showError("o div possui um argumento a menos");
+            Main.IO.showError("o div possui um argumento a menos");
             return;
         } else if (opd2 != null) {
-            Main.Error.showError("o div possui um argumento a mais");
+            Main.IO.showError("o div possui um argumento a mais");
             return;
         }
         ACC.setValue(ACC.getValue() / opd1);

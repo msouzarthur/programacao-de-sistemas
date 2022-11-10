@@ -19,7 +19,7 @@ public final class SP {
             SP.value -= 1;
         } else {
             Memory.memorySet(1, 1);
-            Main.Error.showError("stackoverflow");
+            Main.IO.showError("stackoverflow");
             reset();
         }
     }
@@ -35,7 +35,7 @@ public final class SP {
         if (SP.getValue() > 2 && SP.getValue() < Memory.memorySize()) {
             SP.value += 1;
         } else {
-            Main.Error.showError("> posicao de pilha inacessivel");
+            Main.IO.showError("> posicao de pilha inacessivel");
             reset();
         }
     }

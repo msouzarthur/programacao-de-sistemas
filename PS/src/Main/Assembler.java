@@ -20,7 +20,7 @@ public class Assembler {
         programName = contentTable.get(0)[2];
 
         if (!contentTable.get(contentTable.size() - 1)[1].equals("end")) {
-            Error.showError("> diretiva end não encontrada");
+            IO.showError("> diretiva end não encontrada");
         }
         System.out.println("> estrutura do programa " + programName);
         Reader.print(contentTable, "|label\tcomando\topd1\topd2\t|");
@@ -115,7 +115,7 @@ public class Assembler {
                     if (!r[i].equals("null") && position != -1) {
                         r[i] = Integer.toString(position);
                     } else if (!r[i].equals("null") && !r[i].contains("@")) {
-                        Error.showError("> simbolo não definido " + r[i]);
+                        IO.showError("> simbolo não definido " + r[i]);
                         return;
                     }
                     if (r[i].contains("@")) {
@@ -168,7 +168,7 @@ public class Assembler {
             case "call":
                 return 15;
             default:
-                Error.showError("> instrução não reconhecida " + opd);
+                IO.showError("> instrução não reconhecida " + opd);
                 return -1;
         }
     }
@@ -225,7 +225,7 @@ public class Assembler {
             toObj();
             System.out.println("> arquivo obj salvo");
         } catch (IOException ex) {
-            Error.showError("> problema ao salvar arquivo obj");
+            IO.showError("> problema ao salvar arquivo obj");
         }
         System.out.println("> salvando arquivo lst");
         try {
@@ -234,7 +234,7 @@ public class Assembler {
             toLst(assembledTable, "MASMAPRG");
             System.out.println("> arquivo lst salvo");
         } catch (IOException ex) {
-            Error.showError("> problema ao salvar arquivo lst");
+            IO.showError("> problema ao salvar arquivo lst");
         }
         System.out.println("> programa montado");
         System.out.println("# # # # # # # # # # # # # # # # # #");

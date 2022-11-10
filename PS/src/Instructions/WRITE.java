@@ -12,12 +12,11 @@ public class WRITE implements Instruction {
     @Override
     public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
         if (opd2 != null) {
-            Main.Error.showError("o write possui argumento a mais");
+            Main.IO.showError("o write possui argumento a mais");
             return;
         }
-        Main.Error.showError("o write não foi implementado ainda");
+        Main.IO.write("o write não foi implementado ainda");
         return;
-        //outCode.setText(opd1);
     }
 
     @Override

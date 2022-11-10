@@ -12,10 +12,10 @@ public class READ implements Instruction {
     @Override
     public void runInstruction(JTextPane inOutCode, Integer opd1, Integer opd2) {
         if (opd2 != null) {
-            Main.Error.showError("o read possui um argumento a mais");
+            Main.IO.showError("o read possui um argumento a mais");
             return;
         }
-        Main.Error.showError("o read não foi implementado ainda");
+        opd1 = Integer.parseInt(Main.IO.read());
         return;
 
         //opd1 = inOutCode.getText();

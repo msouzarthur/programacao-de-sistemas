@@ -63,7 +63,7 @@ public final class Memory {
             Memory.memorySet(SP.getValue(), null);
             return value;
         } else {
-            Error.showError("> não há nada na pilha");
+            IO.showError("> não há nada na pilha");
             return -1;
         }
     }

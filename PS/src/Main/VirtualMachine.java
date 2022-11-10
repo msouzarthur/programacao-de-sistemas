@@ -397,7 +397,7 @@ public class VirtualMachine extends javax.swing.JFrame {
         String path = inCod.getText();
         File f = new File(path);
         if (inCod.getText().length() == 0) {
-            Error.showError("> não há entrada de dados");
+            IO.showError("> não há entrada de dados");
             return;
         } else if (f.exists() && !f.isDirectory()) {
             Macros.process(path);
@@ -521,7 +521,7 @@ public class VirtualMachine extends javax.swing.JFrame {
         //String path = inCod.getText();
         //File f = new File(path);
         /*if(inCod.getText().length() == 0 ){
-            Error.showError("não há entrada de dados");
+            IO.showError("não há entrada de dados");
             return;
         }
         else if(f.exists() && !f.isDirectory()) { */
@@ -530,7 +530,7 @@ public class VirtualMachine extends javax.swing.JFrame {
 
         /*} 
         else{
-            Error.showError("arquivo não encontrado");
+            IO.showError("arquivo não encontrado");
             return;
         }*/
         //String[] cod = inCod.getText().split("\n");;;

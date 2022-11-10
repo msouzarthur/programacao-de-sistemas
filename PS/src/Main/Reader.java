@@ -19,7 +19,7 @@ public class Reader {
             while (reader.hasNextLine()) {
                 String l = reader.nextLine();
                 if (l.length() > 80) {
-                    Error.showError("> linha de código com comprimento maior que o suportado");
+                    IO.showError("> linha de código com comprimento maior que o suportado");
                 }
                 l = l.replaceAll(",", " ");
                 l = l.replaceAll("&", "");
@@ -34,7 +34,7 @@ public class Reader {
             }
             reader.close();
         } catch (FileNotFoundException e) {
-            Error.showError("> erro ao ler arquivo");
+            IO.showError("> erro ao ler arquivo");
         }
         for (int r = 0; r < contentTable.size(); r++) {
             for (int w = 0; w < contentTable.get(r).length; w++) {
@@ -54,7 +54,7 @@ public class Reader {
             reader = new Scanner(file);
             head = reader.nextLine();
         }catch (FileNotFoundException e) {
-            Error.showError("> erro ao ler arquivo");
+            IO.showError("> erro ao ler arquivo");
         }
         return head;
     }
@@ -91,7 +91,7 @@ public class Reader {
                 String[] words = l.split(" ");
                 String[] row = new String[wordCount];
                 if (l.length() > 80) {
-                    Error.showError("> linha de código com comprimento maior que o suportado");
+                    IO.showError("> linha de código com comprimento maior que o suportado");
                 }
                 for (int w = 0; w < wordCount; w++) {
                     row[w] = words[w];
@@ -101,7 +101,7 @@ public class Reader {
             }
             reader.close();
         } catch (FileNotFoundException e) {
-            Error.showError("> erro ao ler arquivo");
+            IO.showError("> erro ao ler arquivo");
         }
         return contentTable;
     }

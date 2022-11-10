@@ -12,7 +12,7 @@ public class COPY implements Instruction {
     @Override
     public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
         if (opd1 == null || opd2 == null) {
-            Main.Error.showError("> copy está sem argumentos");
+            Main.IO.showError("> copy está sem argumentos");
             return;
         }
         opd1 = opd2;
