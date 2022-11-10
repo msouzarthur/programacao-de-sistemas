@@ -1,6 +1,5 @@
 package Main;
 
-import Registers.PC;
 import Registers.SP;
 import java.util.List;
 import java.util.ArrayList;

@@ -1,6 +1,7 @@
 package Instructions;
 
 import Main.Instruction;
+import Main.Memory;
 import javax.swing.JTextPane;
 
 public class READ implements Instruction {
@@ -15,7 +16,7 @@ public class READ implements Instruction {
             Main.IO.showError("o read possui um argumento a mais");
             return;
         }
-        opd1 = Integer.parseInt(Main.IO.read());
+        Memory.memorySet(opd1,Integer.parseInt(Main.IO.read()));
         return;
 
         //opd1 = inOutCode.getText();
