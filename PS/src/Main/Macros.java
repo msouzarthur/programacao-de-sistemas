@@ -153,7 +153,9 @@ public class Macros {
     }
 
     public static void process(String path) {
-        System.out.println("> processando macros "+path);
+        System.out.println("# # # # # # # # # # # # # # # # # #");
+        System.out.println("> processando macros");
+        System.out.println("> arquivo "+path);
         readContent(path);
 
         System.out.println("> código lido");
@@ -169,5 +171,6 @@ public class Macros {
 
         toASM();
         System.out.println("> macros processadas");
+        System.out.println("# # # # # # # # # # # # # # # # # #");
     }
 }

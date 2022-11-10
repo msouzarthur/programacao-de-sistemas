@@ -1,7 +1,5 @@
 package Main;
 
-import Main.Memory;
-import Registers.RE;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,29 +18,6 @@ public class Linker {
 
     private static List<String[]> contentTable = new ArrayList<>();
     private static List<String[]> symbolTable = new ArrayList<>();
-
-    public static void link() {
-
-        String contentHeader = Reader.header("./MASMAPRG.lst", 4);
-        int memPos = Integer.parseInt(contentHeader.split(" ")[2]);
-        String symbolHeader = Reader.header("./simbolos.lst", 3);
-        int symbolAddresses = Integer.parseInt(symbolHeader.split(" ")[2]);
-
-        contentTable = Reader.read("./MASMAPRG.lst", 4);
-        symbolTable = Reader.read("./simbolos.lst", 3);
-
- 
-        int ref;
-        int newRef = memPos + 1;
-        for (int r = 0; r < symbolTable.size(); r++) {
-            ref = Integer.parseInt(symbolTable.get(r)[2]);
-
-            if (ref < newRef) {
-                realoc(newRef - ref);
-                break;
-            }
-        }
-    }
 
     public static void realoc(int newEnd) {
         List<String[]> newContentTable = new ArrayList<>();
@@ -69,6 +44,7 @@ public class Linker {
     }
 
     public static void save(List<String[]> list) {
+        System.out.println("> salvando arquivo hpx");
         try (FileWriter writer = new FileWriter("linkedCode.hpx")) {
             for (String[] str : list) {
                 for (String s : str) {
@@ -79,5 +55,28 @@ public class Linker {
         } catch (IOException ex) {
             Logger.getLogger(Linker.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public static void link() {
+        System.out.println("> ligando arquivos");
+        String contentHeader = Reader.header("./MASMAPRG.lst", 4);
+        int memPos = Integer.parseInt(contentHeader.split(" ")[2]);
+        String symbolHeader = Reader.header("./simbolos.lst", 3);
+        int symbolAddresses = Integer.parseInt(symbolHeader.split(" ")[2]);
+
+        contentTable = Reader.read("./MASMAPRG.lst", 4);
+        symbolTable = Reader.read("./simbolos.lst", 3);
+
+        int ref;
+        int newRef = memPos + 1;
+        for (int r = 0; r < symbolTable.size(); r++) {
+            ref = Integer.parseInt(symbolTable.get(r)[2]);
+            if (ref < newRef) {
+                realoc(newRef - ref);
+                break;
+            }
+        }
+        System.out.println("> ligação concluida");
+        System.out.println("# # # # # # # # # # # # # # # # # #");
     }
 }

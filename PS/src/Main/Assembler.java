@@ -202,7 +202,7 @@ public class Assembler {
         for (String[] r : list) {
             for (String w : r) {
                 if (w != null) {
-                    if(!w.equals("null")){
+                    if (!w.equals("null")) {
                         addresses += 1;
                     }
                 }
@@ -237,5 +237,6 @@ public class Assembler {
             Error.showError("> problema ao salvar arquivo lst");
         }
         System.out.println("> programa montado");
+        System.out.println("# # # # # # # # # # # # # # # # # #");
     }
 }
