@@ -1,8 +1,6 @@
 package Main;
 
 import java.util.ArrayList;
-import Main.Reader;
-import Main.Memory;
 import java.util.List;
 
 /*
@@ -14,6 +12,7 @@ public class Loader {
     private static List<String[]> contentTable = new ArrayList<>();
 
     public static void load(String path) {
+        System.out.println("# CARREGADOR #");
         System.out.println("> carregando arquivo");
         contentTable = Reader.read(path, 4);
         Reader.print(contentTable, "|label\tcomando\topd1\topd2\t|");
@@ -30,7 +29,6 @@ public class Loader {
             }
         }
         System.out.println("> arquivo carregado");
-        System.out.println("# # # # # # # # # # # # # # # # # #");
     }
 
 }

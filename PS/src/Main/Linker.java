@@ -53,11 +53,12 @@ public class Linker {
                 writer.write(System.lineSeparator());
             }
         } catch (IOException ex) {
-            Logger.getLogger(Linker.class.getName()).log(Level.SEVERE, null, ex);
+            IO.showError("> problema ao salvar arquivo hpx");
         }
     }
 
     public static void link() {
+        System.out.println("# LIGADOR #");
         System.out.println("> ligando arquivos");
         String contentHeader = Reader.header("./MASMAPRG.lst", 4);
         int memPos = Integer.parseInt(contentHeader.split(" ")[2]);
@@ -77,6 +78,5 @@ public class Linker {
             }
         }
         System.out.println("> ligação concluida");
-        System.out.println("# # # # # # # # # # # # # # # # # #");
     }
 }

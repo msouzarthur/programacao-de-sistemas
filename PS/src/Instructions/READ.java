@@ -16,7 +16,8 @@ public class READ implements Instruction {
             Main.IO.showError("o read possui um argumento a mais");
             return;
         }
-        Memory.memorySet(opd1,Integer.parseInt(Main.IO.read()));
+        String data = Main.IO.read();
+        Memory.memorySet(opd1,Integer.parseInt(data));
         return;
 
         //opd1 = inOutCode.getText();

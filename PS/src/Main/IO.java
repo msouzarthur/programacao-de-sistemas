@@ -4,7 +4,6 @@ import javax.swing.JOptionPane;
 
 public final class IO {
 
-    //implementar pop-up
     public static void showError(String target) {
         JOptionPane.showMessageDialog(null, "> ERRO: " + target);
     }
@@ -14,7 +13,6 @@ public final class IO {
     }
     
     public static String read(){
-        String content = JOptionPane.showInputDialog("> DIGITE O CONTEÚDO: ");
-        return content;
+        return JOptionPane.showInputDialog("> DIGITE O CONTEÚDO: ");
     }
 }

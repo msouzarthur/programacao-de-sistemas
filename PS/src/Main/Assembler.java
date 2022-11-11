@@ -22,8 +22,8 @@ public class Assembler {
         if (!contentTable.get(contentTable.size() - 1)[1].equals("end")) {
             IO.showError("> diretiva end não encontrada");
         }
-        System.out.println("> estrutura do programa " + programName);
-        Reader.print(contentTable, "|label\tcomando\topd1\topd2\t|");
+        //System.out.println("> estrutura do programa " + programName);
+        //Reader.print(contentTable, "|label\tcomando\topd1\topd2\t|");
         symbolTable();
     }
 
@@ -212,6 +212,7 @@ public class Assembler {
     }
 
     void assemble(String path) {
+        System.out.println("# MONTADOR #");
         System.out.println("> montando programa");
         System.out.println("> lendo código .asm");
         readContent(path);
@@ -237,6 +238,5 @@ public class Assembler {
             IO.showError("> problema ao salvar arquivo lst");
         }
         System.out.println("> programa montado");
-        System.out.println("# # # # # # # # # # # # # # # # # #");
     }
 }

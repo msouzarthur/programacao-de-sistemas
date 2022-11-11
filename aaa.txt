@@ -1,16 +1,6 @@
  start teste
-*
- macro
- arroba a,b
- add a
- sub b
- store b
- mend
-*
- load #12
- arroba a,b
+ read a
+ write a
  stop
 a space
-b space
-*
  end

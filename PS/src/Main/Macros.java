@@ -141,6 +141,7 @@ public class Macros {
 
     public static void toASM() {
         try (FileWriter writer = new FileWriter("MASMAPRG.asm")) {
+            System.out.println("> salvando arquivo asm");
             for (int r = 0; r < codeTable.size(); r++) {
                 for (int w = 0; w < codeTable.get(r).length - 2; w++) {
                     writer.write(codeTable.get(r)[w] + " ");
@@ -153,7 +154,7 @@ public class Macros {
     }
 
     public static void process(String path) {
-        System.out.println("# # # # # # # # # # # # # # # # # #");
+        System.out.println("# PROCESSADOR DE MACROS #");
         System.out.println("> processando macros");
         System.out.println("> arquivo "+path);
         readContent(path);
@@ -163,14 +164,15 @@ public class Macros {
 
         processMacros();
 
-        System.out.println("> informacao das macros " + macrosCount);
-        Reader.print(macrosTable, "|id\tname\tstart\tend\t|");
-
+        if(macrosCount>0){
+            System.out.println("> informacao das macros " + macrosCount);
+            Reader.print(macrosTable, "|id\tname\tstart\tend\t|");
+        } else {
+            System.out.println("> nenhuma macro encontrada");
+        }
         System.out.println("> código expandido");
         Reader.print(codeTable, "|label\tcommand\topd1\topd2\topd3\topd4\t|");
 
         toASM();
-        System.out.println("> macros processadas");
-        System.out.println("# # # # # # # # # # # # # # # # # #");
     }
 }

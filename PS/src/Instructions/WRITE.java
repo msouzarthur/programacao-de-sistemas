@@ -15,7 +15,7 @@ public class WRITE implements Instruction {
             Main.IO.showError("o write possui argumento a mais");
             return;
         }
-        Main.IO.write("o write não foi implementado ainda");
+        Main.IO.write(Integer.toString(opd1));
         return;
     }
 
