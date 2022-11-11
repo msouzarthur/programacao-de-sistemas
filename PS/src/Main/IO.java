@@ -5,14 +5,14 @@ import javax.swing.JOptionPane;
 public final class IO {
 
     public static void showError(String target) {
-        JOptionPane.showMessageDialog(null, "> ERRO: " + target);
+        JOptionPane.showMessageDialog(null, "ERRO: " + target);
     }
     
     public static void write(String target){
-        JOptionPane.showMessageDialog(null, "> MENSAGEM: " + target);
+        JOptionPane.showMessageDialog(null, "MENSAGEM: " + target);
     }
     
     public static String read(){
-        return JOptionPane.showInputDialog("> DIGITE O CONTEÚDO: ");
+        return JOptionPane.showInputDialog("DIGITE O CONTEÚDO: ");
     }
 }

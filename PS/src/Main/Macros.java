@@ -140,7 +140,7 @@ public class Macros {
     }
 
     public static void toASM() {
-        try (FileWriter writer = new FileWriter("MASMAPRG.asm")) {
+        try (FileWriter writer = new FileWriter("./saida/MASMAPRG.asm")) {
             System.out.println("> salvando arquivo asm");
             for (int r = 0; r < codeTable.size(); r++) {
                 for (int w = 0; w < codeTable.get(r).length - 2; w++) {

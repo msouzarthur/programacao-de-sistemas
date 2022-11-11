@@ -4,9 +4,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /*
 LIGADOR RELOCADOR
 VAI CONTAR ONDE TERMINA O CÓDIGO E COMEÇA DADOS
@@ -45,7 +42,7 @@ public class Linker {
 
     public static void save(List<String[]> list) {
         System.out.println("> salvando arquivo hpx");
-        try (FileWriter writer = new FileWriter("linkedCode.hpx")) {
+        try (FileWriter writer = new FileWriter("./saida/linkedCode.hpx")) {
             for (String[] str : list) {
                 for (String s : str) {
                     writer.write(s + " ");
@@ -60,13 +57,13 @@ public class Linker {
     public static void link() {
         System.out.println("# LIGADOR #");
         System.out.println("> ligando arquivos");
-        String contentHeader = Reader.header("./MASMAPRG.lst", 4);
+        String contentHeader = Reader.header("./saida/MASMAPRG.lst", 4);
         int memPos = Integer.parseInt(contentHeader.split(" ")[2]);
-        String symbolHeader = Reader.header("./simbolos.lst", 3);
+        String symbolHeader = Reader.header("./saida/simbolos.lst", 3);
         int symbolAddresses = Integer.parseInt(symbolHeader.split(" ")[2]);
 
-        contentTable = Reader.read("./MASMAPRG.lst", 4);
-        symbolTable = Reader.read("./simbolos.lst", 3);
+        contentTable = Reader.read("./saida/MASMAPRG.lst", 4);
+        symbolTable = Reader.read("./saida/simbolos.lst", 3);
 
         int ref;
         int newRef = memPos + 1;

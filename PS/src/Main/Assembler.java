@@ -174,7 +174,8 @@ public class Assembler {
     }
 
     void toObj() throws IOException {
-        try (FileWriter writer = new FileWriter(fileName + ".obj")) {
+        String fName = "./saida/" + fileName + ".obj";
+        try (FileWriter writer = new FileWriter(fName)) {
             for (String[] str : assembledTable) {
                 for (String s : str) {
                     writer.write(s + " ");
@@ -184,8 +185,9 @@ public class Assembler {
         }
     }
 
-    void toLst(List<String[]> list, String name) throws IOException {
-        try (FileWriter writer = new FileWriter(name + ".lst")) {
+    void toLst(List<String[]> list, String fileName) throws IOException {
+        String fName = "./saida/" + fileName + ".lst";
+        try (FileWriter writer = new FileWriter(fName)) {
             writer.write(setHeader(list));
             for (String[] str : list) {
                 for (String s : str) {

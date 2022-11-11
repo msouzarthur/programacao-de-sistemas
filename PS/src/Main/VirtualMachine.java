@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 public class VirtualMachine extends javax.swing.JFrame {
 
     public VirtualMachine() {
+        clear();
         initComponents();
         setInitValues();
         attScreen();
@@ -387,7 +388,15 @@ public class VirtualMachine extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    private void clear(){
+        File file = new File("./saida");
+ 
+        for (File subfile : file.listFiles()) {
+            subfile.delete();
+        }
+    }
+    
     private void btnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunActionPerformed
         Integer opd1 = null, opd2 = null;
         Assembler assembler = new Assembler();
@@ -401,11 +410,11 @@ public class VirtualMachine extends javax.swing.JFrame {
             return;
         } else if (f.exists() && !f.isDirectory()) {
             Macros.process(path);
-            assembler.assemble("./MASMAPRG.asm");
+            assembler.assemble("./saida/MASMAPRG.asm");
             //ligador
             Linker.link();
             //carregador
-            Loader.load("./linkedCode.hpx");
+            Loader.load("./saida/linkedCode.hpx");
         }
 
         do {

@@ -17,6 +17,7 @@ public class READ implements Instruction {
             return;
         }
         String data = Main.IO.read();
+        System.out.println("conteudo - "+data +" "+opd1);
         Memory.memorySet(opd1,Integer.parseInt(data));
         return;
 
