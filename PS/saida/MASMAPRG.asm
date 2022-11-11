@@ -2,6 +2,8 @@ null start teste null
 null read a null 
 null read b null 
 null read c null 
+null read temp1 null 
+null read temp2 null 
 null load a null 
 null mult c null 
 null store temp1 null 

@@ -16,12 +16,10 @@ public class READ implements Instruction {
             Main.IO.showError("o read possui um argumento a mais");
             return;
         }
-        String data = Main.IO.read();
-        System.out.println("conteudo - "+data +" "+opd1);
-        Memory.memorySet(opd1,Integer.parseInt(data));
-        return;
 
-        //opd1 = inOutCode.getText();
+        String data = Main.IO.read();
+        Memory.memorySet(opd1, Integer.parseInt(data));
+        
     }
 
     @Override

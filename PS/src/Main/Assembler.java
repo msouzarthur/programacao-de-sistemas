@@ -22,8 +22,6 @@ public class Assembler {
         if (!contentTable.get(contentTable.size() - 1)[1].equals("end")) {
             IO.showError("> diretiva end não encontrada");
         }
-        //System.out.println("> estrutura do programa " + programName);
-        //Reader.print(contentTable, "|label\tcomando\topd1\topd2\t|");
         symbolTable();
     }
 
@@ -64,9 +62,7 @@ public class Assembler {
         }
         return -1;
     }
-
-    //remover coluna de label do codigo montado
-    //ver o opd2 imediato do copy
+    
     void assembleProgram() {
         int address, start = 0;
         for (String[] r : contentTable) {
