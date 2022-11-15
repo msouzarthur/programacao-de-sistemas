@@ -19,7 +19,7 @@ public class Macros {
 	 * @param path caminho absoluto do arquivo
 	 */
     public static void readContent(String path) {
-       
+
         fileName = path.substring(path.lastIndexOf('/') + 1);
         fileName = fileName.replace(".txt", "").trim();
         contentTable = Reader.read(path, 6);
@@ -33,13 +33,9 @@ public class Macros {
 	 */
     public static String[] saveMacro(String[] def, int end) {
         String[] row = new String[4];
-        //contagem 
         row[0] = Integer.toString(macrosCount);
-        //nome
         row[1] = def[1];
-        //comeco
         row[2] = Integer.toString(end);
-        //fim
         row[3] = getFinal(end);
         return row;
     }
@@ -193,7 +189,7 @@ public class Macros {
     public static void process(String path) {
         System.out.println("# PROCESSADOR DE MACROS #");
         System.out.println("> processando macros");
-        System.out.println("> arquivo "+path);
+        System.out.println("> arquivo " + path);
         readContent(path);
 
         System.out.println("> código lido");
@@ -201,7 +197,7 @@ public class Macros {
 
         processMacros();
 
-        if(macrosCount>0){
+        if (macrosCount > 0) {
             System.out.println("> informacao das macros " + macrosCount);
             Reader.print(macrosTable, "|id\tname\tstart\tend\t|");
         } else {

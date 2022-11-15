@@ -4,13 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-/*
-LIGADOR RELOCADOR
-VAI CONTAR ONDE TERMINA O CÓDIGO E COMEÇA DADOS
-VAI PEGAR TODAS AS REFERENCIAS A UM ENDEREÇO E VER SE ELE TA OCUPADO
-SE TÁ OCUPADO, SEPARA UM ESPAÇO NOVO E MUDA TODAS AS REFERENCIAS
-ARRUMA OS ENDEREÇOS E MANDA PRO CARREGADOR
- */
+
 public class Linker {
 
     private static List<String[]> contentTable = new ArrayList<>();
@@ -70,7 +64,6 @@ public class Linker {
         String contentHeader = Reader.header("./saida/MASMAPRG.lst", 4);
         int memPos = Integer.parseInt(contentHeader.split(" ")[2]);
         String symbolHeader = Reader.header("./saida/simbolos.lst", 3);
-        int symbolAddresses = Integer.parseInt(symbolHeader.split(" ")[2]);
 
         contentTable = Reader.read("./saida/MASMAPRG.lst", 4);
         symbolTable = Reader.read("./saida/simbolos.lst", 3);

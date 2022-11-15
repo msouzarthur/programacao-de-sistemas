@@ -14,6 +14,10 @@ import javax.swing.table.DefaultTableModel;
  * @author rafael grimmler
  * @author willian do espirito santo
  */
+ /*
+    o erro do READ é no Reader.read
+    lá tá removendo a , e dando erro no ,I
+ */
 public class VirtualMachine extends javax.swing.JFrame {
 
     public VirtualMachine() {
@@ -122,7 +126,7 @@ public class VirtualMachine extends javax.swing.JFrame {
                 btnRunCicleActionPerformed(evt);
             }
         });
-        getContentPane().add(btnRunCicle, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 520, -1, -1));
+        getContentPane().add(btnRunCicle, new org.netbeans.lib.awtextra.AbsoluteConstraints(669, 520, 130, -1));
 
         tMemory.setBackground(new java.awt.Color(102, 102, 102));
         tMemory.setForeground(new java.awt.Color(255, 255, 255));
@@ -374,7 +378,7 @@ public class VirtualMachine extends javax.swing.JFrame {
         btnPlay.setBackground(new java.awt.Color(102, 102, 102));
         btnPlay.setForeground(new java.awt.Color(255, 255, 255));
         btnPlay.setText("Play");
-        getContentPane().add(btnPlay, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 520, 57, -1));
+        getContentPane().add(btnPlay, new org.netbeans.lib.awtextra.AbsoluteConstraints(527, 520, 80, -1));
 
         Fundo.setBackground(new java.awt.Color(51, 51, 51));
         Fundo.setForeground(new java.awt.Color(51, 51, 51));
@@ -388,15 +392,15 @@ public class VirtualMachine extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-    private void clear(){
+
+    private void clear() {
         File file = new File("./saida");
- 
+
         for (File subfile : file.listFiles()) {
             subfile.delete();
         }
     }
-    
+
     private void btnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunActionPerformed
         Integer opd1 = null, opd2 = null;
         Assembler assembler = new Assembler();
@@ -416,7 +420,7 @@ public class VirtualMachine extends javax.swing.JFrame {
             //carregador
             Loader.load("./saida/linkedCode.hpx");
         }
-
+        RE.setValue(Memory.memoryDataInit());
         do {
             attScreen();
             instruction = decodeInstruction(Memory.memoryGet(PC.getValue()));
@@ -424,12 +428,18 @@ public class VirtualMachine extends javax.swing.JFrame {
             if (PC.getValue() != null) {
                 RI.setValue(Memory.memoryGet(PC.getValue()));
             }
+
             PC.setValue(PC.getValue() + instruction.numberOpd() + 1);
 
+            if (PC.getValue() == RE.getValue()) {
+                Main.IO.write("Execução finalizada");
+                break;
+            }
             if (instruction instanceof STOP || PC.getValue() == null) {
                 PC.setValue(null);
                 break;
             }
+            System.out.println("executou "+instruction);
             //imediato: é o valor que foi passado
             if (instruction.numberOpd() == 1) {
                 opd1 = Memory.memoryGet(PC.getValue() - 1);
@@ -438,10 +448,14 @@ public class VirtualMachine extends javax.swing.JFrame {
             }
             //direto: é o valor que tá no endereço
             if (instruction.getEndType() == EndType.DIRECT) {
-                if (instruction.numberOpd() == 1) {
-                    opd1 = Memory.memoryGet(opd1);
-                } else if (instruction.numberOpd() == 2) {
-                    opd2 = Memory.memoryGet(opd2);
+                if (instruction instanceof READ) {
+                    opd1 = Memory.memoryGet(PC.getValue() - 1);
+                } else {
+                    if (instruction.numberOpd() == 1) {
+                        opd1 = Memory.memoryGet(opd1);
+                    } else if (instruction.numberOpd() == 2) {
+                        opd2 = Memory.memoryGet(opd2);
+                    }
                 }
             }
             //indireto: é o valor que tá no endereço apontado pelo valor passado
@@ -451,17 +465,15 @@ public class VirtualMachine extends javax.swing.JFrame {
             if (instruction.getEndType() == EndType.INDIRECT2) {
                 opd2 = Memory.memoryGet(Memory.memoryGet(opd2));
             }
-            
             instruction.runInstruction(outCod, opd1, opd2);
-            
+                        
         } while (Memory.memoryGet(PC.getValue()) != null && PC.getValue() < RE.getValue());
-        attScreen();
+        
     }//GEN-LAST:event_btnRunActionPerformed
 
     private void btnHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpActionPerformed
         ViewAjuda viewAjuda = new ViewAjuda();
         viewAjuda.setVisible(true);
-        //ViewAjuda.setVisible(true);
     }//GEN-LAST:event_btnHelpActionPerformed
 
     private void btnDebugActionPerformed(java.awt.event.ActionEvent evt) {

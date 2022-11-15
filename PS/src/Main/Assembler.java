@@ -27,8 +27,6 @@ public class Assembler {
         if (!contentTable.get(contentTable.size() - 1)[1].equals("end")) {
             IO.showError("> diretiva end não encontrada");
         }
-        //System.out.println("> estrutura do programa " + programName);
-        //Reader.print(contentTable, "|label\tcomando\topd1\topd2\t|");
         symbolTable();
     }
 	/**

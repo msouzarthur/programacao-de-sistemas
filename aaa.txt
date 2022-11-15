@@ -1,5 +1,5 @@
  start teste
- read a,i
+ read a
  write a
  stop
 a space

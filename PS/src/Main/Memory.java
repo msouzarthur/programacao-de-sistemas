@@ -45,6 +45,15 @@ public final class Memory {
         return -1;
     }
 
+    public static Integer memoryDataInit() {
+        for (int i = 3; i < 500; i++) {
+            if (memory.get(i) == null) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public static Integer memorySize() {
         return memory.size();
     }

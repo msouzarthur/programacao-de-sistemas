@@ -1,6 +1,7 @@
 package Instructions;
 
 import Main.Instruction;
+import Main.Memory;
 import Registers.ACC;
 import javax.swing.JTextPane;
 
@@ -15,7 +16,7 @@ public class STORE implements Instruction {
         if (opd2 != null) {
             Main.IO.showError("o store possui um argumento a mais");
         }
-        opd1 = ACC.getValue();
+        Memory.memorySet(opd1, ACC.getValue());
     }
 
     @Override
