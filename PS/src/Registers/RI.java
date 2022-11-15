@@ -1,5 +1,8 @@
 package Registers;
 
+/**
+ * Classe que representa o registrador de instruções.
+ */
 public final class RI {
 
     static Integer value = 0;
@@ -8,6 +11,10 @@ public final class RI {
         return value;
     }
 
+	/**
+	 * Método retorna o valor do acumulador em hexadecimal
+	 * @return valor em hexadecimal
+	 */
     public static String getText() {
         if (RI.getValue() >= 0) {
             return String.format("%016d", Integer.parseInt(Integer.toBinaryString(RI.getValue())));

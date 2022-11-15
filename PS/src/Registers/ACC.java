@@ -1,5 +1,8 @@
 package Registers;
 
+/**
+ * Classe que representa o registrador acumulador.
+ */
 public final class ACC {
 
     static Integer value = 0;
@@ -8,6 +11,10 @@ public final class ACC {
         return value;
     }
 
+	/**
+	 * Método retorna o valor do acumulador em hexadecimal
+	 * @return valor em hexadecimal
+	 */
     public static String getText() {
         if (ACC.getValue() >= 0) {
             return String.format("%016d", Integer.parseInt(Integer.toBinaryString(ACC.getValue())));

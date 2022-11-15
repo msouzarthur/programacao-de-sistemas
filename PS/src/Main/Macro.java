@@ -19,6 +19,10 @@ public class Macro {
         this.arg4 = definition[5];
     }
 
+	/**
+	 * Método responsável por atualizar a lista de variáveis da macro
+	 * @param call linha de chamada da macro
+	 */
     public void changeVar(String[] call) {
         newContent = orgContent;
         for (int r = 0; r < newContent.size(); r++) {
@@ -41,6 +45,10 @@ public class Macro {
         }
     }
 
+	/**
+	 * Método responsável por expandir as macros no código
+	 * @param call linha de chamada da macro
+	 */
     public void expand(String[] call) {
         this.newContent = new ArrayList<>();
 
