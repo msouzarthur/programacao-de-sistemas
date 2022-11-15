@@ -74,9 +74,6 @@ public class Assembler {
         return -1;
     }
 
-    //remover coluna de label do codigo montado
-    //ver o opd2 imediato do copy
-
 	/**
 	 * O método tem como objetivo, montar o código final.
 	 * O código final é montado a partir da tabela de conteúdo e
