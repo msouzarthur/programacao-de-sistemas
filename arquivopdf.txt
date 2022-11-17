@@ -3,14 +3,14 @@
  macro
  scale &rp
  macro
- multsc &a,&b,&c
+ multsc &a &b &c
  load &a
  mult &b
 * shiftr &rp
  store &c
  mend
  macro
- divsc &a,&b,&c
+ divsc &a &b &c
  load &a
  div &b
  shiftl &rp
@@ -19,10 +19,10 @@
  mend
 *
  macro
-&lab discr &a,&b,&c,&d
-&lab multsc &a,&c,temp1
- multsc temp1,@4,temp2
- multsc &a,&b,temp2
+&lab discr &a &b &c &d
+&lab multsc &a &c temp1
+ multsc temp1 @4 temp2
+ multsc &a &b temp2
  sub temp1
  store &d
  mend
@@ -33,7 +33,7 @@
  read temp1
  read temp2
  scale 3
- discr a,b,c,d
+ discr a b c d
  write d
  stop
 *

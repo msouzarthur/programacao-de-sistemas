@@ -21,7 +21,7 @@ public class Reader {
                 if (l.length() > 80) {
                     IO.showError("> linha de código com comprimento maior que o suportado");
                 }
-                l = l.replaceAll(",", " ");
+                //l = l.replaceAll(",", " ");
                 l = l.replaceAll("&", "");
                 String[] words = l.split(" ");
                 String[] row = new String[wordCount];

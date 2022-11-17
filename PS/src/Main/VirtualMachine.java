@@ -6,6 +6,7 @@ import Registers.*;
 import static Main.Memory.*;
 import java.io.File;
 import java.util.List;
+import java.util.Objects;
 import javax.swing.table.DefaultTableModel;
 
 /*
@@ -14,10 +15,7 @@ import javax.swing.table.DefaultTableModel;
  * @author rafael grimmler
  * @author willian do espirito santo
  */
- /*
-    o erro do READ é no Reader.read
-    lá tá removendo a , e dando erro no ,I
- */
+ 
 public class VirtualMachine extends javax.swing.JFrame {
 
     public VirtualMachine() {
@@ -431,7 +429,7 @@ public class VirtualMachine extends javax.swing.JFrame {
 
             PC.setValue(PC.getValue() + instruction.numberOpd() + 1);
 
-            if (PC.getValue() == RE.getValue()) {
+            if (Objects.equals(PC.getValue(), RE.getValue())) {
                 Main.IO.write("Execução finalizada");
                 break;
             }
@@ -439,7 +437,7 @@ public class VirtualMachine extends javax.swing.JFrame {
                 PC.setValue(null);
                 break;
             }
-            System.out.println("executou "+instruction);
+            System.out.println("executou "+instruction.toString() + " "+opd1+" "+opd2);
             //imediato: é o valor que foi passado
             if (instruction.numberOpd() == 1) {
                 opd1 = Memory.memoryGet(PC.getValue() - 1);

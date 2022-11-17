@@ -1,6 +1,11 @@
  start teste
  read a
+ load @1
+ mult a
+ mult a
+ store b
  write a
  stop
 a space
+b space
  end
