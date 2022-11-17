@@ -1,3 +1,4 @@
+* le um numero, faz o cubo dele e guarda em b
  start teste
  read a
  load a

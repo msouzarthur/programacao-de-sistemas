@@ -29,6 +29,7 @@ public class Loader {
             }
         }
         System.out.println("> arquivo carregado");
+        System.out.println("> executando programa");
     }
 
 }
