@@ -15,7 +15,6 @@ import javax.swing.table.DefaultTableModel;
  * @author rafael grimmler
  * @author willian do espirito santo
  */
- 
 public class VirtualMachine extends javax.swing.JFrame {
 
     public VirtualMachine() {
@@ -437,7 +436,6 @@ public class VirtualMachine extends javax.swing.JFrame {
                 PC.setValue(null);
                 break;
             }
-            System.out.println("executou "+instruction.toString() + " "+opd1+" "+opd2);
             //imediato: é o valor que foi passado
             if (instruction.numberOpd() == 1) {
                 opd1 = Memory.memoryGet(PC.getValue() - 1);
@@ -448,7 +446,7 @@ public class VirtualMachine extends javax.swing.JFrame {
             if (instruction.getEndType() == EndType.DIRECT) {
                 if (instruction instanceof READ) {
                     opd1 = Memory.memoryGet(PC.getValue() - 1);
-                } else {
+                } else if (instruction instanceof STORE == false) {
                     if (instruction.numberOpd() == 1) {
                         opd1 = Memory.memoryGet(opd1);
                     } else if (instruction.numberOpd() == 2) {
@@ -464,9 +462,9 @@ public class VirtualMachine extends javax.swing.JFrame {
                 opd2 = Memory.memoryGet(Memory.memoryGet(opd2));
             }
             instruction.runInstruction(outCod, opd1, opd2);
-                        
+
         } while (Memory.memoryGet(PC.getValue()) != null && PC.getValue() < RE.getValue());
-        
+
     }//GEN-LAST:event_btnRunActionPerformed
 
     private void btnHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpActionPerformed

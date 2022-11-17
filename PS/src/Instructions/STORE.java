@@ -16,7 +16,6 @@ public class STORE implements Instruction {
         if (opd2 != null) {
             Main.IO.showError("o store possui um argumento a mais");
         }
-        System.out.println("fazendo store em : "+opd1);
         Memory.memorySet(opd1, ACC.getValue());
     }
 

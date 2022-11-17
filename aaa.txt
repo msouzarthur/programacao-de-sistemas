@@ -1,6 +1,6 @@
  start teste
  read a
- load @1
+ load a
  mult a
  mult a
  store b
