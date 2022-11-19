@@ -392,7 +392,6 @@ public class VirtualMachine extends javax.swing.JFrame {
 
     private void clear() {
         File file = new File("./saida");
-
         for (File subfile : file.listFiles()) {
             subfile.delete();
         }
@@ -602,17 +601,6 @@ public class VirtualMachine extends javax.swing.JFrame {
         attScreen();
     }//GEN-LAST:event_btnRunCicleActionPerformed
 
-    private void reset() {
-        RE.setValue(2);
-        PC.setValue(2);
-        SP.setValue(Memory.memorySize() - 1);
-        MOP.setValue(0);
-        ACC.reset();
-        RI.reset();
-        Memory.memoryReset();
-        attScreen();
-    }
-
     private Instruction decodeInstruction(Integer insCod) {
         Instruction instruction = null;
         Integer opcode = insCod;
@@ -681,7 +669,7 @@ public class VirtualMachine extends javax.swing.JFrame {
                     instruction = new CALL();
                     break;
                 default:
-                    System.out.println("ERRO DE OPCODE");
+                    IO.showError("> opcode não reconhecido: "+opcode);
             }
             if (insCod == 32) {
                 instruction.setEndType(Instruction.EndType.INDIRECT1);
