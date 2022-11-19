@@ -13,7 +13,7 @@ public class READ implements Instruction {
     @Override
     public void runInstruction(JTextPane inOutCode, Integer opd1, Integer opd2) {
         if (opd2 != null) {
-            Main.IO.showError("o read possui um argumento a mais");
+            Main.IO.showError("> read tem um argumento a mais");
             return;
         }
 

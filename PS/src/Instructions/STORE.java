@@ -14,7 +14,7 @@ public class STORE implements Instruction {
     @Override
     public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
         if (opd2 != null) {
-            Main.IO.showError("o store possui um argumento a mais");
+            Main.IO.showError("> store tem um argumento a mais");
         }
         Memory.memorySet(opd1, ACC.getValue());
     }

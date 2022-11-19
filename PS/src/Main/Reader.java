@@ -91,7 +91,7 @@ public class Reader {
                 String[] words = l.split(" ");
                 String[] row = new String[wordCount];
                 if (l.length() > 80) {
-                    IO.showError("> linha muito longa: "+l);
+                    IO.showError("> linha muito longa: " + l);
                 }
                 for (int w = 0; w < wordCount; w++) {
                     if (words[w].contains("@")) {

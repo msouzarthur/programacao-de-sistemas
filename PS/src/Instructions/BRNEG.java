@@ -14,7 +14,7 @@ public class BRNEG implements Instruction {
     @Override
     public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
         if (opd2 != null) {
-            Main.IO.showError("> o brneg possui um argumento a mais");
+            Main.IO.showError("> brneg tem um argumento a mais");
             return;
         }
         

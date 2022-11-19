@@ -3,10 +3,6 @@ package Main;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-CARREGADOR ABSOLUTO 
-SÓ ESCREVE NA MEMÓRIA
- */
 public class Loader {
 
     private static List<String[]> contentTable = new ArrayList<>();
@@ -16,7 +12,6 @@ public class Loader {
         System.out.println("> carregando arquivo");
         contentTable = Reader.read(path, 4);
         Reader.print(contentTable, "|label\tcomando\topd1\topd2\t|");
-        //pegar entrada de dado do usuário
         int memRow = 2;
         for (int r = 0; r < contentTable.size(); r++) {
             for (int w = 0; w < contentTable.get(r).length; w++) {

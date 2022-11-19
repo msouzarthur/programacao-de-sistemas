@@ -19,7 +19,7 @@ public final class SP {
             SP.value -= 1;
         } else {
             Memory.memorySet(1, 1);
-            Main.IO.showError("stackoverflow");
+            Main.IO.showError("> stackoverflow");
             reset();
         }
     }

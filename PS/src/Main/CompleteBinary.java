@@ -30,25 +30,4 @@ public final class CompleteBinary {
         }
         return null;
     }
-
 }
-/*public Integer toInt(String cod){
-        long n;
-        int number;
-        if(cod!=null){          
-            n = Long.parseLong(cod, 2);
-            number = (int) n;
-            return number;
-        }
-        return null;
-    }
-    
-    public String toBin(Integer number){
-        if(number != null){
-            if(number<0)
-                return Integer.toBinaryString(0x10000 | number).substring(16);
-            else
-                return Integer.toBinaryString(0x10000 | number).substring(1);
-        }
-        return null;
-    }*/

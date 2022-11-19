@@ -18,7 +18,7 @@ public class BRZERO implements Instruction {
     @Override
     public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
         if (opd2 != null) {
-            Main.IO.showError("o brneg possui um argumento a mais");
+            Main.IO.showError("> brzero tem um argumento a mais");
             return;
         }
         if (ACC.getValue() == 0 && opd1 > 12 && opd1 < 100) {

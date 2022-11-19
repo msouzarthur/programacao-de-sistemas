@@ -18,11 +18,11 @@ public class CALL implements Instruction {
     @Override
     public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
         if (opd1 == null) {
-            Main.IO.showError("> call possui um argumento a menos");
+            Main.IO.showError("> call tem um argumento a menos");
             return;
         }
         if (opd2 != null) {
-            Main.IO.showError("> call possui um argumento a mais");
+            Main.IO.showError("> call tem um argumento a mais");
             return;
         }
         Memory.stackPush(PC.getValue());

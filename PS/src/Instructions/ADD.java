@@ -13,10 +13,10 @@ public class ADD implements Instruction {
     @Override
     public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
         if (opd1 == null) {
-            Main.IO.showError("o add possui um argumento a menos");
+            Main.IO.showError("> add tem um argumento a menos");
             return;
         } else if (opd2 != null) {
-            Main.IO.showError("o add possui um argumento a mais");
+            Main.IO.showError("> add tem um argumento a mais");
             return;
         }
         ACC.setValue(ACC.getValue() + opd1);

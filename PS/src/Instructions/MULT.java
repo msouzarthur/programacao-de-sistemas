@@ -13,7 +13,7 @@ public class MULT implements Instruction {
     @Override
     public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
         if (opd2 != null) {
-            Main.IO.showError("o mult possui um argumento a mais");
+            Main.IO.showError("> mult tem um argumento a mais");
             return;
         }
         ACC.setValue(ACC.getValue() * opd1);

@@ -13,7 +13,7 @@ public class SUB implements Instruction {
     @Override
     public void runInstruction(JTextPane outCode, Integer opd1, Integer opd2) {
         if (opd2 != null) {
-            Main.IO.showError("o sub possui um argumento a mais");
+            Main.IO.showError("> sub tem um argumento a mais");
             return;
         }
         ACC.setValue(ACC.getValue() - opd1);
