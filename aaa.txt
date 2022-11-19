@@ -2,6 +2,7 @@
  start teste
  read a
  load a
+ mult @2
  mult a
  mult a
  store b

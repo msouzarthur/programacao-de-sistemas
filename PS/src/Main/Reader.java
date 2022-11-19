@@ -19,7 +19,7 @@ public class Reader {
             while (reader.hasNextLine()) {
                 String l = reader.nextLine();
                 if (l.length() > 80) {
-                    IO.showError("> linha de código com comprimento maior que o suportado");
+                    IO.showError("> linha muito longa: " + l);
                 }
                 //l = l.replaceAll(",", " ");
                 l = l.replaceAll("&", "");
@@ -45,20 +45,20 @@ public class Reader {
         }
         return contentTable;
     }
-    
-    public static String header(String path, int wordCount){
+
+    public static String header(String path, int wordCount) {
         String head = new String();
         File file = new File(path);
         Scanner reader;
-        try{
+        try {
             reader = new Scanner(file);
             head = reader.nextLine();
-        }catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             IO.showError("> erro ao ler arquivo");
         }
         return head;
     }
-    
+
     public static void print(List<String[]> target, String header) {
         System.out.println(header);
         System.out.print(" -");
@@ -91,13 +91,19 @@ public class Reader {
                 String[] words = l.split(" ");
                 String[] row = new String[wordCount];
                 if (l.length() > 80) {
-                    IO.showError("> linha de código com comprimento maior que o suportado");
+                    IO.showError("> linha muito longa: "+l);
                 }
                 for (int w = 0; w < wordCount; w++) {
+                    if (words[w].contains("@")) {
+                        for (int m = 1; m < words[w].length(); m++) {
+                            if (words[w].charAt(m) < 48 || words[w].charAt(m) > 57) {
+                                IO.showError("> caracter inválido: " + l);
+                            }
+                        }
+                    }
                     row[w] = words[w];
                 }
                 contentTable.add(row);
-
             }
             reader.close();
         } catch (FileNotFoundException e) {

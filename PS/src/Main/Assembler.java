@@ -62,7 +62,7 @@ public class Assembler {
         }
         return -1;
     }
-    
+
     void assembleProgram() {
         int address, start = 0;
         for (String[] r : contentTable) {
@@ -82,11 +82,17 @@ public class Assembler {
                     if (r[2].contains(",I")) {
                         r[2] = r[2].replace(",I", "");
                         address += 32;
+                        if (Integer.parseInt(r[2]) > 499) {
+                            IO.showError("> valor fora dos limites");
+                        }
                     }
                     if (r[2].contains("#") || r[2].contains("@")) {
                         r[2] = r[2].replace("#", "");
                         //r[2] = r[2].replace("@", "");
                         address += 128;
+                        if (r[2].contains("#") && (Integer.parseInt(r[2]) > 65536)) {
+                            IO.showError("> valor fora dos limites");
+                        }
                     }
                     /*if (r[2].contains("@")) {
                         r[2] = r[2].replace("@", "");
@@ -101,6 +107,9 @@ public class Assembler {
                     /*if (r[3].contains("@")) {
                         r[3] = r[3].replace("@", "");
                     }*/
+                    if (Integer.parseInt(r[3]) > 499) {
+                        IO.showError("> valor fora dos limites");
+                    }
                 }
 
                 r[1] = Integer.toString(getOpcode(r[1].trim()) + address);
@@ -116,6 +125,9 @@ public class Assembler {
                     }
                     if (r[i].contains("@")) {
                         r[i] = r[i].replace("@", "");
+                        if (Integer.parseInt(r[i]) > 65536) {
+                            IO.showError("> valor fora dos limites");
+                        }
                     }
                 }
                 assembledTable.add(r);
