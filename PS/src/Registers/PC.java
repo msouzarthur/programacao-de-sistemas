@@ -1,5 +1,8 @@
 package Registers;
 
+/**
+ * Classe que representa o registrador contador de programa.
+ */
 public final class PC {
 
     static Integer value = 0;
@@ -8,6 +11,10 @@ public final class PC {
         return value;
     }
 
+	/**
+	 * Método retorna o valor do acumulador em hexadecimal
+	 * @return valor em hexadecimal
+	 */
     public static String getText() {
         if (PC.getValue() >= 0 && PC.getValue() != null) {
             return String.format("%016d", Integer.parseInt(Integer.toBinaryString(PC.getValue())));

@@ -11,7 +11,12 @@ public class Assembler {
     private static List<String[]> symbolTable = new ArrayList<>();
     private static List<String[]> assembledTable = new ArrayList<>();
     private static String programName, fileName;
-
+	/**
+	 * Esse método é responsável por receber o caminho absoluto do arquivo e passar
+	 * para o método readASM que irá ler e retornar uma lista com as linhas do
+	 * arquivo.
+	 * @param path Caminho absoluto do arquivo.
+	 **/
     public void readContent(String path) {
         fileName = path.substring(path.lastIndexOf('/') + 1);
         fileName = fileName.replace(".asm", "").trim();
@@ -24,7 +29,9 @@ public class Assembler {
         }
         symbolTable();
     }
-
+	/**
+ 	* Método é responsável por criar a tabela de símbolos.
+	**/
     void symbolTable() {
         System.out.println("> montando tabela de simbolos");
         int i = 0;
@@ -53,7 +60,11 @@ public class Assembler {
         System.out.println("> tabela de simbolos");
         Reader.print(symbolTable, "|symbol\tvalor\tend\t|");
     }
-
+	/**
+	 * Responsável por achar o endereço de um símbolo.
+	 * @param target Símbolo a ser procurado na tabela de símbolos.
+	 * @return Retorna o endereço do símbolo ou -1 caso não encontre.
+	 */
     int getAddress(String target) {
         for (String[] r : symbolTable) {
             if (r[0].equals(target)) {
@@ -63,6 +74,11 @@ public class Assembler {
         return -1;
     }
 
+	/**
+	 * O método tem como objetivo, montar o código final.
+	 * O código final é montado a partir da tabela de conteúdo e
+	 * adicionado a assembledTable.
+	 */
     void assembleProgram() {
         int address, start = 0;
         for (String[] r : contentTable) {
@@ -140,6 +156,11 @@ public class Assembler {
         Reader.print(assembledTable, "|label\tcomando\topd1\topd2\t|");
     }
 
+	/**
+	 * Método responsável por classificar qual o opcode de cada comando.
+	 * @param opd Comando a ser classificado.
+	 * @return valor inteiro do opcode
+	 */
     int getOpcode(String opd) {
         opd = opd.trim();
         switch (opd) {
@@ -180,7 +201,9 @@ public class Assembler {
                 return -1;
         }
     }
-
+	/**
+	 * Método responsável por escrever o código montado em um arquivo "<nome do arquivo>.obj"
+	 */
     void toObj() throws IOException {
         String fName = "./saida/" + fileName + ".obj";
         try (FileWriter writer = new FileWriter(fName)) {
@@ -193,6 +216,12 @@ public class Assembler {
         }
     }
 
+	/**
+	 * Método responsável por salvar em "<nome do arquivo>.lst" todas as tabelas geradas
+	 * durante a montagem do programa.
+	 * @param fileName Nome do arquivo a ser salvo.
+	 * @param list string a ser salva.
+	 */
     void toLst(List<String[]> list, String fileName) throws IOException {
         String fName = "./saida/" + fileName + ".lst";
         try (FileWriter writer = new FileWriter(fName)) {
@@ -205,7 +234,11 @@ public class Assembler {
             }
         }
     }
-
+	/**
+	 * Método que calcula o numero de posições ocupada na memória e as linhas
+	 * @param list tabela a ser calculada.
+	 * @return string com o numero de posições e linhas.
+	 */
     String setHeader(List<String[]> list) {
         int lines = list.size();
         int addresses = 1;
@@ -221,6 +254,10 @@ public class Assembler {
         return "* " + lines + " " + addresses + "\n";
     }
 
+	/**
+	 * Método responsável por chamar todos os outros métodos
+	 * @param path caminho absoluto do arquivo a ser montado
+	 */
     void assemble(String path) {
         System.out.println("# MONTADOR #");
         System.out.println("> montando programa");

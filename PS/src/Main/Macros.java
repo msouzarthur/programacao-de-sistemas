@@ -14,6 +14,10 @@ public class Macros {
     private static List<String[]> macrosTable = new ArrayList<>();
     private static ArrayList<Macro> macros = new ArrayList<>();
 
+	/**
+	 * Método responsável por ler o conteúdo do arquivo e separar em tabelas
+	 * @param path caminho absoluto do arquivo
+	 */
     public static void readContent(String path) {
 
         fileName = path.substring(path.lastIndexOf('/') + 1);
@@ -21,6 +25,12 @@ public class Macros {
         contentTable = Reader.read(path, 6);
     }
 
+	/**
+	 * Método responsável por montar uma tabela auxiliar
+	 * @param def definição da macro a ser salva
+	 * @param end endereço da inicial macro
+	 * @return linha contendo a definição, endereço inicial e final da macro
+	 */
     public static String[] saveMacro(String[] def, int end) {
         String[] row = new String[4];
         row[0] = Integer.toString(macrosCount);
@@ -30,6 +40,11 @@ public class Macros {
         return row;
     }
 
+	/**
+	 * Método responsável por procurar o final da macro
+	 * @param start linha de início da macro
+	 * @return posição final da macro
+	 */
     public static String getFinal(int start) {
         int nivel = 0;
         for (int r = start + 1; r < contentTable.size(); r++) {
@@ -46,6 +61,10 @@ public class Macros {
         return null;
     }
 
+	/**
+	 * Método responsável por processar todas as macros e salvar numa estrutura
+	 * do tipo Macro. 
+	 */
     public static void processMacros() {
         int nivel = 0;
         String[] mRow, row;
@@ -117,6 +136,11 @@ public class Macros {
         }
     }
 
+	/**
+	 * Método responsável por verificar se a linha é uma macro
+	 * @param name nome da macro
+	 * @return resposta da verificação
+	 */
     public static boolean isMacro(String name) {
         for (String[] r : macrosTable) {
             if (r[1].equals(name)) {
@@ -126,6 +150,11 @@ public class Macros {
         return false;
     }
 
+	/**
+	 * Método responsável por retornar a macro a partir do nome definido
+	 * @param name nome da macro
+	 * @return macro
+	 */
     public static Macro getMacro(String name) {
         for (Macro m : macros) {
             if (isMacro(name) && m.getName().equals(name)) {
@@ -135,6 +164,10 @@ public class Macros {
         return null;
     }
 
+	/**
+	 * Método responsável por salvar o conteúdo em assembly no arquivo .asm
+	 * @param path caminho absoluto do arquivo
+	*/
     public static void toASM() {
         try (FileWriter writer = new FileWriter("./saida/MASMAPRG.asm")) {
             System.out.println("> salvando arquivo asm");
@@ -149,6 +182,10 @@ public class Macros {
         }
     }
 
+	/**
+	 * Método que executa todo o processamento das macros
+	 * @param path caminho absoluto do arquivo
+	 */
     public static void process(String path) {
         System.out.println("# PROCESSADOR DE MACROS #");
         System.out.println("> processando macros");

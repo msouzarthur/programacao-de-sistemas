@@ -10,6 +10,10 @@ public class Linker {
     private static List<String[]> contentTable = new ArrayList<>();
     private static List<String[]> symbolTable = new ArrayList<>();
 
+	/**
+	 * Método responsável por realocar os endereços da memória de forma correta
+	 * @param newEnd novo endereço de memória
+	 */
     public static void realoc(int newEnd) {
         List<String[]> newContentTable = new ArrayList<>();
 
@@ -33,7 +37,10 @@ public class Linker {
         save(newContentTable);
         Reader.print(newContentTable, "> conteudo linkado");
     }
-
+	/**
+	 * Gera o arquivo de saída .hpx
+	 * @param list 
+	 */
     public static void save(List<String[]> list) {
         System.out.println("> salvando arquivo hpx");
         try (FileWriter writer = new FileWriter("./saida/linkedCode.hpx")) {
@@ -48,6 +55,9 @@ public class Linker {
         }
     }
 
+	/**
+	 * Método responsável por executar a ação de ligador
+	 */
     public static void link() {
         System.out.println("# LIGADOR #");
         System.out.println("> ligando arquivos");
