@@ -392,6 +392,7 @@ public class VirtualMachine extends javax.swing.JFrame {
     }
 
     private void btnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunActionPerformed
+        MOP.setValue(0);
         runCode(false, false);
         attScreen();
     }//GEN-LAST:event_btnRunActionPerformed
@@ -402,11 +403,13 @@ public class VirtualMachine extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHelpActionPerformed
 
     private void btnDebugActionPerformed(java.awt.event.ActionEvent evt) {
+        MOP.setValue(2);
         runCode(true, true);
         attScreen();
     }
 
     private void btnRunCicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunCicleActionPerformed
+        MOP.setValue(1);
         runCode(true, false);
         attScreen();
     }//GEN-LAST:event_btnRunCicleActionPerformed

@@ -2,11 +2,10 @@
  start teste
  read a
  load a
- mult @2
  mult a
  mult a
  store b
- write a
+ write b
  stop
 a space
 b space
