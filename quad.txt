@@ -1,0 +1,17 @@
+ start prg
+*
+ macro
+ quad &x &y
+ load &x
+ mult &x
+ store &y
+ mend
+*
+ read a
+ quad a b
+ write a
+ write b
+ stop
+a space
+b space
+ end
