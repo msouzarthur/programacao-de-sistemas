@@ -7,10 +7,11 @@ public class Loader {
 
     private static List<String[]> contentTable = new ArrayList<>();
 
-	/**
-	 * Carrega na memória o conteúdo do arquivo
-	 * @param path caminho do arquivo
-	 */
+    /**
+     * Carrega na memória o conteúdo do arquivo
+     *
+     * @param path caminho do arquivo
+     */
     public static void load(String path) {
         System.out.println("# CARREGADOR #");
         System.out.println("> carregando arquivo");

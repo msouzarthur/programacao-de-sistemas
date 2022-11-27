@@ -1,5 +1,5 @@
 * le um numero, faz o cubo dele e guarda em b
- start teste
+ start ex1
  read a
  load a
  mult a

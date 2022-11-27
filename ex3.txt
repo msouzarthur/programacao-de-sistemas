@@ -1,0 +1,21 @@
+ start ex3
+*
+ macro
+ area &b &h &r
+ load &b
+ mult &h
+ div @2
+ store &r
+ mend
+*
+ read a
+ read b
+ write a
+ write b
+ area a b r
+ write r
+ stop
+a space
+b space
+r space
+ end

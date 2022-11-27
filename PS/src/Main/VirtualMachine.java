@@ -384,6 +384,10 @@ public class VirtualMachine extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Método que limpa a pasta de saída
+     *
+     */
     private void clear() {
         File file = new File("./saida");
         for (File subfile : file.listFiles()) {
@@ -391,29 +395,55 @@ public class VirtualMachine extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Método que define a execução sem atualização e sem debugging
+     *
+     * @param evt chamada de click do botão
+     */
     private void btnRunActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunActionPerformed
         MOP.setValue(0);
         runCode(false, false);
         attScreen();
     }//GEN-LAST:event_btnRunActionPerformed
 
+    /**
+     * Método que chama a tela de ajuda
+     *
+     * @param evt chamada de click do botão
+     */
     private void btnHelpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHelpActionPerformed
         ViewAjuda viewAjuda = new ViewAjuda();
         viewAjuda.setVisible(true);
     }//GEN-LAST:event_btnHelpActionPerformed
 
+    /**
+     * Método que define a execução com atualização e com debugging
+     *
+     * @param evt chamada de click do botão
+     */
     private void btnDebugActionPerformed(java.awt.event.ActionEvent evt) {
         MOP.setValue(2);
         runCode(true, true);
         attScreen();
     }
 
+    /**
+     * Método que define a execução com atualização e sem debugging
+     *
+     * @param evt chamada de click do botão
+     */
     private void btnRunCicleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRunCicleActionPerformed
         MOP.setValue(1);
         runCode(true, false);
         attScreen();
     }//GEN-LAST:event_btnRunCicleActionPerformed
-    
+
+    /**
+     * Método que executa as instruções lidas da memória
+     *
+     * @param refresh boolean de atualiação de tela
+     * @param debug boolean de debugging
+     */
     private void runCode(Boolean refresh, Boolean debug) {
         Integer opd1 = null, opd2 = null;
         Assembler assembler = new Assembler();
@@ -486,6 +516,12 @@ public class VirtualMachine extends javax.swing.JFrame {
         } while (Memory.memoryGet(PC.getValue()) != null && PC.getValue() < RE.getValue());
     }
 
+    /**
+     * Método que decodifica a instrução passada e seu modo de endereçamento
+     *
+     * @param insCod código equivalente da instrução
+     * @return instrução instânciada de acordo com o código
+     */
     private Instruction decodeInstruction(Integer insCod) {
         Instruction instruction = null;
         Integer opcode = insCod;
@@ -570,6 +606,9 @@ public class VirtualMachine extends javax.swing.JFrame {
         return instruction;
     }
 
+    /**
+     * Método que atualiza a tela e os valores dos elementos
+     */
     public void attScreen() {
         String bin;
         for (int i = 0; i < Memory.memorySize(); i++) {
@@ -592,6 +631,10 @@ public class VirtualMachine extends javax.swing.JFrame {
         outCod.setText(message);
     }
 
+    /**
+     * Método que inicializa a memória e demais componenentes
+     *
+     */
     public void setInitValues() {
         memoryInit();
         List<Integer> memory = Memory.memoryGetAll();

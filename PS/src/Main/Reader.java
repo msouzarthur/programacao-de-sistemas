@@ -10,12 +10,14 @@ public class Reader {
 
     private static List<String[]> contentTable = new ArrayList<>();
 
-	/**
-	 * Método que lê o arquivo e retorna uma lista de strings com os dados do arquivo
-	 * @param path caminho absoluto do arquivo
-	 * @param wordCount quantidade de palavras por linha
-	 * @return lista de strings com os dados do arquivo
-	 */
+    /**
+     * Método que lê o arquivo e retorna uma lista de strings com os dados do
+     * arquivo
+     *
+     * @param path caminho absoluto do arquivo
+     * @param wordCount quantidade de palavras por linha
+     * @return lista de strings com os dados do arquivo
+     */
     public static List<String[]> read(String path, int wordCount) {
         contentTable = new ArrayList<>();
         File file = new File(path);
@@ -52,14 +54,15 @@ public class Reader {
         return contentTable;
     }
 
-	/**
-	 * Método que retorna o header do arquivo lido
-	 * @param path caminho absoluto do arquivo
-	 * @param wordCount quantidade de palavras por linha
-	 * @return header do arquivo lido contendo a quantidade de linhas e tamanho
-	 * que ocupará na memória 
-	 */
-    public static String header(String path, int wordCount){
+    /**
+     * Método que retorna o header do arquivo lido
+     *
+     * @param path caminho absoluto do arquivo
+     * @param wordCount quantidade de palavras por linha
+     * @return header do arquivo lido contendo a quantidade de linhas e tamanho
+     * que ocupará na memória
+     */
+    public static String header(String path, int wordCount) {
         String head = new String();
         File file = new File(path);
         Scanner reader;
@@ -72,6 +75,12 @@ public class Reader {
         return head;
     }
 
+    /**
+     * Método que exibe de modo estruturado o conteúdo da lista passada
+     *
+     * @param target lista com o conteúdo
+     * @param header cabeçalho usado para exibição
+     */
     public static void print(List<String[]> target, String header) {
         System.out.println(header);
         System.out.print(" -");
@@ -93,12 +102,13 @@ public class Reader {
         System.out.println("-----");
     }
 
-	/**
-	 * Método responsável por ler o conteúdo em assembly do arquivo
-	 * @param path caminho absoluto do arquivo
-	 * @param wordCount quantidade de palavras por linha
-	 * @return tabela de conteúdo
-	 */
+    /**
+     * Método responsável por ler o conteúdo em assembly do arquivo
+     *
+     * @param path caminho absoluto do arquivo
+     * @param wordCount quantidade de palavras por linha
+     * @return tabela de conteúdo
+     */
     public static List<String[]> readASM(String path, int wordCount) {
         contentTable = new ArrayList<>();
         File file = new File(path);

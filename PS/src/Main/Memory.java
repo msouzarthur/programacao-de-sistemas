@@ -8,34 +8,42 @@ public final class Memory {
 
     private static List<Integer> memory = new ArrayList<>(500);
 
-	/**
-	 * Método retorna o valor armazenado na posição de memória
-	 * @param address endereço de memória
-	 * @return valor armazenado na posição de memória
-	 */
+    /**
+     * Método retorna o valor armazenado na posição de memória
+     *
+     * @param address endereço de memória
+     * @return valor armazenado na posição de memória
+     */
     public static Integer memoryGet(Integer address) {
         return memory.get(address);
     }
 
-	/**
-	 * Método retorna toda a memória implementada
-	 * @return memória implementada
-	 */
+    /**
+     * Método retorna toda a memória implementada
+     *
+     * @return memória implementada
+     */
     public static List<Integer> memoryGetAll() {
         return memory;
     }
 
-	/**
-	 * Método usado para armazenar um valor na memória em uma posição específica
-	 * @param address endereço de memória
-	 * @param content conteúdo a ser armazenado
-	 */
+    /**
+     * Método usado para armazenar um valor na memória em uma posição específica
+     *
+     * @param address endereço de memória
+     * @param content conteúdo a ser armazenado
+     */
     public static void memorySet(Integer address, Integer content) {
         if (address < memory.size()) {
             memory.set(address, content);
         }
     }
 
+    /**
+     * Método retorna a primeira posição de memória ocupada
+     *
+     * @return endereço de memória
+     */
     public static Integer memoryGetPos() {
         for (int i = 2; i < 500; i++) {
             if (memory.get(i) != null) {
@@ -45,6 +53,12 @@ public final class Memory {
         return -1;
     }
 
+    /**
+     * Método retorna a posição de memória inicial onde os dados serão
+     * armazenados
+     *
+     * @return endereço de memória
+     */
     public static Integer memoryDataInit() {
         for (int i = 3; i < 500; i++) {
             if (memory.get(i) == null) {
@@ -70,10 +84,11 @@ public final class Memory {
         }
     }
 
-	/**
-	 * Método armazena um valor na pilha do sistema
-	 * @param value valor a ser armazenado
-	 */
+    /**
+     * Método armazena um valor na pilha do sistema
+     *
+     * @param value valor a ser armazenado
+     */
     public static void stackPush(Integer value) {
         if (Memory.memoryGet(SP.getValue() - 1) == null) {
             memory.set(SP.getValue(), value);
@@ -81,10 +96,11 @@ public final class Memory {
         }
     }
 
-	/**
-	 * Método retorna o valor armazenado no topo da pilha do sistema
-	 * @return valor armazenado
-	 */
+    /**
+     * Método retorna o valor armazenado no topo da pilha do sistema
+     *
+     * @return valor armazenado
+     */
     public static Integer stackPop() {
         SP.previousValue();
         if (SP.getValue() < memory.size()) {

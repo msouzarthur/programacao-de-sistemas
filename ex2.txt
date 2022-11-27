@@ -1,4 +1,4 @@
- start prg
+ start ex2
 *
  macro
  quad &x &y

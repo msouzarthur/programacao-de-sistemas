@@ -2,11 +2,13 @@ package Main;
 
 public final class CompleteBinary {
 
-	/**
-	 * Tranforma um número em formato de String em um binário em formato de String
-	 * @param number numero em formato de String
-	 * @return binário em forma de String
-	 */
+    /**
+     * Tranforma um número em formato de String em um binário em formato de
+     * String incrementando os digitos 0 afim de formatar em 16 bits
+     *
+     * @param number numero em formato de String
+     * @return binário em forma de String
+     */
     public static String completeBinary(String number) {
         String complete = "";
         Integer left = 16 - number.length();
@@ -16,11 +18,12 @@ public final class CompleteBinary {
         return complete + number;
     }
 
-	/**
-	 * Tranforma String em inteiro
-	 * @param cod número que será transformado em String
-	 * @return String do número passado
-	 */
+    /**
+     * Tranforma String em Inteiro
+     *
+     * @param cod número que será transformado em String
+     * @return String do número passado
+     */
     public static Integer toInt(String cod) {
         if (cod != null) {
             return Integer.parseInt(cod, 2);
@@ -28,11 +31,12 @@ public final class CompleteBinary {
         return null;
     }
 
-	/**
-	 * Chama os métodos responsáveis por tranformar o número em binário.
-	 * @param number número que será convertido.
-	 * @return retorna um binário de 16 bits
-	 */
+    /**
+     * Chama os métodos responsáveis por tranformar o número em binário.
+     *
+     * @param number número que será convertido.
+     * @return retorna um binário de 16 bits
+     */
     public static String toBin(Integer number) {
         if (number != null) {
             String bin = Integer.toBinaryString(number);

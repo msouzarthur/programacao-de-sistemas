@@ -11,10 +11,11 @@ public final class ACC {
         return value;
     }
 
-	/**
-	 * Método retorna o valor do acumulador em hexadecimal
-	 * @return valor em hexadecimal
-	 */
+    /**
+     * Método retorna o valor do acumulador em binario
+     *
+     * @return valor em binario
+     */
     public static String getText() {
         if (ACC.getValue() >= 0) {
             return String.format("%016d", Integer.parseInt(Integer.toBinaryString(ACC.getValue())));
