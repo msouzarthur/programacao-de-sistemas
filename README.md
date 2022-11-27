@@ -1,7 +1,7 @@
 <img src ="https://portal.ufpel.edu.br/wp-content/themes/Portal/imagens/header.svg">
 <h2> Trabalho final da disciplina de Programação de Sistemas </h2>
 <h2> Desenvolvido por Arthur Souza, Hector Fernandes, Rafael Rocha, Matheus Cardoso, Willian do Espirito Santo, Leonardo Marotta, Patrick Rosa</h2>
-<h2>O emulador de Computador Hipotético possui</h2>
+<h2> O emulador de Computador Hipotético possui</h2>
 <ul>
 <li>Memória</li>
 <p>Memória do computador onde todas informações e dados são armazenados de modo sequencial, com exceção da pilha</p>
@@ -16,7 +16,7 @@
       <li>RE - Registrador de Memória</li>
     </ol>
     <li>Modos de Endereçamento</li>
-    <ol>
+    <ol type="1">
       <li>Direto</li>
       <li>Indireto</li>
       <li>Imediato</li>
@@ -25,7 +25,7 @@
     <p>Usada para armazenar os endereços de retornos de sub-rotinas</p>
     <p>Armazenada na última posição de memória e incrementada de modo contrário, possuindo o tamanho máximo de memória - 2</p>
     <li>Instruções</li>
-    <ol>
+    <ol type="1">
       <li> ADD </li>
       <li> BR </li>
       <li> BRNEG </li>
@@ -115,28 +115,30 @@ Ligador de duas passagens, que é responsável pela relocação completa dos end
     <div align="center">  
   <img src="https://user-images.githubusercontent.com/91095083/204004513-3ff59ab3-461a-4c8e-94cc-aab9ff0bfae8.jpg" width= 650px>
   </div>
-   <p> Seguindo as indicações da tela: <br>
-    1. Clique em File. <br>
-    2. Clique em Open Project.<br> </p> <br>
-  
+  <p> Seguindo as indicações da tela</p>
+  <ol type="1">
+    <li>Clique em File</li>
+    <li>Clique em Open Project</li>
+  </ol>
   <p> Após fazer todos processos descritos anteriormente, temos a seguinte visualização</p>
   <div align="center">  
   <img src="https://user-images.githubusercontent.com/91095083/204004516-561a5abf-958d-4201-b127-391d881bd1c3.jpg" width= 650px>
   </div>
-  <p> Seguindo as indicações da tela: <br>
-    1. Procure o arquivo baixado. <br>
-    2. Indicação que o arquivo correto foi selecionado.<br
-    3. Clique em Open Project
-  </p> <br>
+  <ol type="1">
+    <li>Procure o arquivo baixado</li>
+    <li>Indicação que o arquivo correto foi selecionado</li>
+    <li>Clique em Open Project</li>
+  </ol>
     
   <p>Compilando o projeto</p>
     <div align="center">  
   <img src="https://user-images.githubusercontent.com/91095083/204004517-a6b59565-10b1-472a-bb58-39ab1262fd4f.jpg" width= 650px>
   </div>
-  <p> Com o projeto já selecionado como mostra a indicação numero 1 na imagem acima, podemos fazer a execução do mesmo.<br>
-      1. Indica o projeto a ser executado. <br>
-      2. Execute o projeto com as opções grifadas que melhor atender suas necessidades.</p> <br> <br>
-    
+  <p> Com o projeto já selecionado como mostra a indicação numero 1 na imagem acima, podemos fazer a execução do mesmo.</p>
+  <ol type="1">
+    <li>Indica o projeto a ser executado</li>
+    <li>Execute o projeto com as opções grifadas que melhor atender suas necessidades</li>
+  </ol>
     
     
     Autores :  Arthur Souza,Leonardo Marotta,  Matheus Cardoso, Patrick Rosa. 
