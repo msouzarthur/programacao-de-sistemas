@@ -150,7 +150,9 @@
   <ol type="1">
     <li> Indica o projeto a ser executado </li>
     <li> Execute o projeto com as opções grifadas que melhor atender suas necessidades </li>
+    <li> Após clicar em executar, a tela da interface gráfica será aberta </li>
+    <li> Com a tela aberta, basta inserir o path absoluto do arquivo txt e clicar no modo de execução </li>
   </ol>
-
+  
 
   Autores : Arthur Souza,Leonardo Marotta, Matheus Cardoso, Patrick Rosa.
