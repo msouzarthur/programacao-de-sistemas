@@ -66,7 +66,6 @@ Ligador de duas passagens, que é responsável pela relocação completa dos end
     
 <li> Interface gráfica</li>
     <p> Responsável pela exibição do conteúdo de forma visível ao usuário, exibe o conteúdo após a execução do programa. Nessa interface, temos uma entrada para o código e respectivamente para sua saída, exibe também a memória do programa, na qual temos os endereços e seus conteúdos.Podemos também verificar a exibição de todos os registradores envolvidos para o funcionamento da máquina, tais como: contador de programa, ponteiro para pilha,acumulador,modo de operação,registrador de instrução e registrador de memória. </p>
-  
 </ul> 
   
 <div align="center">  
@@ -78,17 +77,26 @@ Ligador de duas passagens, que é responsável pela relocação completa dos end
   <div align="center">  
   <img src="https://user-images.githubusercontent.com/91095083/204101152-beb386dc-f01f-42eb-b794-7ffde4f26b02.jpg" width= 650px>
   </div>
-  <p> Visualização da interface:<br>
-    1. Address: espaço da interface onde demostra o endereço de memoria utilizado durante a compilação do código. <br>
-    2. Content: conteúdo relacionado ao endereço de memória, após a execução seus valores são atualizados.<br>
-    3. Registradores: módulo da interface gráfica que faz atualização de todos resgistradores usados durante a execução do código.<br>
-    4. Entrada de código: onde é adicionado o arquivo que será executado. <br>
-    5. Saída de código  <br>
-    6. Botão executar: executa o programa. <br>
-    7. Botão executar visual  <br>
-    8. Botão debug: executa o programa linha a linha. <br>
-    9. Botão ajuda: exibe uma janela de ajuda para o usuário. <br>    
-  </p>
+  <p> Visualização da interface</p>
+  <ol type="1">  
+    <li>Address: espaço da interface onde demostra o endereço de memoria utilizado durante a compilação do código</li>
+    <li>Content: conteúdo relacionado ao endereço de memória, após a execução seus valores são atualizados</li>
+    <li>Registradores: módulo da interface gráfica que faz atualização de todos resgistradores usados durante a execução do código</li>
+    <li>Entrada de código: onde é adicionado o arquivo que será executado</li>
+    <li>Saída de código: apresenta mensagens ao longo da execução</li>
+    <li>Botão executar: executa o programa exibindo o resultado somente ao término de execução</li>
+    <li>Botão executar visual: printa os resultados ao longo da execução</li>
+    <li>Botão debug: executa o programa linha a linha</li>
+    <li>Botão ajuda: exibe uma janela de ajuda para o usuário</li>    
+  </ol>
+  <h2>Documentação Completa</h2>
+    <p>Para acessar a documentação completa do código, basta seguir o passo a passo</p>
+    <ol type="1">
+      <li>Navegar a pasta PS</li>
+      <li>Navegar a pasta doc</li>
+      <li>Abrir o arquivo index.html</li>
+      <li>Navegar pelas classes de acordo com o interesse</li>
+    </ol>
   <h2>Execução</h2
     <p> A execução do projeto vai ser nativamente utilizando NetBeans </p>
   <li> Para instalação do NetBeans é necessário o pacote JDK, disponível no link abaixo.</li>
